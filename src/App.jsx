@@ -1,4 +1,5 @@
 import Navbar from "./pages/Navbar"
+import Create from "./Create";
 
 function App() {
 
@@ -6,6 +7,7 @@ function App() {
     <>
       <div>
         <Navbar />
+        <Create />
       </div>
     </>
   )
