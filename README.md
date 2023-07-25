@@ -6,7 +6,7 @@ NFT MARKETPLACE
 ```
 npm install
 ```
-5. Run the project using the command
+4. Run the project using the command
 ```
 npm run dev
 ```
