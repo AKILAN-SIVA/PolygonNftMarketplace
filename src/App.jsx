@@ -7,7 +7,7 @@ function App() {
     <>
       <div>
         <Navbar />
-        <Create />
+        {/* <Create /> */}
       </div>
     </>
   )

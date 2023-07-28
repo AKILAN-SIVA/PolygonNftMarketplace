@@ -1,10 +1,10 @@
 import React from "react";
 import { useState } from "react";
-import {MdCloudUpload} from "react-icons/md"
+import { MdCloudUpload } from "react-icons/md"
 
 const Create = () => {
-  const [image,setImage] = useState(null)
-  const [filename,setFilename] = useState()
+  const [image, setImage] = useState(null)
+  const [filename, setFilename] = useState()
   return (
     <div className="w-full h-full flex items-center justify-center bg-gray-300">
       <div className="flex flex-col w-full h-full justify-center items-center ">
@@ -57,12 +57,12 @@ const Create = () => {
               </div>
               <textarea
                 className="flex flex-col p-2 bg-transparent border-gray-400 border-2 rounded-xl"
-                placeholder="Student Details" rows={6} 
+                placeholder="Student Details" rows={6}
               ></textarea>
             </div>
             <div className="w-[350px] h-[250px] border-2 border-dashed border-gray-400 flex justify-center items-center p-4 m-4 ml-28 cursor-pointer" onClick={() => document.querySelector(".input-field").click()}>
-              <input className="input-field hidden" type="file"></input>
-              {image ? <img src={image} alt={filename}/> : <MdCloudUpload size={30}/>}
+              <input className="input-field hidden" type="file" value={image} onChange={''}></input>
+              {image ? <img src={image} alt={filename} /> : <MdCloudUpload size={30} />}
             </div>
           </div>
         </div>
