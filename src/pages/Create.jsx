@@ -60,10 +60,10 @@ const Create = () => {
                 placeholder="Student Details" rows={6}
               ></textarea>
             </div>
-            <div className="w-[350px] h-[250px] border-2 border-dashed border-gray-400 flex justify-center items-center p-4 m-4 ml-28 cursor-pointer" onClick={() => document.querySelector(".input-field").click()}>
+            {/* <div className="w-[350px] h-[250px] border-2 border-dashed border-gray-400 flex justify-center items-center p-4 m-4 ml-28 cursor-pointer" onClick={() => document.querySelector(".input-field").click()}>
               <input className="input-field hidden" type="file" value={image} onChange={''}></input>
               {image ? <img src={image} alt={filename} /> : <MdCloudUpload size={30} />}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
