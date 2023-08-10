@@ -38,9 +38,8 @@ function Navbar() {
           </div>
         </div>
         <div
-          className={`absolute md:static md:z-auto z-[-1] transition-all duration-500 ease-in md:flex flex-col md:flex-row w-full h-96 md:h-20 md:w-[350px] bg-gray-300 ${
-            open ? "top-20" : "mt-[-490px]"
-          }`}
+          className={`absolute md:static md:z-auto z-[-1] transition-all duration-500 ease-in md:flex flex-col md:flex-row w-full h-96 md:h-20 md:w-[350px] bg-gray-300 ${open ? "top-20" : "mt-[-490px]"
+            }`}
         >
           <ul
             className={`mt-2 md:mt-0 md:px-0 md:py-0 md:text-white px-6 py-12 grid justify-center md:items-center gap-10 md:text-xl text-2xl font-bold text-black md:flex `}
@@ -48,7 +47,7 @@ function Navbar() {
             <Link to="/createNft">
               <li>Create</li>
             </Link>
-            <li>Explore</li>
+            {/* <li>Explore</li> */}
             <li>Profile</li>
             <li>
               <button onClick={ConnectWallet}>
