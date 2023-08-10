@@ -47,7 +47,7 @@ function Navbar() {
             <Link to="/createNft">
               <li>Create</li>
             </Link>
-            {/* <li>Explore</li> */}
+            <li>Explore</li> 
             <li>Profile</li>
             <li>
               <button onClick={ConnectWallet}>
