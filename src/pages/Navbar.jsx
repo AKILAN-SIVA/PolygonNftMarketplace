@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { FaBars } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import Search from "../assets/search.png";
 
 function Navbar() {
   let [open, setOpen] = useState(true);
@@ -20,7 +21,7 @@ function Navbar() {
 
   return (
     <>
-      <div className="bg-gray-300 md:flex md:flex-row justify-between items-center w-full h-20 text-white py-4 md:px-16 z-50">
+      {/* <div className="bg-gray-300 md:flex md:flex-row justify-between items-center w-full h-20 text-white py-4 md:px-16 z-50">
         <div className="flex justify-between md:justify-start px-8 items-center md:gap-12">
           <h1 className="text-lg md:text-xl font-bold">
             <Link to="/">Nft Marketplace</Link>
@@ -59,6 +60,37 @@ function Navbar() {
               </button>
             </li>
           </ul>
+        </div>
+      </div> */}
+
+      <div className="px-24">
+        <div className="bg-white border border-gray-500 rounded-xl h-20 shadow-2xl">
+          <div className="flex justify-between items-center px-6 font-bold text-black">
+            <div className="flex justify-start py-6 gap-6">
+              <Link to="/" >
+                <h1 className="text-lg">NFT Marketplace</h1>
+              </Link>
+            </div>
+            <div className="flex justify-center gap-6">
+              <Link to="/createNft" >
+                <h1 className="text-lg">Create</h1>
+              </Link>
+              <Link to="/exploreNft" >
+                <h1 className="text-lg">Explore</h1>
+              </Link>
+              <Link to="/profile" >
+                <h1 className="text-lg">Profile</h1>
+              </Link>
+            </div>
+            <div className="flex justify-end gap-6">
+              <button className="py-3">
+                <img src={Search} alt="SearchIcon" className="h-7 w-7" />
+              </button>
+              <button className="bg-black text-white border rounded-lg w-[170px] h-12 hover:bg-gray-700 text-lg" onClick={ConnectWallet}>
+                {connected ? "Connected" : "Connect Wallet"}
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </>

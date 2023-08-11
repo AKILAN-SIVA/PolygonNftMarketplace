@@ -1,12 +1,16 @@
 import React from "react";
 import { useState } from "react";
+import Navbar from "../pages/Navbar"
 import { MdCloudUpload } from "react-icons/md"
 
 export const Create = () => {
   const [image, setImage] = useState(null)
   const [filename, setFilename] = useState()
   return (
-    <div className="w-full h-full flex items-center justify-center bg-gray-300">
+    <div className="w-full h-full flex items-center justify-center bg-black">
+      {/* <div className='pt-12'>
+        <Navbar />
+      </div> */}
       <div className="flex flex-col w-full h-full justify-center items-center ">
         <div className="max-w-[600px] w-full">
           <div>

@@ -1,4 +1,4 @@
-import Navbar from "./pages/Navbar"
+// import Navbar from "./pages/Navbar"
 import { Routes, Route } from "react-router-dom"
 import { Home } from "./pages/Home"
 import { Create } from "./pages/Create"
@@ -10,7 +10,7 @@ function App() {
   return (
     <>
       <div>
-        <Navbar />
+        {/* <Navbar /> */}
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/createNft" element={<Create />} />
