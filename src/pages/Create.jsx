@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { MdCloudUpload } from "react-icons/md"
 
-const Create = () => {
+export const Create = () => {
   const [image, setImage] = useState(null)
   const [filename, setFilename] = useState()
   return (
@@ -71,4 +71,3 @@ const Create = () => {
   );
 };
 
-export default Create;
