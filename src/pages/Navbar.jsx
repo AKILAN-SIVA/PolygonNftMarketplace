@@ -96,7 +96,7 @@ function Navbar() {
                 </>
               ) : null}
               <button className="bg-black text-white border rounded-lg w-[170px] h-12 hover:bg-gray-700 text-lg" onClick={ConnectWallet}>
-                {walletAddress != "" ? "Connected" : "Connect Wallet"}
+                {connected != "" ? "Connected" : "Connect Wallet"}
               </button>
             </div>
           </div>
