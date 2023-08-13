@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Navbar from "../pages/Navbar"
 import AddressIcon from "../assets/addressIcon.png";
 import Identicon from 'react-identicons';
+import Card from "../components/Card";
 
 export const Profile = () => {
     const [walletAddress, setWalletAddress] = useState('');
@@ -17,7 +18,7 @@ export const Profile = () => {
         }
     })
     return (
-        <div className='bg-black h-screen text-white'>
+        <div className='bg-black h-full text-white'>
             <div className='pt-12'>
                 <Navbar />
             </div>
@@ -37,6 +38,9 @@ export const Profile = () => {
                 <div className='border border-[#171717] h-0 w-11/12 mr-2'> </div>
                 <div className='text-3xl font-bold p-2'>
                     <h1>Collections</h1>
+                </div>
+                <div>
+                    <Card name="Akilan" collection="pubg" description="pubg lover" />
                 </div>
             </div>
         </div>

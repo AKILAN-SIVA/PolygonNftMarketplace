@@ -1,5 +1,6 @@
 import React from 'react'
 import Navbar from "../pages/Navbar"
+import Card from '../components/Card'
 
 export const Explore = () => {
     return (
@@ -7,7 +8,23 @@ export const Explore = () => {
             <div className='pt-12'>
                 <Navbar />
             </div>
-            <h1>Explore page</h1>
+            <div className='flex justify-center gap-4 pt-20'>
+                <div>
+                    <Card name="Akilan" collection="pubg" description="pubg lover" />
+                </div>
+                <div>
+                    <Card name="Akilan" collection="pubg" description="pubg lover" />
+                </div>
+                <div>
+                    <Card name="Akilan" collection="pubg" description="pubg lover" />
+                </div>
+                <div>
+                    <Card name="Akilan" collection="pubg" description="pubg lover" />
+                </div>
+                <div>
+                    <Card name="Akilan" collection="pubg" description="pubg lover" />
+                </div>
+            </div>
         </div>
     )
 }
