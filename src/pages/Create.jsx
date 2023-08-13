@@ -90,7 +90,7 @@ export const Create = () => {
                 value={form.photo}
               />
             </div>
-            <div className="mt-8">
+            <div className="mt-8 pb-8">
               <button className="bg-white text-black h-12 w-full font-bold text-xl rounded-lg">
                 Create
               </button>
