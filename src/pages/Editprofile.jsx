@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import Navbar from './Navbar'
+import { db } from '../components/FirebaseConfig';
+import { set, ref } from "firebase/database";
 
 export const Editprofile = () => {
 
-    const [walletAddress, setWalletAddress] = useState('');
     useEffect(() => {
         if (window.ethereum) {
             window.ethereum.request({ method: "eth_requestAccounts" })
@@ -15,6 +16,31 @@ export const Editprofile = () => {
             alert("Install Metamask Extension");
         }
     });
+
+    const [profileForm, setProfileForm] = useState({
+        UserName: "",
+        instaLink: "",
+        twitterLink: "",
+    });
+    const [walletAddress, setWalletAddress] = useState('');
+
+    const handleChange = (e) => {
+        setProfileForm({ ...profileForm, [e.target.name]: e.target.value });
+    }
+
+    const writeToDb = () => {
+        set(ref(db, walletAddress), {
+            UserName: profileForm.UserName,
+            InstaGram: profileForm.instaLink,
+            Twitter: profileForm.twitterLink,
+            Address: walletAddress,
+        }).then(
+            alert("success")
+        )
+
+        setProfileForm("");
+
+    }
 
     return (
         <div className='bg-black h-screen text-white'>
@@ -31,8 +57,10 @@ export const Editprofile = () => {
                         <input
                             className="flex flex-col rounded-xl bg-transparent border-gray-400 border-2 h-12 w-[650px] p-4"
                             type="text"
-                            name="username"
+                            name="UserName"
+                            value={profileForm.UserName}
                             placeholder="Enter your UserName . . ."
+                            onChange={handleChange}
                         ></input>
                     </div>
                     <div className="flex flex-col gap-2 ">
@@ -42,8 +70,10 @@ export const Editprofile = () => {
                         <input
                             className="flex flex-col rounded-xl bg-transparent border-gray-400 border-2 h-12 w-[650px] p-4"
                             type="text"
-                            name="username"
+                            name="instaLink"
+                            value={profileForm.instaLink}
                             placeholder="Link to your Instagram . . ."
+                            onChange={handleChange}
                         ></input>
                     </div>
                     <div className="flex flex-col gap-2 ">
@@ -53,12 +83,14 @@ export const Editprofile = () => {
                         <input
                             className="flex flex-col rounded-xl bg-transparent border-gray-400 border-2 h-12 w-[650px] p-4"
                             type="text"
-                            name="username"
+                            name="twitterLink"
+                            value={profileForm.twitterLink}
                             placeholder="Link to your Twitter . . ."
+                            onChange={handleChange}
                         ></input>
                     </div>
                     <div className="pb-8">
-                        <button className="bg-white text-black h-12 w-full font-bold text-xl rounded-lg">
+                        <button className="bg-white text-black h-12 w-full font-bold text-xl rounded-lg" onClick={writeToDb}>
                             Submit
                         </button>
                     </div>
