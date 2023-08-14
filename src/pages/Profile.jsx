@@ -3,27 +3,81 @@ import Navbar from "../pages/Navbar"
 import AddressIcon from "../assets/addressIcon.png";
 import Identicon from 'react-identicons';
 import Card from "../components/Card";
+import { ethers } from 'ethers';
+import Marketplace from '../Marketplace.json'
 
 export const Profile = () => {
-    const [walletAddress, setWalletAddress] = useState('');
-    useEffect(() => {
-        if (window.ethereum) {
-            window.ethereum.request({ method: "eth_requestAccounts" })
-                .then((accounts) => {
-                    console.log(accounts[0]);
-                    setWalletAddress(accounts[0]);
-                });
-        } else {
-            alert("Install Metamask Extension");
-        }
-    })
+    // const [walletAddress, setWalletAddress] = useState('');
+    // useEffect(() => {
+    //     if (window.ethereum) {
+    //         window.ethereum.request({ method: "eth_requestAccounts" })
+    //             .then((accounts) => {
+    //                 console.log(accounts[0]);
+    //                 setWalletAddress(accounts[0]);
+    //             });
+    //     } else {
+    //         alert("Install Metamask Extension");
+    //     }
+    // })
 
     const [form, setForm] = useState({
-        name: "Akilan",
-        collection: "pubg",
-        description: "###pubg lover",
+        title: "",
+        collection: "",
+        description: "",
     })
-    
+
+    const [data, updateData] = useState([]);
+    const [dataFetched, updateFetched] = useState(false);
+    const [address, updateAddress] = useState("0x");
+
+    async function getNFTData() {
+        
+        
+        //After adding your Hardhat network to your metamask, this code will get providers and signers
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        // const addr = await signer.getAddress();
+
+        //Pull the deployed contract instance
+        let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
+
+        //create an NFT Token
+        // let transaction = await contract.getMyNFTs();
+
+        
+
+        // /*
+        // * Below function takes the metadata from tokenURI and the data returned by getMyNFTs() contract function
+        // * and creates an object of information that is to be displayed
+        // */
+        
+        // const items = await Promise.all(transaction.map(async i => {
+        //     const tokenURI = await contract.tokenURI(i.tokenId);
+        //     let meta = await axios.get(tokenURI);
+        //     meta = meta.data;
+
+        //     let price = i.price;
+        //     let item = {
+        //         price,
+        //         tokenId: i.tokenId.toNumber(),
+        //         owner: i.owner,
+        //         image: meta.image,
+        //         name: meta.title,
+        //         description: meta.description,
+        //         collection: meta.collection,
+        //     }
+            
+        //     return item;
+        // }))
+
+        // updateData(items);
+        updateFetched(true);
+        // updateAddress(addr);
+        
+    }
+
+    if(!dataFetched)
+        getNFTData();
 
     return (
         <div className='bg-black h-full text-white'>
@@ -32,7 +86,7 @@ export const Profile = () => {
             </div>
             <div className='grid ml-28 gap-6'>
                 <div className='flex justify-start items-center pt-12'>
-                    <div className='border-2 border-white h-32 w-32 rounded-3xl'><Identicon string={walletAddress} className="h-32 w-36 rounded-2xl" size={125} /></div>
+                    <div className='border-2 border-white h-32 w-32 rounded-3xl'><Identicon string={address} className="h-32 w-36 rounded-2xl" size={125} /></div>
                     <div className='flex justify-start items-start ml-24 gap-20'>
                         <div className='grid justify-center items-center gap-4'>
                             <h1 className='text-6xl font-bold'>7</h1>
@@ -52,7 +106,7 @@ export const Profile = () => {
                 <div className='flex justify-between w-full h-8 items-center gap-1'>
                     <div className='flex gap-1'>
                         <img src={AddressIcon} className='h-8 w-8' />
-                        <h1 className='text-white justify-start'>{walletAddress.substring(0, 6)}....{walletAddress.substring(11, 16)}</h1>
+                        <h1 className='text-white justify-start'>{address.substring(0, 6)}....{address.substring(11, 16)}</h1>
                     </div>
                     <div className=''>
                         <button className='bg-white hover:bg-gray-300 text-black text-lg h-12 w-40 rounded-xl font-bold mr-28' onClick={() => window.location.replace("/editProfile")}>Edit Profile</button>
@@ -63,10 +117,10 @@ export const Profile = () => {
                     <h1>Collections</h1>
                 </div>
                 <div className='flex flex-wrap pb-4 gap-6'>
-                    <Card name={form.name} collection={form.collection} description={form.description} />
-                    <Card name="Akilan" collection="pubg" description="pubg lover" />
-                    <Card name="Akilan" collection="pubg" description="pubg lover" />
-                    <Card name="Akilan" collection="pubg" description="pubg lover" />
+                {data.map((value, index) => {
+                    return <Card data={value} key={index} />;
+                    })}
+                    
                 </div>
             </div>
         </div>
