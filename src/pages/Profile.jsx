@@ -5,6 +5,7 @@ import Identicon from 'react-identicons';
 import Card from "../components/Card";
 import { ethers } from 'ethers';
 import Marketplace from '../Marketplace.json'
+import axios from 'axios';
 
 export const Profile = () => {
     // const [walletAddress, setWalletAddress] = useState('');
@@ -36,13 +37,13 @@ export const Profile = () => {
         //After adding your Hardhat network to your metamask, this code will get providers and signers
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
-        // const addr = await signer.getAddress();
+        const addr = await signer.getAddress();
 
         //Pull the deployed contract instance
         let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
 
         //create an NFT Token
-        // let transaction = await contract.getMyNFTs();
+        let transaction = await contract.getMyNFTs();
 
         
 
@@ -51,28 +52,28 @@ export const Profile = () => {
         // * and creates an object of information that is to be displayed
         // */
         
-        // const items = await Promise.all(transaction.map(async i => {
-        //     const tokenURI = await contract.tokenURI(i.tokenId);
-        //     let meta = await axios.get(tokenURI);
-        //     meta = meta.data;
+        const items = await Promise.all(transaction.map(async i => {
+            const tokenURI = await contract.tokenURI(i.tokenId);
+            let meta =  await axios.get(tokenURI);
+            meta = meta.data;
 
-        //     let price = i.price;
-        //     let item = {
-        //         price,
-        //         tokenId: i.tokenId.toNumber(),
-        //         owner: i.owner,
-        //         image: meta.image,
-        //         name: meta.title,
-        //         description: meta.description,
-        //         collection: meta.collection,
-        //     }
+            let price = i.price;
+            let item = {
+                price,
+                tokenId: i.tokenId.toNumber(),
+                owner: i.owner,
+                photo: meta.image,
+                title: meta.title,
+                description: meta.description,
+                collection: meta.collection,
+            }
             
-        //     return item;
-        // }))
+            return item;
+        }))
 
-        // updateData(items);
+        updateData(items);
         updateFetched(true);
-        // updateAddress(addr);
+        updateAddress(addr);
         
     }
 
