@@ -43,19 +43,19 @@ function Navbar() {
             </div>
             <div className="flex justify-center gap-6">
               <Link to="/createNft" >
-              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
                   <IoIosCreate size={25} />
                   <h1 className="text-lg">Create</h1>
                 </div>
               </Link>
               <Link to="/exploreNft" >
-              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
                   <MdOutlineTravelExplore size={25} />
                   <h1 className="text-lg">Explore</h1>
                 </div>
               </Link>
               <Link to="/profile" >
-              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2">
                   <ImProfile size={23} />
                   <h1 className="text-lg">Profile</h1>
                 </div>
@@ -89,7 +89,7 @@ function Navbar() {
                         </div>
                         {/*body*/}
                         <div className="relative p-6 flex-auto">
-                        <input type="number" onChange={(e) => setTokenId(e.target.value)} className="bg-transparent w-[600px] h-12 text-black rounded-lg border-2 border-black p-4" placeholder="Enter Token Id" value={tokenId} />
+                          <input type="number" onChange={(e) => setTokenId(e.target.value)} className="bg-transparent w-[600px] h-12 text-black rounded-lg border-2 border-black p-4" placeholder="Enter Token Id" value={tokenId} />
                         </div>
                         {/*footer*/}
                         <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">

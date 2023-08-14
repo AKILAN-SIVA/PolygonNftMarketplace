@@ -5,6 +5,7 @@ import { Create } from "./pages/Create"
 import { Explore } from "./pages/Explore"
 import { Profile } from "./pages/Profile"
 import { Viewnft } from "./pages/Viewnft"
+import { Editprofile } from "./pages/Editprofile"
 
 function App() {
 
@@ -18,6 +19,7 @@ function App() {
           <Route path="/exploreNft" element={<Explore />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/viewNft" element={<Viewnft />} />
+          <Route path="/editProfile" element={<Editprofile />} />
         </Routes>
       </div>
     </>

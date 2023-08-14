@@ -17,6 +17,13 @@ export const Profile = () => {
             alert("Install Metamask Extension");
         }
     })
+
+    const [form, setForm] = useState({
+        name: "Akilan",
+        collection: "pubg",
+        description: "###pubg lover",
+    })
+
     return (
         <div className='bg-black h-full text-white'>
             <div className='pt-12'>
@@ -47,7 +54,7 @@ export const Profile = () => {
                         <h1 className='text-white justify-start'>{walletAddress.substring(0, 6)}....{walletAddress.substring(11, 16)}</h1>
                     </div>
                     <div className=''>
-                        <button className='bg-white hover:bg-gray-300 text-black text-lg h-12 w-40 rounded-xl font-bold mr-28'>Edit Profile</button>
+                        <button className='bg-white hover:bg-gray-300 text-black text-lg h-12 w-40 rounded-xl font-bold mr-28' onClick={() => window.location.replace("/editProfile")}>Edit Profile</button>
                     </div>
                 </div>
                 <div className='border border-[#171717] h-0 w-11/12 mr-2'> </div>
@@ -55,7 +62,7 @@ export const Profile = () => {
                     <h1>Collections</h1>
                 </div>
                 <div className='flex flex-wrap pb-4 gap-6'>
-                    <Card name="Akilan" collection="pubg" description="pubg lover" />
+                    <Card name={form.name} collection={form.collection} description={form.description} />
                     <Card name="Akilan" collection="pubg" description="pubg lover" />
                     <Card name="Akilan" collection="pubg" description="pubg lover" />
                     <Card name="Akilan" collection="pubg" description="pubg lover" />
