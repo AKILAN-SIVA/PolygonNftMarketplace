@@ -6,6 +6,8 @@ import Card from "../components/Card";
 import { ethers } from 'ethers';
 import Marketplace from '../Marketplace.json'
 import axios from 'axios';
+import { db } from '../components/FirebaseConfig';
+import { onValue, ref } from "firebase/database";
 
 export const Profile = () => {
     // const [walletAddress, setWalletAddress] = useState('');
@@ -21,19 +23,25 @@ export const Profile = () => {
     //     }
     // })
 
-    const [form, setForm] = useState({
-        title: "",
-        collection: "",
-        description: "",
-    })
-
     const [data, updateData] = useState([]);
     const [dataFetched, updateFetched] = useState(false);
-    const [address, updateAddress] = useState("0x");
+    const [address, updateAddress] = useState("0x....");
+    const [profileInfo, setProfileInfo] = useState([]);
+
+    useEffect(() => {
+        onValue(ref(db), (snapshot) => {
+            const details = snapshot.val();
+            if (details !== null) {
+                Object.values(details).map((profile) => {
+                    setProfileInfo((oldArray) => [...oldArray, profile]);
+                });
+            }
+        });
+    }, []);
 
     async function getNFTData() {
-        
-        
+
+
         //After adding your Hardhat network to your metamask, this code will get providers and signers
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
@@ -45,16 +53,16 @@ export const Profile = () => {
         //create an NFT Token
         let transaction = await contract.getMyNFTs();
 
-        
+
 
         // /*
         // * Below function takes the metadata from tokenURI and the data returned by getMyNFTs() contract function
         // * and creates an object of information that is to be displayed
         // */
-        
+
         const items = await Promise.all(transaction.map(async i => {
             const tokenURI = await contract.tokenURI(i.tokenId);
-            let meta =  await axios.get(tokenURI);
+            let meta = await axios.get(tokenURI);
             meta = meta.data;
 
             let price = i.price;
@@ -67,21 +75,21 @@ export const Profile = () => {
                 description: meta.description,
                 collection: meta.collection,
             }
-            
+
             return item;
         }))
 
         updateData(items);
         updateFetched(true);
         updateAddress(addr);
-        
+
     }
 
-    if(!dataFetched)
+    if (!dataFetched)
         getNFTData();
 
     return (
-        <div className='bg-black h-full text-white'>
+        <div className='bg-black h-screen text-white'>
             <div className='pt-12'>
                 <Navbar />
             </div>
@@ -103,6 +111,7 @@ export const Profile = () => {
                         </div>
                     </div>
                 </div>
+
                 <h1 className='text-3xl font-mono font-bold'>i_am_akilan</h1>
                 <div className='flex justify-between w-full h-8 items-center gap-1'>
                     <div className='flex gap-1'>
@@ -117,12 +126,19 @@ export const Profile = () => {
                 <div className='text-3xl font-bold p-2'>
                     <h1>Collections</h1>
                 </div>
-                <div className='flex flex-wrap pb-4 gap-6'>
-                {data.map((value, index) => {
-                    return <Card data={value} key={index} />;
-                    })}
-                    
-                </div>
+                {
+                    data.length == 0 ?
+                        <div className='flex flex-wrap justify-center text-2xl font-bold pb-4 gap-6'>
+                            <h1>Oops!, NFT not yet created</h1>
+                        </div>
+                        :
+                        <div className='flex flex-wrap pb-4 gap-6'>
+                            {data.map((value, index) => {
+                                return <Card data={value} key={index} />;
+                            })}
+                        </div>
+                }
+
             </div>
         </div>
     )

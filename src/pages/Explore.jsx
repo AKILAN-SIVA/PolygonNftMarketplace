@@ -13,8 +13,8 @@ export const Explore = () => {
     const [address, updateAddress] = useState("0x");
 
     async function getNFTData() {
-        
-        
+
+
         //After adding your Hardhat network to your metamask, this code will get providers and signers
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
@@ -26,16 +26,16 @@ export const Explore = () => {
         //create an NFT Token
         let transaction = await contract.getAllNfts();
 
-        
+
 
         // /*
         // * Below function takes the metadata from tokenURI and the data returned by getMyNFTs() contract function
         // * and creates an object of information that is to be displayed
         // */
-        
+
         const items = await Promise.all(transaction.map(async i => {
             const tokenURI = await contract.tokenURI(i.tokenId);
-            let meta =  await axios.get(tokenURI);
+            let meta = await axios.get(tokenURI);
             meta = meta.data;
 
             let price = i.price;
@@ -48,30 +48,30 @@ export const Explore = () => {
                 description: meta.description,
                 collection: meta.collection,
             }
-            
+
             return item;
         }))
 
         updateData(items);
         updateFetched(true);
         updateAddress(addr);
-        
+
     }
 
-    if(!dataFetched)
+    if (!dataFetched)
         getNFTData();
     return (
         <div className='bg-black h-screen w-full text-white'>
             <div className='pt-12'>
                 <Navbar />
             </div>
-            <div className='flex flex-wrap justify-center gap-4 pt-20'>
-                <div>{data.map((value,index) =>{
-                    return <Card data={value} key={index} />
-                })}
-                    
+            <div className='justify-start pt-20 ml-24'>
+                <div className='flex flex-wrap gap-8'>
+                    {data.map((value, index) => {
+                        return <Card data={value} key={index} />
+                    })}
                 </div>
-                
+
             </div>
         </div>
     )
