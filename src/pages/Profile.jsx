@@ -37,7 +37,7 @@ export const Profile = () => {
         //After adding your Hardhat network to your metamask, this code will get providers and signers
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
-        // const addr = await signer.getAddress();
+        const addr = await signer.getAddress();
 
         //Pull the deployed contract instance
         let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
@@ -54,7 +54,7 @@ export const Profile = () => {
         
         const items = await Promise.all(transaction.map(async i => {
             const tokenURI = await contract.tokenURI(i.tokenId);
-            let meta =  axios.get(tokenURI);
+            let meta =  await axios.get(tokenURI);
             meta = meta.data;
 
             let price = i.price;
@@ -62,8 +62,8 @@ export const Profile = () => {
                 price,
                 tokenId: i.tokenId.toNumber(),
                 owner: i.owner,
-                image: meta.image,
-                name: meta.title,
+                photo: meta.image,
+                title: meta.title,
                 description: meta.description,
                 collection: meta.collection,
             }
