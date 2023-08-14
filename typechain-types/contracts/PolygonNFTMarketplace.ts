@@ -322,8 +322,8 @@ export interface PolygonNFTMarketplace extends BaseContract {
     ): Promise<[BigNumber]>;
 
     getAllNfts(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+      overrides?: CallOverrides
+    ): Promise<[PolygonNFTMarketplace.ListedTokenStructOutput[]]>;
 
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
@@ -331,8 +331,8 @@ export interface PolygonNFTMarketplace extends BaseContract {
     ): Promise<[string]>;
 
     getMyNFTs(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<ContractTransaction>;
+      overrides?: CallOverrides
+    ): Promise<[PolygonNFTMarketplace.ListedTokenStructOutput[]]>;
 
     idToListedToken(
       arg0: PromiseOrValue<BigNumberish>,
@@ -419,8 +419,8 @@ export interface PolygonNFTMarketplace extends BaseContract {
   ): Promise<BigNumber>;
 
   getAllNfts(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+    overrides?: CallOverrides
+  ): Promise<PolygonNFTMarketplace.ListedTokenStructOutput[]>;
 
   getApproved(
     tokenId: PromiseOrValue<BigNumberish>,
@@ -428,8 +428,8 @@ export interface PolygonNFTMarketplace extends BaseContract {
   ): Promise<string>;
 
   getMyNFTs(
-    overrides?: Overrides & { from?: PromiseOrValue<string> }
-  ): Promise<ContractTransaction>;
+    overrides?: CallOverrides
+  ): Promise<PolygonNFTMarketplace.ListedTokenStructOutput[]>;
 
   idToListedToken(
     arg0: PromiseOrValue<BigNumberish>,
@@ -660,18 +660,14 @@ export interface PolygonNFTMarketplace extends BaseContract {
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getAllNfts(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    getAllNfts(overrides?: CallOverrides): Promise<BigNumber>;
 
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<BigNumber>;
 
-    getMyNFTs(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<BigNumber>;
+    getMyNFTs(overrides?: CallOverrides): Promise<BigNumber>;
 
     idToListedToken(
       arg0: PromiseOrValue<BigNumberish>,
@@ -752,18 +748,14 @@ export interface PolygonNFTMarketplace extends BaseContract {
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getAllNfts(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    getAllNfts(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     getApproved(
       tokenId: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
 
-    getMyNFTs(
-      overrides?: Overrides & { from?: PromiseOrValue<string> }
-    ): Promise<PopulatedTransaction>;
+    getMyNFTs(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     idToListedToken(
       arg0: PromiseOrValue<BigNumberish>,

@@ -5,6 +5,7 @@ import Identicon from 'react-identicons';
 import Card from "../components/Card";
 import { ethers } from 'ethers';
 import Marketplace from '../Marketplace.json'
+import axios from 'axios';
 
 export const Profile = () => {
     // const [walletAddress, setWalletAddress] = useState('');
@@ -42,7 +43,7 @@ export const Profile = () => {
         let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
 
         //create an NFT Token
-        // let transaction = await contract.getMyNFTs();
+        let transaction = await contract.getMyNFTs();
 
         
 
@@ -51,28 +52,28 @@ export const Profile = () => {
         // * and creates an object of information that is to be displayed
         // */
         
-        // const items = await Promise.all(transaction.map(async i => {
-        //     const tokenURI = await contract.tokenURI(i.tokenId);
-        //     let meta = await axios.get(tokenURI);
-        //     meta = meta.data;
+        const items = await Promise.all(transaction.map(async i => {
+            const tokenURI = await contract.tokenURI(i.tokenId);
+            let meta =  axios.get(tokenURI);
+            meta = meta.data;
 
-        //     let price = i.price;
-        //     let item = {
-        //         price,
-        //         tokenId: i.tokenId.toNumber(),
-        //         owner: i.owner,
-        //         image: meta.image,
-        //         name: meta.title,
-        //         description: meta.description,
-        //         collection: meta.collection,
-        //     }
+            let price = i.price;
+            let item = {
+                price,
+                tokenId: i.tokenId.toNumber(),
+                owner: i.owner,
+                image: meta.image,
+                name: meta.title,
+                description: meta.description,
+                collection: meta.collection,
+            }
             
-        //     return item;
-        // }))
+            return item;
+        }))
 
-        // updateData(items);
+        updateData(items);
         updateFetched(true);
-        // updateAddress(addr);
+        updateAddress(addr);
         
     }
 

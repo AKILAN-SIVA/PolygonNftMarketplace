@@ -45,7 +45,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage {
         ); 
         }
     
-    function getAllNfts() public returns(ListedToken[] memory){
+    function getAllNfts() public view returns(ListedToken[] memory){
         uint256 totalItemCount = TokenCount.current();
         uint256 count=0;
         ListedToken [] memory items = new ListedToken[] (totalItemCount);
@@ -57,7 +57,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage {
         return items;
     }
 
-    function getMyNFTs() public returns(ListedToken[] memory){
+    function getMyNFTs() public view returns(ListedToken[] memory){
         uint256 totalItemCount = TokenCount.current();
         uint256 count = 0;
         uint256 mynftcount;

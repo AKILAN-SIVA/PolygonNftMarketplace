@@ -24,7 +24,7 @@ module.exports = {
       //accounts: [process.env.privateKey]
     },
     matic: {
-      url: "https://endpoints.omniatech.io/v1/matic/mumbai/public",
+      url: "https://rpc-mumbai.maticvigil.com",
       accounts: ["69aa43b735fb5718095e12a5ceff419880368533a0d38f7ac15f37457a3abcef"]
     },
     goerli: {
