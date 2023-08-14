@@ -23,6 +23,7 @@ export const Profile = () => {
         collection: "pubg",
         description: "###pubg lover",
     })
+    
 
     return (
         <div className='bg-black h-full text-white'>
