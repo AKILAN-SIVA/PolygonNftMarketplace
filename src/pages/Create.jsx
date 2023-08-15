@@ -82,7 +82,7 @@ export const Create = () => {
 
           alert("Successfully listed your NFT!");
           setForm({ title: '',collection: '', description: '', price: '',photo: ''});
-          window.location.replace("/")
+          window.location.replace("/profile")
       }
       catch(e) {
           console.log( "Upload error"+e )

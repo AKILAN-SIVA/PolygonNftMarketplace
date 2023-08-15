@@ -14,7 +14,8 @@ contract PolygonNFTMarketplace is ERC721URIStorage {
     struct ListedToken{
         uint256 tokenId;
         uint256 price;
-        address owner;
+        address payable owner;
+        bool NFTsold;
     }
 
     mapping(uint256 => ListedToken) public idToListedToken;
@@ -41,7 +42,8 @@ contract PolygonNFTMarketplace is ERC721URIStorage {
         idToListedToken[id] = ListedToken(
             id,
             price,
-            msg.sender
+            payable (msg.sender),
+            false
         ); 
         }
     
@@ -78,6 +80,22 @@ contract PolygonNFTMarketplace is ERC721URIStorage {
             }
         }
         return myItems;
+    }
+
+    function getBalance(address user) private view returns(uint256){
+       uint256 bal = balanceOf(user);
+       return bal;
+    }
+
+    function BuyNFt(uint256 tokenId) public payable {
+        require(msg.sender != idToListedToken[tokenId].owner,"you can't buy your own nft");
+        // require(getBalance(msg.sender) > idToListedToken[tokenId].price,"Not enough ether to buy nft");
+        address payable seller = idToListedToken[tokenId].owner;
+        _transfer(seller,msg.sender,tokenId);
+        approve(seller,tokenId);
+        idToListedToken[tokenId].owner = payable (msg.sender);
+        idToListedToken[tokenId].NFTsold = true;
+        payable (seller).transfer(idToListedToken[tokenId].price);
     }
 
     
