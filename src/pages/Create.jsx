@@ -74,7 +74,7 @@ export const Create = () => {
           let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
 
           //massage the params to be sent to the create NFT request
-          const price = form.price;
+          const price = ethers.utils.parseUnits(form.price,'ether');
 
           //actually create the NFT
           let transaction = await contract.mint(metadataURL, price)

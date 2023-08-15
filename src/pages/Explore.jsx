@@ -38,7 +38,7 @@ export const Explore = () => {
             let meta = await axios.get(tokenURI);
             meta = meta.data;
 
-            let price = i.price;
+            const price = ethers.utils.formatUnits(i.price.toString(),'ether');
             let item = {
                 price,
                 tokenId: i.tokenId.toNumber(),

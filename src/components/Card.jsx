@@ -19,6 +19,7 @@ function Card(data) {
         <div className='grid p-2 text-white text-xl '>
           <h1>Name: {data.data.title}</h1>
           <h1>Collection: {data.data.collection}</h1>
+          <h1>Price: {data.data.price} matic</h1>
           <h1>Description: {data.data.description}</h1>
         </div>
       </div>
