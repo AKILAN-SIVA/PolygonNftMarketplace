@@ -1,17 +1,73 @@
-import { useEffect, useState } from "react";
-import { FaBars } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Search from "../assets/search.png";
 import { IoIosCreate } from "react-icons/io";
 import { MdOutlineTravelExplore } from "react-icons/md";
 import { ImProfile } from "react-icons/im";
+import { ethers } from 'ethers';
+import Marketplace from '../Marketplace.json'
+import axios from 'axios';
+import { useNavigate } from "react-router-dom";
 
 function Navbar() {
-
+  const navigate = useNavigate();
   const [walletAddress, setWalletAddress] = useState("");
   const [connected, setConnected] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [tokenId, setTokenId] = useState("");
+  const [searchTokenId, setSearchTokenId] = useState("");
+  const [data, updateData] = useState([]);
+  const [dataFetched, updateFetched] = useState(false);
+  const [address, updateAddress] = useState("0x");
+  const [foundNft, setFoundNft] = useState([]);
+
+  async function getNFTData() {
+
+
+    //After adding your Hardhat network to your metamask, this code will get providers and signers
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const addr = await signer.getAddress();
+
+    //Pull the deployed contract instance
+    let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
+
+    //create an NFT Token
+    let transaction = await contract.getAllNfts();
+
+
+
+    // /*
+    // * Below function takes the metadata from tokenURI and the data returned by getMyNFTs() contract function
+    // * and creates an object of information that is to be displayed
+    // */
+
+    const items = await Promise.all(transaction.map(async i => {
+      const tokenURI = await contract.tokenURI(i.tokenId);
+      let meta = await axios.get(tokenURI);
+      meta = meta.data;
+
+      const price = ethers.utils.formatUnits(i.price.toString(), 'ether');
+      let item = {
+        price,
+        tokenId: i.tokenId.toNumber(),
+        owner: i.owner,
+        photo: meta.image,
+        title: meta.title,
+        description: meta.description,
+        collection: meta.collection,
+      }
+
+      return item;
+    }))
+
+    updateData(items);
+    updateFetched(true);
+    updateAddress(addr);
+
+  }
+
+  if (!dataFetched)
+    getNFTData();
 
   const ConnectWallet = async () => {
     if (window.ethereum) {
@@ -27,8 +83,18 @@ function Navbar() {
   };
 
   const getNFT = async () => {
-    console.log(tokenId);
-    setShowModal(false);
+    if (searchTokenId == "") {
+      console.log("Enter Token id to search")
+      alert("Enter Token id to search")
+      return
+    }
+    data.map((value, index) => {
+      if (value.tokenId == searchTokenId) {
+        navigate(`/searchNft/`, { state: value });
+        setShowModal(false);
+      }
+    })
+
   }
 
   return (
@@ -89,7 +155,7 @@ function Navbar() {
                         </div>
                         {/*body*/}
                         <div className="relative p-6 flex-auto">
-                          <input type="number" onChange={(e) => setTokenId(e.target.value)} className="bg-transparent w-[600px] h-12 text-black rounded-lg border-2 border-black p-4" placeholder="Enter Token Id" value={tokenId} />
+                          <input type="number" onChange={(e) => setSearchTokenId(e.target.value)} className="bg-transparent w-[600px] h-12 text-black rounded-lg border-2 border-black p-4" placeholder="Enter Token Id" value={searchTokenId} />
                         </div>
                         {/*footer*/}
                         <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">

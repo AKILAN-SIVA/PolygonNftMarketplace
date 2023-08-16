@@ -64,7 +64,7 @@ export const Profile = () => {
             const tokenURI = await contract.tokenURI(i.tokenId);
             let meta = await axios.get(tokenURI);
             meta = meta.data;
-            const price = ethers.utils.formatUnits(i.price.toString(),'ether');
+            const price = ethers.utils.formatUnits(i.price.toString(), 'ether');
 
             // let price = i.price;
             let item = {
@@ -90,7 +90,7 @@ export const Profile = () => {
         getNFTData();
 
     return (
-        <div className='bg-black h-full md:h-screen text-white'>
+        <div className='bg-black h-fit w-full text-white'>
             <div className='pt-12'>
                 <Navbar />
             </div>

@@ -40,7 +40,7 @@ export const Viewnft = () => {
   }
 
   return (
-    <div className='bg-black h-full text-white'>
+    <div className='bg-black h-full w-full text-white'>
       <div className='pt-12'>
         <Navbar />
       </div>
@@ -53,7 +53,7 @@ export const Viewnft = () => {
             <span className='text-2xl font-bold'>Owned by
               <div className='flex gap-1 mt-4'>
                 <img src={AddressIcon} className='h-8 w-8' />
-                <h1 className='text-white justify-start'>{state.data.owner}</h1>
+                <h1 className='text-white justify-start'>{(state.data.owner).substring(0, 7)}....{(state.data.owner).substring(12, 19)}</h1>
               </div>
             </span>
             <span className='text-3xl font-bold'>{state.data.title}</span>
