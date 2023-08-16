@@ -90,7 +90,7 @@ export const Profile = () => {
         getNFTData();
 
     return (
-        <div className='bg-black h-fit text-white'>
+        <div className='bg-black h-full md:h-screen text-white'>
             <div className='pt-12'>
                 <Navbar />
             </div>

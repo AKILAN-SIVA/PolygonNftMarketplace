@@ -4,12 +4,14 @@ import { Link } from 'react-router-dom';
 // import BuyNFT from '../services/blockchain';
 import { ethers } from "ethers";
 import Marketplace from '../Marketplace.json';
+import { useNavigate } from 'react-router-dom';
 
 
 function Card(data) {
-
+  const navigate = useNavigate();
   function viewNft() {
-    window.location.replace("/viewNft");
+    navigate(`/viewNft/`,{ state: data})
+    // window.location.replace("/viewNft");
     // pathname: "/viewNft/"+ data.name
   }
 
@@ -37,17 +39,16 @@ const BuyNFT = async() =>{
 
   return (
     // <Link to={viewNft}>
-    <div className='bg-gray-500 border-2 border-gray-900 rounded-xl h-100 w-60 hover:cursor-pointer' >
+    <div className='bg-gray-500 border-2 border-gray-900 rounded-xl h-100 w-60 hover:cursor-pointer' onClick={viewNft}>
       <div className='grid items-start gap-2 '>
-        <div className=''>
+        <div className='transition p-3 hover:p-2 ease-in'>
           <img src={data.data.photo} className='h-44 w-96 rounded-xl' />
         </div>
-        <div className='grid p-2 text-white text-xl '>
+        <div className='grid p-2 text-white text-xl gap-2'>
           <h1>Name: {data.data.title}</h1>
           <h1>Collection: {data.data.collection}</h1>
           <h1>Price: {data.data.price} matic</h1>
           <h1>Description: {data.data.description}</h1>
-          <button className='border-gray-900 bg-black ' onClick={BuyNFT}>Buy NFT</button>
         </div>
       </div>
     </div>
