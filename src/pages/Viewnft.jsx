@@ -7,14 +7,14 @@ import Marketplace from '../Marketplace.json';
 export const Viewnft = () => {
   const [walletAddress, setWalletAddress] = useState('');
   const { state } = useLocation();
-  const owner = state.data.owner;
+
   useEffect(() => {
     if (window.ethereum) {
       window.ethereum.request({ method: "eth_requestAccounts" })
         .then((accounts) => {
           console.log(accounts[0]);
           setWalletAddress(accounts[0]);
-          console.log("address ",walletAddress)
+          console.log("address ",state.data.owner)
         });
     } else {
       alert("Install Metamask Extension");
@@ -52,8 +52,10 @@ export const Viewnft = () => {
             <span className='text-3xl font-bold'>Owned by <span className='text-2xl'>{state.data.owner}</span></span>
             <span className='text-3xl font-bold'>{state.data.title}</span>
             <span className='text-3xl font-bold'>{state.data.price} MATIC</span>
+            <span className='text-3xl font-bold'>{state.data.collection}</span>
+            <span className='text-3xl font-bold'>{state.data.description}</span>
             {
-              owner == walletAddress ? <button className='text-black bg-white rounded-xl w-full h-12 font-bold' onClick={BuyNFT}>Buy NFT</button> : <a className='text-3xl font-bold'>You can't buy your own Nft</a>
+              (state.data.owner).toLowerCase() == walletAddress.toLowerCase() ? "" : <button className='text-black bg-white rounded-xl w-full h-12 font-bold' onClick={BuyNFT}>Buy NFT</button>
             }
           </div>
         </div>
