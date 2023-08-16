@@ -1,7 +1,10 @@
 import React from 'react'
 import PreviewImage from '../assets/previewImage.png';
 import { Link } from 'react-router-dom';
-import BuyNFT from '../services/blockchain';
+// import BuyNFT from '../services/blockchain';
+import { ethers } from "ethers";
+import Marketplace from '../Marketplace.json';
+
 
 function Card(data) {
 
@@ -10,9 +13,27 @@ function Card(data) {
     // pathname: "/viewNft/"+ data.name
   }
 
-  const handleClick = async() =>{
-      await BuyNFT(data.data.tokenId);
+const BuyNFT = async() =>{
+
+  try{
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+
+  //Pull the deployed contract instance
+  let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
+
+    let salePrice = ethers.utils.parseUnits(data.data.price,'ether');
+    let tokenId = data.data.tokenId;
+    let transaction = await contract.executeSale(tokenId, {value: salePrice});
+
+    await transaction.wait();
+  }catch(e){
+    console.log("NFT buy error : "+e);
   }
+
+  
+
+}
 
   return (
     // <Link to={viewNft}>
@@ -26,7 +47,7 @@ function Card(data) {
           <h1>Collection: {data.data.collection}</h1>
           <h1>Price: {data.data.price} matic</h1>
           <h1>Description: {data.data.description}</h1>
-          <button className='border-gray-900 bg-black ' onClick={handleClick}>Buy NFT</button>
+          <button className='border-gray-900 bg-black ' onClick={BuyNFT}>Buy NFT</button>
         </div>
       </div>
     </div>

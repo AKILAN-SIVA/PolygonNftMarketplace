@@ -87,16 +87,17 @@ contract PolygonNFTMarketplace is ERC721URIStorage {
        return bal;
     }
 
-    function BuyNFt(uint256 tokenId) public payable {
+    function executeSale(uint256 tokenId) public payable {
+        uint256 price = idToListedToken[tokenId].price;
         require(msg.sender != idToListedToken[tokenId].owner,"you can't buy your own nft");
+        require(msg.value == price,"price does not same");
         // require(getBalance(msg.sender) > idToListedToken[tokenId].price,"Not enough ether to buy nft");
         address payable seller = idToListedToken[tokenId].owner;
+        
         _transfer(seller,msg.sender,tokenId);
         approve(seller,tokenId);
         idToListedToken[tokenId].owner = payable (msg.sender);
         idToListedToken[tokenId].NFTsold = true;
-        payable (seller).transfer(idToListedToken[tokenId].price);
+        payable (seller).transfer(msg.value);
     }
-
-    
 }
