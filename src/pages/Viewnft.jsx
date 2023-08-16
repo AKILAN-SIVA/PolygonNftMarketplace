@@ -39,7 +39,7 @@ export const Viewnft = () => {
   }
 
   return (
-    <div className='bg-black h-screen text-white'>
+    <div className='bg-black h-full text-white'>
       <div className='pt-12'>
         <Navbar />
       </div>
@@ -57,6 +57,28 @@ export const Viewnft = () => {
             {
               (state.data.owner).toLowerCase() == walletAddress.toLowerCase() ? "" : <button className='text-black bg-white rounded-xl w-full h-12 font-bold' onClick={BuyNFT}>Buy NFT</button>
             }
+          </div>
+        </div>
+        <div className='pb-16'>
+          <div className='bg-gray-900 border-2 border-gray-500 w-[700px] h-48 rounded-lg'>
+            <div className='grid px-4 py-6 gap-2'>
+              <div className='flex justify-between'>
+                <a className='text-xl'>Contract Address</a>
+                <a className='text-xl'>{(Marketplace.address).substring(0, 6)}....{(Marketplace.address).substring(11, 16)}</a>
+              </div>
+              <div className='flex justify-between'>
+                <a className='text-xl'>Token Id</a>
+                <a className='text-xl'>{state.data.tokenId}</a>
+              </div>
+              <div className='flex justify-between'>
+                <a className='text-xl'>Contract</a>
+                <a className='text-xl'>ERC-721</a>
+              </div>
+              <div className='flex justify-between'>
+                <a className='text-xl'>Network</a>
+                <a className='text-xl'>Polygon</a>
+              </div>
+            </div>
           </div>
         </div>
       </div>
