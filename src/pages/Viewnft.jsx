@@ -3,6 +3,7 @@ import Navbar from './Navbar'
 import { useLocation } from 'react-router-dom'
 import { ethers } from "ethers";
 import Marketplace from '../Marketplace.json';
+import AddressIcon from "../assets/addressIcon.png";
 
 export const Viewnft = () => {
   const [walletAddress, setWalletAddress] = useState('');
@@ -14,7 +15,7 @@ export const Viewnft = () => {
         .then((accounts) => {
           console.log(accounts[0]);
           setWalletAddress(accounts[0]);
-          console.log("address ",state.data.owner)
+          console.log("address ", state.data.owner)
         });
     } else {
       alert("Install Metamask Extension");
@@ -49,14 +50,28 @@ export const Viewnft = () => {
             <img src={state.data.photo} className='w-[700px] h-[500px] rounded-3xl' />
           </div>
           <div className='grid justify-start items-start h-fit gap-8 mt-8'>
-            <span className='text-3xl font-bold'>Owned by <span className='text-2xl'>{state.data.owner}</span></span>
+            <span className='text-2xl font-bold'>Owned by
+              <div className='flex gap-1 mt-4'>
+                <img src={AddressIcon} className='h-8 w-8' />
+                <h1 className='text-white justify-start'>{state.data.owner}</h1>
+              </div>
+            </span>
             <span className='text-3xl font-bold'>{state.data.title}</span>
-            <span className='text-3xl font-bold'>{state.data.price} MATIC</span>
+            <div className='bg-gray-900 border-2 border-gray-700 w-full h-48 rounded-xl'>
+              <div className='grid justify-start items-center gap-4 p-8'>
+                <a className='text-2xl  tracking-widest'>Price: {state.data.price} MATIC</a>
+                <div className='border border-gray-500 w-[500px] h-0'></div>
+                {
+                  (state.data.owner).toLowerCase() == walletAddress.toLowerCase() ? <button className='text-black bg-white rounded-xl w-full h-12 font-bold' >List your NFT</button> : <button className='text-black bg-white rounded-xl w-full h-12 font-bold' onClick={BuyNFT}>Buy NFT</button>
+                }
+              </div>
+            </div>
+            {/* <span className='text-3xl font-bold'>{state.data.price} MATIC</span>
             <span className='text-3xl font-bold'>{state.data.collection}</span>
-            <span className='text-3xl font-bold'>{state.data.description}</span>
-            {
+            <span className='text-3xl font-bold'>{state.data.description}</span> */}
+            {/* {
               (state.data.owner).toLowerCase() == walletAddress.toLowerCase() ? "" : <button className='text-black bg-white rounded-xl w-full h-12 font-bold' onClick={BuyNFT}>Buy NFT</button>
-            }
+            } */}
           </div>
         </div>
         <div className='pb-16'>

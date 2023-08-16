@@ -29,6 +29,11 @@ export const Editprofile = () => {
     }
 
     const writeToDb = () => {
+        if(profileForm.UserName == "" || profileForm.instaLink == "" || profileForm.twitterLink == "") 
+        {
+            alert("enter all the fields");
+            return ;
+        }
         set(ref(db, walletAddress), {
             UserName: profileForm.UserName,
             InstaGram: profileForm.instaLink,

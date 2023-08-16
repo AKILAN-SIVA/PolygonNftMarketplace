@@ -1,7 +1,4 @@
-import React from 'react'
-import PreviewImage from '../assets/previewImage.png';
-import { Link } from 'react-router-dom';
-// import BuyNFT from '../services/blockchain';
+import React from 'react';
 import { ethers } from "ethers";
 import Marketplace from '../Marketplace.json';
 import { useNavigate } from 'react-router-dom';
@@ -10,9 +7,7 @@ import { useNavigate } from 'react-router-dom';
 function Card(data) {
   const navigate = useNavigate();
   function viewNft() {
-    navigate(`/viewNft/`,{ state: data})
-    // window.location.replace("/viewNft");
-    // pathname: "/viewNft/"+ data.name
+    navigate(`/viewNft/`,{ state: data});
   }
 
 const BuyNFT = async() =>{
@@ -37,9 +32,8 @@ const BuyNFT = async() =>{
 
 }
 
-  return (
-    // <Link to={viewNft}>
-    <div className='bg-gray-500 border-2 border-gray-900 rounded-xl h-100 w-60 hover:cursor-pointer' onClick={viewNft}>
+  return ( 
+    <div className='bg-gray-800 border-2 border-gray-900 rounded-xl h-100 w-60 hover:cursor-pointer' onClick={viewNft}>
       <div className='grid items-start gap-2 '>
         <div className='transition p-3 hover:p-2 ease-in'>
           <img src={data.data.photo} className='h-44 w-96 rounded-xl' />
@@ -52,7 +46,6 @@ const BuyNFT = async() =>{
         </div>
       </div>
     </div>
-    // </Link>
   )
 }
 
