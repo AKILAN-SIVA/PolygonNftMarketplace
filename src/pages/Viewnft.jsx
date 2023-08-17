@@ -84,8 +84,8 @@ export const Viewnft = () => {
                 <a className='text-2xl  tracking-widest'>Price: {state.data.price} MATIC</a>
                 <div className='border border-gray-500 w-[500px] h-0'></div>
                 {
-                  (state.data.owner).toLowerCase() == walletAddress.toLowerCase() || state.data.price == 0  ? 
-                  <button className='text-black bg-white rounded-xl w-full h-12 font-bold' onClick={() => setShowModal(true)}>List your NFT</button> 
+                  (state.data.owner).toLowerCase() == walletAddress.toLowerCase() ? state.data.price == 0  ? 
+                  <button className='text-black bg-white rounded-xl w-full h-12 font-bold' onClick={() => setShowModal(true)}>List your NFT</button> : <button className='text-black bg-white rounded-xl w-full h-12 font-bold'>You Can't list the NFT Again </button>
                   : 
                   <button className='text-black bg-white rounded-xl w-full h-12 font-bold' onClick={BuyNFT}>Buy NFT</button>
                 }
