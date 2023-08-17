@@ -38,13 +38,13 @@ export const Create = () => {
 
   //This function uploads the metadata to IPFS
   async function uploadMetadataToIPFS() {
-      const {title,collection, price, description} = form;
+      const {title,collection,description} = form;
       //Make sure that none of the fields are empty
-      if( !title|| !collection || !description || !price || !fileURL)
+      if( !title|| !collection || !description || !fileURL)
           return;
 
       const nftJSON = {
-          title, collection,price,description,  image: fileURL
+          title, collection,description,  image: fileURL
       }
 
       try {
@@ -74,14 +74,14 @@ export const Create = () => {
           let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
 
           //massage the params to be sent to the create NFT request
-          const price = ethers.utils.parseUnits(form.price,'ether');
+          // const price = ethers.utils.parseUnits(form.price,'ether');
 
           //actually create the NFT
-          let transaction = await contract.mint(metadataURL, price)
+          let transaction = await contract.CreateToken(metadataURL)
           await transaction.wait()
 
           alert("Successfully listed your NFT!");
-          setForm({ title: '',collection: '', description: '', price: '',photo: ''});
+          setForm({ title: '',collection: '', description: '',photo: ''});
           window.location.replace("/profile")
       }
       catch(e) {
@@ -132,7 +132,7 @@ export const Create = () => {
               ></input>
             </div>
 
-            <div className="flex flex-col gap-2 ">
+            {/* <div className="flex flex-col gap-2 ">
               <div className="flex gap-2 text-lg">
                 <p>Price</p><p className="text-red-800">*</p>
               </div>
@@ -144,7 +144,7 @@ export const Create = () => {
                 placeholder="Enter price for Listing. . ."
                 onChange={handleChange}
               ></input>
-            </div>
+            </div> */}
 
             <div className="flex flex-col gap-2 ">
               <div className="flex gap-2 text-lg">

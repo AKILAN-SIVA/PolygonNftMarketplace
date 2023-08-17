@@ -8,6 +8,7 @@ import AddressIcon from "../assets/addressIcon.png";
 export const Viewnft = () => {
   const [walletAddress, setWalletAddress] = useState('');
   const { state } = useLocation();
+  const [listPrice,setListPrice] = useState();
 
   useEffect(() => {
     if (window.ethereum) {
@@ -21,6 +22,20 @@ export const Viewnft = () => {
       alert("Install Metamask Extension");
     }
   })
+
+  const ListMyNFT = async () =>{
+    try{
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      let contract = new ethers.Contract(Marketplace.address,Marketplace.abi,signer);
+      const price = ethers.utils.parseUnits(listPrice,'ether');
+      let transaction = await contract.ListNFT(state.data.tokenId,{value: price});
+      await transaction.wait();
+    }catch(e){
+      console.log("Error in listing Nft : "+e);
+    }
+    
+  }
   const BuyNFT = async () => {
     try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
