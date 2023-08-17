@@ -35,7 +35,7 @@ function Card(data) {
   }
 
   return (
-    <div className='bg-[#171717] border-2 border-gray-600 rounded-lg h-100 w-60 hover:cursor-pointer' onClick={viewNft}>
+    <div className='bg-[#171717] border-2 border-gray-600 rounded-lg h-100 w-64 hover:cursor-pointer' onClick={viewNft}>
       <div className='grid items-start gap-2 p-4'>
         <div className='flex justify-start gap-4'>
           <Identicon string={data.data.owner} size={30} className="border border-gray-500 rounded-2xl" />

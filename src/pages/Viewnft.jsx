@@ -8,7 +8,8 @@ import AddressIcon from "../assets/addressIcon.png";
 export const Viewnft = () => {
   const [walletAddress, setWalletAddress] = useState('');
   const { state } = useLocation();
-  const [listPrice,setListPrice] = useState();
+  const [listPrice,setListPrice] = useState("");
+  const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {
     if (window.ethereum) {
@@ -24,13 +25,19 @@ export const Viewnft = () => {
   })
 
   const ListMyNFT = async () =>{
+    if(listPrice == "") {
+      alert("enter the price")
+      console.log("enter the price")
+      return
+    }
     try{
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       let contract = new ethers.Contract(Marketplace.address,Marketplace.abi,signer);
       const price = ethers.utils.parseUnits(listPrice,'ether');
-      let transaction = await contract.ListNFT(state.data.tokenId,{value: price});
+      let transaction = await contract.ListNFT(price, state.data.tokenId);
       await transaction.wait();
+      setShowModal(false);
     }catch(e){
       console.log("Error in listing Nft : "+e);
     }
@@ -77,16 +84,55 @@ export const Viewnft = () => {
                 <a className='text-2xl  tracking-widest'>Price: {state.data.price} MATIC</a>
                 <div className='border border-gray-500 w-[500px] h-0'></div>
                 {
-                  (state.data.owner).toLowerCase() == walletAddress.toLowerCase() ? <button className='text-black bg-white rounded-xl w-full h-12 font-bold' >List your NFT</button> : <button className='text-black bg-white rounded-xl w-full h-12 font-bold' onClick={BuyNFT}>Buy NFT</button>
+                  (state.data.owner).toLowerCase() == walletAddress.toLowerCase() || state.data.price == 0  ? 
+                  <button className='text-black bg-white rounded-xl w-full h-12 font-bold' onClick={() => setShowModal(true)}>List your NFT</button> 
+                  : 
+                  <button className='text-black bg-white rounded-xl w-full h-12 font-bold' onClick={BuyNFT}>Buy NFT</button>
                 }
+                {showModal ? (
+                <>
+                  <div
+                    className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+                  >
+                    <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                      {/*content*/}
+                      <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-gray-300 outline-none focus:outline-none">
+                        {/*header*/}
+                        <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                          <h3 className="text-3xl font-semibold text-black">
+                            Sell your NFT
+                          </h3>
+                          <button
+                            className="p-1 ml-auto bg-transparent border-0 text-black float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                            onClick={() => setShowModal(false)}
+                          >
+                            <span className="bg-transparent text-black h-6 w-6 text-3xl block outline-none focus:outline-none">
+                              ×
+                            </span>
+                          </button>
+                        </div>
+                        {/*body*/}
+                        <div className="relative p-6 flex-auto">
+                          <input type="number" onChange={(e) => setListPrice(e.target.value)} className="bg-transparent w-[600px] h-12 text-black rounded-lg border-2 border-black p-4" placeholder="Enter price for sale" value={listPrice} />
+                        </div>
+                        {/*footer*/}
+                        <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                          <button
+                            className="bg-black text-white active:bg-black font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                            type="button"
+                            onClick={() => ListMyNFT()}
+                          >
+                            List
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+                </>
+              ) : null}
               </div>
             </div>
-            {/* <span className='text-3xl font-bold'>{state.data.price} MATIC</span>
-            <span className='text-3xl font-bold'>{state.data.collection}</span>
-            <span className='text-3xl font-bold'>{state.data.description}</span> */}
-            {/* {
-              (state.data.owner).toLowerCase() == walletAddress.toLowerCase() ? "" : <button className='text-black bg-white rounded-xl w-full h-12 font-bold' onClick={BuyNFT}>Buy NFT</button>
-            } */}
           </div>
         </div>
         <div className='pb-16'>
