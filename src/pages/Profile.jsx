@@ -166,31 +166,36 @@ export const Profile = () => {
                 <div className='text-4xl font-bold p-2'>
                     <h1>Collections</h1>
                 </div>
-                <div className='grid border-2 border-gray-800 gap-10 p-4 mr-28 rounded-xl'>
-                    <div className='flex justify-start gap-12 '>
-                        <button onClick={() => setShowSold(false)}><a className='text-3xl font-bold'>Created</a></button>
-                        <button onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
-                    </div>
-                    <div className='flex '>
-                        {
-                            data.length == 0 ?
-                                <div className='flex flex-wrap justify-center text-2xl font-bold pb-4 gap-6'>
-                                    <h1>Oops!, NFT not yet created</h1>
+                <div className='grid border-2 border-gray-800  mr-28 rounded-xl p-4'>
+                    {
+                        data.length == 0 ?
+                            <div className='flex flex-wrap justify-center text-2xl font-bold '>
+                                <h1>Oops!, NFT not yet created</h1>
+                            </div>
+                            :
+                            <div>
+                                <div className='flex justify-start '>
+                                    <button className='bg-gray-900 w-56 p-2' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Created</a></button>
+                                    <button className='bg-gray-800 w-56 p-2' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
                                 </div>
-                                :
-                                showSold == false ?
-                                    <div className='flex flex-wrap gap-6'>
-                                        {data.map((value, index) => {
-                                            return <Card data={value} key={index} />;
-                                        })}
-                                    </div> :
-                                    <div className='flex flex-wrap gap-6'>
-                                        {SoldData.map((value, index) => {
-                                            return <Card data={value} key={index} />;
-                                        })}
-                                    </div>
-                        }
-                    </div>
+                                <div className='flex '>
+                                    {
+                                        showSold == false ?
+                                            <div className='flex flex-wrap gap-6 bg-gray-900 w-full h-full p-8'>
+                                                {data.map((value, index) => {
+                                                    return <Card data={value} key={index} />;
+                                                })}
+                                            </div> :
+                                            <div className='flex flex-wrap gap-6 bg-gray-800 w-full h-full p-8'>
+                                                {SoldData.map((value, index) => {
+                                                    return <Card data={value} key={index} />;
+                                                })}
+                                            </div>
+                                    }
+                                </div>
+                            </div>
+
+                    }
                 </div>
                 <br />
             </div>

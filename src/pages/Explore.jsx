@@ -65,7 +65,8 @@ export const Explore = () => {
             <div className='pt-12'>
                 <Navbar />
             </div>
-            <div className='justify-start pt-20 ml-24'>
+            <div className='grid justify-start pt-20 ml-24 gap-8'>
+                <h1 className='text-4xl font-bold tracking-widest'>Top NFT's</h1>
                 <div className='flex flex-wrap gap-8'>
                     {data.map((value, index) => {
                         return <Card data={value} key={index} />
