@@ -29,11 +29,12 @@ export const Profile = () => {
     const [SoldData, updateSoldData] = useState([]);
     const [FetchedSoldData, updateFetchedSoldData] = useState(false);
     const [SoldAddress, updateSoldAddress] = useState("0x....");
-    const [sum,updateSum] = useState("0");
-    const [CountNFt,updateNftCount] = useState("0");
-    const [NftSold,updateNftSoldCount] = useState();
+    const [sum, updateSum] = useState("0");
+    const [CountNFt, updateNftCount] = useState("0");
+    const [NftSold, updateNftSoldCount] = useState();
     const [profileInfo, setProfileInfo] = useState([]);
-    
+    const [showSold, setShowSold] = useState(false);
+
 
     useEffect(() => {
         onValue(ref(db), (snapshot) => {
@@ -61,7 +62,7 @@ export const Profile = () => {
             let meta = await axios.get(tokenURI);
             meta = meta.data;
             const price = ethers.utils.formatUnits(i.price.toString(), 'ether');
-            
+
             // let price = i.price;
             let item = {
                 price,
@@ -73,10 +74,10 @@ export const Profile = () => {
                 collection: meta.collection,
             }
             sum1 += Number(price);
-            NFTcount +=1;
+            NFTcount += 1;
             return item;
         }))
-        updateSum(sum1.toPrecision(3));
+        updateSum(sum1);
         updateData(items);
         updateFetched(true);
         updateAddress(addr);
@@ -110,7 +111,7 @@ export const Profile = () => {
                 description: meta.description,
                 collection: meta.collection,
             }
-            itemsSoldCount +=1;
+            itemsSoldCount += 1;
             return item;
         }))
 
@@ -124,29 +125,28 @@ export const Profile = () => {
 
     if (!dataFetched)
         getNFTData();
-        
-    if(!FetchedSoldData)
-    {getNFTSoldData();}
-    
+
+    if (!FetchedSoldData) { getNFTSoldData(); }
+
     return (
-        <div className='bg-black h-fit w-full text-white'>
+        <div className='bg-black min-h-screen h-fit w-full text-white'>
             <div className='pt-12'>
                 <Navbar />
             </div>
             <div className='grid ml-28 gap-6'>
                 <div className='flex justify-start items-center pt-12'>
                     <div className='border-2 border-white h-32 w-32 rounded-3xl'><Identicon string={address} className="h-32 w-36 rounded-2xl" size={125} /></div>
-                    <div className='flex justify-start items-start ml-24 gap-20'>
+                    <div className='flex justify-start items-start ml-32 gap-20'>
                         <div className='grid justify-center items-center gap-4'>
-                            <h1 className='text-6xl font-bold'>{CountNFt}</h1>
+                            <h1 className='text-5xl font-bold'>{CountNFt}</h1>
                             <h1 className='text-lg font-bold'>NFT mined</h1>
                         </div>
                         <div className='grid justify-center items-center gap-4'>
-                            <h1 className='text-6xl font-bold'>$ {sum}</h1>
+                            <h1 className='text-5xl font-bold'>{sum}</h1>
                             <h1 className='text-lg font-bold'>Total value</h1>
                         </div>
                         <div className='grid justify-center items-center gap-4'>
-                            <h1 className='text-6xl font-bold'>{NftSold}</h1>
+                            <h1 className='text-5xl font-bold'>{NftSold}</h1>
                             <h1 className='text-lg font-bold'>NFT Sold</h1>
                         </div>
                     </div>
@@ -163,22 +163,36 @@ export const Profile = () => {
                     </div>
                 </div>
                 <div className='border border-[#171717] h-0 w-11/12 mr-2'> </div>
-                <div className='text-3xl font-bold p-2'>
+                <div className='text-4xl font-bold p-2'>
                     <h1>Collections</h1>
                 </div>
-                {
-                    data.length == 0 ?
-                        <div className='flex flex-wrap justify-center text-2xl font-bold pb-4 gap-6'>
-                            <h1>Oops!, NFT not yet created</h1>
-                        </div>
-                        :
-                        <div className='flex flex-wrap pb-4 gap-6'>
-                            {data.map((value, index) => {
-                                return <Card data={value} key={index} />;
-                            })}
-                        </div>
-                }
-
+                <div className='grid border-2 border-gray-800 gap-10 p-4 mr-28 rounded-xl'>
+                    <div className='flex justify-start gap-12 '>
+                        <button onClick={() => setShowSold(false)}><a className='text-3xl font-bold'>Created</a></button>
+                        <button onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
+                    </div>
+                    <div className='flex '>
+                        {
+                            data.length == 0 ?
+                                <div className='flex flex-wrap justify-center text-2xl font-bold pb-4 gap-6'>
+                                    <h1>Oops!, NFT not yet created</h1>
+                                </div>
+                                :
+                                showSold == false ?
+                                    <div className='flex flex-wrap gap-6'>
+                                        {data.map((value, index) => {
+                                            return <Card data={value} key={index} />;
+                                        })}
+                                    </div> :
+                                    <div className='flex flex-wrap gap-6'>
+                                        {SoldData.map((value, index) => {
+                                            return <Card data={value} key={index} />;
+                                        })}
+                                    </div>
+                        }
+                    </div>
+                </div>
+                <br />
             </div>
         </div>
     )

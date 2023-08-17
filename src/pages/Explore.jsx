@@ -61,7 +61,7 @@ export const Explore = () => {
     if (!dataFetched)
         getNFTData();
     return (
-        <div className='bg-black h-fit w-full text-white'>
+        <div className='bg-black min-h-screen h-fit w-full text-white'>
             <div className='pt-12'>
                 <Navbar />
             </div>
