@@ -17,7 +17,6 @@ function Navbar() {
   const [searchTokenId, setSearchTokenId] = useState("");
   const [data, updateData] = useState([]);
   const [dataFetched, updateFetched] = useState(false);
-  const [address, updateAddress] = useState("0x");
   const [foundNft, setFoundNft] = useState([]);
 
   async function getNFTData() {
@@ -26,7 +25,6 @@ function Navbar() {
     //After adding your Hardhat network to your metamask, this code will get providers and signers
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
-    const addr = await signer.getAddress();
 
     //Pull the deployed contract instance
     let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
@@ -62,7 +60,7 @@ function Navbar() {
 
     updateData(items);
     updateFetched(true);
-    updateAddress(addr);
+    
 
   }
 
