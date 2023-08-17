@@ -29,8 +29,11 @@ export const Profile = () => {
     const [SoldData, updateSoldData] = useState([]);
     const [FetchedSoldData, updateFetchedSoldData] = useState(false);
     const [SoldAddress, updateSoldAddress] = useState("0x....");
-    
+    const [sum,updateSum] = useState("0");
+    const [CountNFt,updateNftCount] = useState("0");
+    const [NftSold,updateNftSoldCount] = useState();
     const [profileInfo, setProfileInfo] = useState([]);
+    
 
     useEffect(() => {
         onValue(ref(db), (snapshot) => {
@@ -44,7 +47,8 @@ export const Profile = () => {
     }, []);
 
     async function getNFTData() {
-
+        let sum1 = 0;
+        let NFTcount = 0;
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
         const addr = await signer.getAddress();
@@ -57,7 +61,7 @@ export const Profile = () => {
             let meta = await axios.get(tokenURI);
             meta = meta.data;
             const price = ethers.utils.formatUnits(i.price.toString(), 'ether');
-
+            
             // let price = i.price;
             let item = {
                 price,
@@ -68,18 +72,20 @@ export const Profile = () => {
                 description: meta.description,
                 collection: meta.collection,
             }
-
+            sum1 += Number(price);
+            NFTcount +=1;
             return item;
         }))
-
+        updateSum(sum1.toPrecision(3));
         updateData(items);
         updateFetched(true);
         updateAddress(addr);
+        updateNftCount(NFTcount);
 
     }
 
     async function getNFTSoldData() {
-
+        let itemsSoldCount = 0;
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
         const addr = await signer.getAddress();
@@ -104,13 +110,14 @@ export const Profile = () => {
                 description: meta.description,
                 collection: meta.collection,
             }
-
+            itemsSoldCount +=1;
             return item;
         }))
 
         updateSoldData(items);
         updateFetchedSoldData(true);
         updateSoldAddress(addr);
+        updateNftSoldCount(itemsSoldCount);
         // console.log(items);
 
     }
@@ -131,15 +138,15 @@ export const Profile = () => {
                     <div className='border-2 border-white h-32 w-32 rounded-3xl'><Identicon string={address} className="h-32 w-36 rounded-2xl" size={125} /></div>
                     <div className='flex justify-start items-start ml-24 gap-20'>
                         <div className='grid justify-center items-center gap-4'>
-                            <h1 className='text-6xl font-bold'>7</h1>
+                            <h1 className='text-6xl font-bold'>{CountNFt}</h1>
                             <h1 className='text-lg font-bold'>NFT mined</h1>
                         </div>
                         <div className='grid justify-center items-center gap-4'>
-                            <h1 className='text-6xl font-bold'>$ 7</h1>
+                            <h1 className='text-6xl font-bold'>$ {sum}</h1>
                             <h1 className='text-lg font-bold'>Total value</h1>
                         </div>
                         <div className='grid justify-center items-center gap-4'>
-                            <h1 className='text-6xl font-bold'>7</h1>
+                            <h1 className='text-6xl font-bold'>{NftSold}</h1>
                             <h1 className='text-lg font-bold'>NFT Sold</h1>
                         </div>
                     </div>
