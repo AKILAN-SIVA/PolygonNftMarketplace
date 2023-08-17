@@ -26,6 +26,10 @@ export const Profile = () => {
     const [data, updateData] = useState([]);
     const [dataFetched, updateFetched] = useState(false);
     const [address, updateAddress] = useState("0x....");
+    const [SoldData, updateSoldData] = useState([]);
+    const [FetchedSoldData, updateFetchedSoldData] = useState(false);
+    const [SoldAddress, updateSoldAddress] = useState("0x....");
+    
     const [profileInfo, setProfileInfo] = useState([]);
 
     useEffect(() => {
@@ -41,25 +45,13 @@ export const Profile = () => {
 
     async function getNFTData() {
 
-
-        //After adding your Hardhat network to your metamask, this code will get providers and signers
         const provider = new ethers.providers.Web3Provider(window.ethereum);
         const signer = provider.getSigner();
         const addr = await signer.getAddress();
 
-        //Pull the deployed contract instance
         let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
 
-        //create an NFT Token
         let transaction = await contract.getMyNFTs();
-
-
-
-        // /*
-        // * Below function takes the metadata from tokenURI and the data returned by getMyNFTs() contract function
-        // * and creates an object of information that is to be displayed
-        // */
-
         const items = await Promise.all(transaction.map(async i => {
             const tokenURI = await contract.tokenURI(i.tokenId);
             let meta = await axios.get(tokenURI);
@@ -86,9 +78,49 @@ export const Profile = () => {
 
     }
 
+    async function getNFTSoldData() {
+
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const addr = await signer.getAddress();
+
+        let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
+
+        let transaction = await contract.getMySoldNFTs();
+        const items = await Promise.all(transaction.map(async i => {
+            const tokenURI = await contract.tokenURI(i.tokenId);
+            let meta = await axios.get(tokenURI);
+            meta = meta.data;
+            const price = ethers.utils.formatUnits(i.price.toString(), 'ether');
+
+            // let price = i.price;
+            let item = {
+                price,
+                tokenId: i.tokenId.toNumber(),
+                owner: i.owner,
+                Buyer: i.newOwner,
+                photo: meta.image,
+                title: meta.title,
+                description: meta.description,
+                collection: meta.collection,
+            }
+
+            return item;
+        }))
+
+        updateSoldData(items);
+        updateFetchedSoldData(true);
+        updateSoldAddress(addr);
+        // console.log(items);
+
+    }
+
     if (!dataFetched)
         getNFTData();
-
+        
+    if(!FetchedSoldData)
+    {getNFTSoldData();}
+    
     return (
         <div className='bg-black h-fit w-full text-white'>
             <div className='pt-12'>
