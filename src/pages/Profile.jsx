@@ -8,9 +8,12 @@ import Marketplace from '../Marketplace.json'
 import axios from 'axios';
 import { db } from '../components/FirebaseConfig';
 import { onValue, ref } from "firebase/database";
+import copy from 'copy-to-clipboard';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const Profile = () => {
-
+   
     const [data, updateData] = useState([]);
     const [dataFetched, updateFetched] = useState(false);
     const [address, updateAddress] = useState("0x....");
@@ -20,37 +23,24 @@ export const Profile = () => {
     const [sum, updateSum] = useState("0");
     const [CountNFt, updateNftCount] = useState("0");
     const [NftSold, updateNftSoldCount] = useState();
-    const [boughtNFT, setBoughtNFT] = useState([]);
-    const [showCreated, setShowCreated] = useState(false);
+    const [profileInfo, setProfileInfo] = useState([]);
     const [showSold, setShowSold] = useState(false);
-    const [showBought, setShowBought] = useState(false);
 
-    function handleCreated() {
-        setShowSold(false);
-        setShowBought(false);
-        setShowCreated(true);
-    }
-    function handleSold() {
-        setShowCreated(false);
-        setShowBought(false);
-        setShowSold(true);
-    }
-    function handleBought() {
-        setShowCreated(false);
-        setShowSold(false);
-        setShowBought(true);
+    const copyAddress = (e) => {
+        copy(address);
+        toast("Address copying...");
     }
 
-    // useEffect(() => {
-    //     onValue(ref(db), (snapshot) => {
-    //         const details = snapshot.val();
-    //         if (details !== null) {
-    //             Object.values(details).map((profile) => {
-    //                 setProfileInfo((oldArray) => [...oldArray, profile]);
-    //             });
-    //         }
-    //     });
-    // }, []);
+    useEffect(() => {
+        onValue(ref(db), (snapshot) => {
+            const details = snapshot.val();
+            if (details !== null) {
+                Object.values(details).map((profile) => {
+                    setProfileInfo((oldArray) => [...oldArray, profile]);
+                });
+            }
+        });
+    }, []);
 
     async function getNFTData() {
         let sum1 = 0;
@@ -84,34 +74,7 @@ export const Profile = () => {
             return item;
         }))
         updateSum(sum1);
-        {
-            // items.map((value, index) => {
-            //     if (value[index].tokenId != "" ) {
-            //         updateData(items);
-            //     }
-            //     else {
-            //         setBoughtNFT(items)
-            //     }
-            // })
-            for(let i=0 ; i<items.length ; i++){
-                if(items[i].buyNFT == true) {
-                    updateData(items)
-                }
-                else{
-                    setBoughtNFT(items);
-                }
-            }
-        }
-
-        // updateData(items);
-        // {
-        //     data.map((value, index) => {
-        //         if (value.buyNFT == true) {
-        //             setBoughtNFT(value[index])
-        //         }
-
-        //     }, [])
-        // }
+        updateData(items);
         updateFetched(true);
         updateAddress(addr);
         updateNftCount(NFTcount);
@@ -189,7 +152,7 @@ export const Profile = () => {
                 <div className='flex justify-between w-full h-8 items-center gap-1'>
                     <div className='flex gap-1'>
                         <img src={AddressIcon} className='h-8 w-8' />
-                        <h1 className='text-white justify-start'>{address.substring(0, 6)}....{address.substring(11, 16)}</h1>
+                        <button onClick={copyAddress} className='bg-gray-900 rounded-xl p-2'><h1 className='text-white justify-start'>{address.substring(0, 6)}....{address.substring(11, 16)}</h1></button>
                     </div>
                     <div className=''>
                         <button className='bg-white hover:bg-gray-300 text-black text-lg h-12 w-40 rounded-xl font-bold mr-28' onClick={() => window.location.replace("/editProfile")}>Edit Profile</button>
@@ -201,37 +164,34 @@ export const Profile = () => {
                 </div>
                 <div className='grid border-2 border-gray-800  mr-28 rounded-xl p-4 h-[500px]'>
                     {
-                        data.length == 0 && SoldData == 0?
+                        data.length == 0 ?
                             <div className='flex flex-wrap justify-center text-2xl font-bold '>
-                                <h1>Oops!, NFT not yet created</h1>
+                                <h1>Oops!, NFT not yet created or owned</h1>
                             </div>
                             :
                             <div>
                                 {
                                     showSold ?
                                         <div className='flex justify-start '>
-                                            <button className='w-56 p-2' onClick={handleCreated}><a className='text-3xl font-bold '>Created</a></button>
-                                            <button className='bg-gray-600 w-56 p-2 border-none rounded-xl' onClick={handleSold}><a className='text-3xl font-bold'>Sold</a></button>
-                                            <button className='w-56 p-2' onClick={handleBought}><a className='text-3xl font-bold '>Bought</a></button>
+                                            <button className='w-56 p-2' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Owned</a></button>
+                                            <button className='bg-gray-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
                                         </div>
                                         :
-                                        showBought ?
-                                            <div className='flex justify-start '>
-                                                <button className='w-56 p-2' onClick={handleCreated}><a className='text-3xl font-bold '>Created</a></button>
-                                                <button className='w-56 p-2' onClick={handleSold}><a className='text-3xl font-bold'>Sold</a></button>
-                                                <button className='bg-gray-600 w-56 p-2 border-none rounded-xl' onClick={handleBought}><a className='text-3xl font-bold '>Bought</a></button>
-                                            </div>
-                                            :
-                                            <div className='flex justify-start '>
-                                                <button className='bg-gray-600 w-56 p-2 border-none rounded-xl' onClick={handleCreated}><a className='text-3xl font-bold '>Created</a></button>
-                                                <button className='w-56 p-2' onClick={handleSold}><a className='text-3xl font-bold'>Sold</a></button>
-                                                <button className='w-56 p-2' onClick={handleBought}><a className='text-3xl font-bold '>Bought</a></button>
-                                            </div>
+                                        <div className='flex justify-start '>
+                                            <button className='bg-gray-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Owned</a></button>
+                                            <button className='w-56 p-2' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
+                                        </div>
                                 }
 
                                 <div className='flex '>
                                     {
-                                        showSold ?
+                                        showSold == false ?
+                                            <div className='flex flex-wrap gap-6 b w-full h-full p-8'>
+                                                {data.map((value, index) => {
+                                                    return <Card data={value} key={index} />;
+                                                })}
+                                            </div>
+                                            :
                                             SoldData.length == 0 ?
                                                 <div className='flex flex-wrap justify-center  text-2xl font-bold w-full h-full'>
                                                     <h1>Oops!, NFT not yet sold</h1>
@@ -239,24 +199,6 @@ export const Profile = () => {
                                                 :
                                                 <div className='flex flex-wrap gap-6 w-full h-full p-8'>
                                                     {SoldData.map((value, index) => {
-                                                        return <Card data={value} key={index} />;
-                                                    })}
-                                                </div>
-                                            :
-                                            showBought ?
-                                                boughtNFT.length == 0 ?
-                                                    <div className='flex flex-wrap justify-center  text-2xl font-bold w-full h-full'>
-                                                        <h1>Oops!, NFT not yet sold</h1>
-                                                    </div>
-                                                    :
-                                                    <div className='flex flex-wrap gap-6 b w-full h-full p-8'>
-                                                        {boughtNFT.map((value, index) => {
-                                                            return <Card data={value} key={index} />;
-                                                        })}
-                                                    </div>
-                                                :
-                                                <div className='flex flex-wrap gap-6 b w-full h-full p-8'>
-                                                    {data.map((value, index) => {
                                                         return <Card data={value} key={index} />;
                                                     })}
                                                 </div>
@@ -268,6 +210,7 @@ export const Profile = () => {
                 </div>
                 <br />
             </div>
+            <ToastContainer />
         </div>
     )
 }
