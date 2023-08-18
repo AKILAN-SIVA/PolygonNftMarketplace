@@ -2,7 +2,7 @@ import React from "react";
 import { useState } from "react";
 import Navbar from "../pages/Navbar";
 import PreviewImage from "../assets/previewImage.png";
-import { uploadFileToIPFS,uploadJSONToIPFS } from "./Pinata";
+import { uploadFileToIPFS, uploadJSONToIPFS } from "./Pinata";
 import { ethers } from "ethers";
 import Marketplace from "../Marketplace.json"
 
@@ -15,79 +15,82 @@ export const Create = () => {
     photo: "",
   });
 
-  const [fileURL,setFileURL] = useState(null)
+  const [fileURL, setFileURL] = useState(null);
+  const [Msg, setMsg] = useState("");
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
-  
-    async function OnChangeFile(e) {
-      setForm({...form, [e.target.name]: e.target.value});
-      var file = e.target.files[0];
-      //check for file extension
-      try {
-          //upload the file to IPFS
-          const response = await uploadFileToIPFS(file);
-          if(response.success === true) {
-              console.log("Uploaded image to Pinata: ", response.pinataURL)
-              setFileURL(response.pinataURL);
-          }
+
+  async function OnChangeFile(e) {
+    setForm({ ...form, [e.target.name]: e.target.value });
+    var file = e.target.files[0];
+    //check for file extension
+    try {
+      //upload the file to IPFS
+      const response = await uploadFileToIPFS(file);
+      if (response.success === true) {
+        console.log("Uploaded image to Pinata: ", response.pinataURL)
+        setFileURL(response.pinataURL);
       }
-      catch(e) {
-          console.log("Error during file upload", e);
-      }
+    }
+    catch (e) {
+      console.log("Error during file upload", e);
+    }
   }
 
   //This function uploads the metadata to IPFS
   async function uploadMetadataToIPFS() {
-      const {title,collection,description} = form;
-      //Make sure that none of the fields are empty
-      if( !title|| !collection || !description || !fileURL)
-          return;
+    const { title, collection, description } = form;
+    //Make sure that none of the fields are empty
+    if (!title || !collection || !description || !fileURL)
+      return;
+    setMsg("Uploading NFT(takes 2-3 mins)...")
+    const nftJSON = {
+      title, collection, description, image: fileURL
+    }
 
-      const nftJSON = {
-          title, collection,description,  image: fileURL
+    try {
+      //upload the metadata JSON to IPFS
+      const response = await uploadJSONToIPFS(nftJSON);
+      if (response.success === true) {
+        console.log("Uploaded JSON to Pinata: ", response)
+        return response.pinataURL;
       }
-
-      try {
-          //upload the metadata JSON to IPFS
-          const response = await uploadJSONToIPFS(nftJSON);
-          if(response.success === true){
-              console.log("Uploaded JSON to Pinata: ", response)
-              return response.pinataURL;
-          }
-      }
-      catch(e) {
-          console.log("error uploading JSON metadata:", e)
-      }
+    }
+    catch (e) {
+      console.log("error uploading JSON metadata:", e)
+    }
   }
 
   async function listNFT(e) {
-      e.preventDefault();
+    e.preventDefault();
 
-      //Upload data to IPFS
-      try {
-          const metadataURL = await uploadMetadataToIPFS();
-          //After adding your Hardhat network to your metamask, this code will get providers and signers
-          const provider = new ethers.providers.Web3Provider(window.ethereum);
-          const signer = provider.getSigner();
+    //Upload data to IPFS
+    try {
+      const metadataURL = await uploadMetadataToIPFS();
+      //After adding your Hardhat network to your metamask, this code will get providers and signers
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
 
-          //Pull the deployed contract instance
-          let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
 
-          //massage the params to be sent to the create NFT request
-          // const price = ethers.utils.parseUnits(form.price,'ether');
+      //Pull the deployed contract instance
+      let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
 
-          //actually create the NFT
-          let transaction = await contract.CreateToken(metadataURL)
-          await transaction.wait()
+      //massage the params to be sent to the create NFT request
+      // const price = ethers.utils.parseUnits(form.price,'ether');
 
-          alert("Successfully listed your NFT!");
-          setForm({ title: '',collection: '', description: '',photo: ''});
-          window.location.replace("/profile")
-      }
-      catch(e) {
-          console.log( "Upload error"+e )
-      }
+      //actually create the NFT
+      let transaction = await contract.CreateToken(metadataURL)
+      await transaction.wait()
+
+      alert("Successfully listed your NFT!");
+      setMsg("");
+      setForm({ title: '', collection: '', description: '', photo: '' });
+      window.location.replace("/profile")
+    }
+    catch (e) {
+      console.log("Upload error" + e)
+    }
   }
 
   // console.log("Working", process.env);
@@ -103,7 +106,7 @@ export const Create = () => {
             Create NFT
           </p>
           <div className="flex gap-1 mt-4"><p className="text-red-800">*</p><p>Required fields</p></div>
-          
+
           <div className="grid gap-6 mt-8 font-bold">
             <div className="flex flex-col gap-2 ">
               <div className="flex gap-2 text-lg">
@@ -182,7 +185,8 @@ export const Create = () => {
                 value={form.photo}
               />
             </div>
-            <div className="mt-8 pb-8">
+            <div className="text-red-500 text-center text-lg">{Msg}</div>
+            <div className="pb-8">
               <button className="bg-white text-black h-12 w-full font-bold text-xl rounded-lg" onClick={listNFT}>
                 Create
               </button>

@@ -13,7 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 export const Profile = () => {
-   
+
     const [data, updateData] = useState([]);
     const [dataFetched, updateFetched] = useState(false);
     const [address, updateAddress] = useState("0x....");
@@ -30,6 +30,7 @@ export const Profile = () => {
         copy(address);
         toast("Address copying...");
     }
+
 
     useEffect(() => {
         onValue(ref(db), (snapshot) => {
