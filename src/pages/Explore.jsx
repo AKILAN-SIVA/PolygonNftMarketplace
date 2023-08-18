@@ -38,7 +38,7 @@ export const Explore = () => {
             let meta = await axios.get(tokenURI);
             meta = meta.data;
 
-            const price = ethers.utils.formatUnits(i.price.toString(),'ether');
+            const price = ethers.utils.formatUnits(i.price.toString(), 'ether');
             let item = {
                 price,
                 tokenId: i.tokenId.toNumber(),
@@ -66,12 +66,25 @@ export const Explore = () => {
                 <Navbar />
             </div>
             <div className='grid justify-start pt-20 ml-24 gap-8'>
-                <h1 className='text-4xl font-bold tracking-widest'>Top NFT's</h1>
-                <div className='flex flex-wrap gap-8'>
-                    {data.map((value, index) => {
-                        return <Card data={value} key={index} />
-                    })}
-                </div>
+                {
+                    data.length == 0 ?
+                        <>
+                            <div className='text-4xl font-bold justify-center'>
+                                <h1>No NFT listed...!</h1>
+                            </div>
+                        </>
+                        :
+                        <>
+                            <h1 className='text-4xl font-bold tracking-widest'>Top NFT's</h1>
+                            <div className='flex flex-wrap gap-8'>
+                                {data.map((value, index) => {
+                                    return <Card data={value} key={index} />
+                                })}
+                            </div>
+                        </>
+
+                }
+
 
             </div>
         </div>

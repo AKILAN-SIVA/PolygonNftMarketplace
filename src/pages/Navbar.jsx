@@ -19,7 +19,7 @@ function Navbar() {
   const [dataFetched, updateFetched] = useState(false);
   const [foundNft, setFoundNft] = useState([]);
 
-  useEffect(() => {ConnectWallet()})
+  useEffect(() => { ConnectWallet() })
   async function getNFTData() {
 
 
@@ -61,7 +61,7 @@ function Navbar() {
 
     updateData(items);
     updateFetched(true);
-    
+
 
   }
 
@@ -87,12 +87,24 @@ function Navbar() {
       alert("Enter Token id to search")
       return
     }
-    data.map((value, index) => {
-      if (value.tokenId == searchTokenId) {
-        navigate(`/searchNft/`, { state: value });
-        setShowModal(false);
-      }
-    })
+    if (data.length == 0) {
+      alert("there is no nft created in this token id")
+      console.log("there is no nft created in this token id")
+      setShowModal(false);
+    }
+    else {
+      data.map((value, index) => {
+        if (value.tokenId == searchTokenId) {
+          navigate(`/searchNft/`, { state: value });
+          setShowModal(false);
+        }
+        else {
+          alert("there is no nft created in this token id")
+          console.log("there is no nft created in this token id")
+          setShowModal(false);
+        }
+      })
+    }
 
   }
 

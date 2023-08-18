@@ -62,6 +62,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage {
     
     function ListNFT(uint256 price,uint256 id) public{
         idToListedToken[id].price = price;
+        idToListedToken[id].NFTbought = false;
     }
     
     function getAllNfts() public view returns(ListedToken[] memory){
