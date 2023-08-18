@@ -123,7 +123,7 @@ export const Profile = () => {
         // console.log(items);
 
     }
-    console.log(data);
+    // console.log(data);
     if (!dataFetched)
         getNFTData();
 
@@ -167,7 +167,7 @@ export const Profile = () => {
                 <div className='text-4xl font-bold p-2'>
                     <h1>Collections</h1>
                 </div>
-                <div className='grid border-2 border-gray-800  mr-28 rounded-xl p-4'>
+                <div className='grid border-2 border-gray-800  mr-28 rounded-xl p-4 h-[500px]'>
                     {
                         data.length == 0 ?
                             <div className='flex flex-wrap justify-center text-2xl font-bold '>
@@ -175,23 +175,38 @@ export const Profile = () => {
                             </div>
                             :
                             <div>
-                                <div className='flex justify-start '>
-                                    <button className='bg-gray-900 w-56 p-2' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Created</a></button>
-                                    <button className='bg-gray-800 w-56 p-2' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
-                                </div>
+                                {
+                                    showSold ?
+                                        <div className='flex justify-start '>
+                                            <button className='w-56 p-2' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Created</a></button>
+                                            <button className='bg-gray-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
+                                        </div>
+                                        :
+                                        <div className='flex justify-start '>
+                                            <button className='bg-gray-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Created</a></button>
+                                            <button className='w-56 p-2' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
+                                        </div>
+                                }
+
                                 <div className='flex '>
                                     {
                                         showSold == false ?
-                                            <div className='flex flex-wrap gap-6 bg-gray-900 w-full h-full p-8'>
+                                            <div className='flex flex-wrap gap-6 b w-full h-full p-8'>
                                                 {data.map((value, index) => {
                                                     return <Card data={value} key={index} />;
                                                 })}
-                                            </div> :
-                                            <div className='flex flex-wrap gap-6 bg-gray-800 w-full h-full p-8'>
-                                                {SoldData.map((value, index) => {
-                                                    return <Card data={value} key={index} />;
-                                                })}
                                             </div>
+                                            :
+                                            SoldData.length == 0 ?
+                                                <div className='flex flex-wrap justify-center  text-2xl font-bold w-full h-full'>
+                                                    <h1>Oops!, NFT not yet sold</h1>
+                                                </div>
+                                                :
+                                                <div className='flex flex-wrap gap-6 w-full h-full p-8'>
+                                                    {SoldData.map((value, index) => {
+                                                        return <Card data={value} key={index} />;
+                                                    })}
+                                                </div>
                                     }
                                 </div>
                             </div>
