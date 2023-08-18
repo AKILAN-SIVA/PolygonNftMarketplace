@@ -17,6 +17,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage {
         uint256 price;
         address payable owner;
         bool NFTsold;
+        bool NFTbought;
     }
 
     struct ItemsSold{
@@ -36,7 +37,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage {
     }
 
     function CreateToken(string memory tokenURI) public payable returns(uint256){
-        // require(price > 0,"price cant't be negative");
+
         TokenCount.increment();
         uint256 newTokenId = TokenCount.current();
         
@@ -54,6 +55,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage {
             id,
             0,
             payable (msg.sender),
+            false,
             false
         ); 
         }
@@ -105,21 +107,17 @@ contract PolygonNFTMarketplace is ERC721URIStorage {
         return myItems;
     }
 
-    // function getBalance(address user) private view returns(uint256){
-    //    uint256 bal = balanceOf(user);
-    //    return bal;
-    // }
-
     function executeSale(uint256 tokenId) public payable {
         uint256 price = idToListedToken[tokenId].price;
         require(msg.sender != idToListedToken[tokenId].owner,"you can't buy your own nft");
-        require(msg.value == price,"price does not same");
+        // require(msg.value == price,"price does not same");
         address payable seller = idToListedToken[tokenId].owner;
         
         _transfer(seller,msg.sender,tokenId);
         approve(seller,tokenId);
         idToListedToken[tokenId].owner = payable (msg.sender);
         idToListedToken[tokenId].NFTsold = true;
+        idToListedToken[tokenId].NFTbought = true;
         payable (seller).transfer(msg.value);
         SoldCount.increment();
         uint256 scount = SoldCount.current();
@@ -130,6 +128,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage {
             msg.sender,
             true
         );
+        idToListedToken[tokenId].price = 0;
     }
 
     function getMySoldNFTs() public view returns(ItemsSold[] memory){
