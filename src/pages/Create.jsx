@@ -21,6 +21,7 @@ export const Create = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
   
     async function OnChangeFile(e) {
+      setForm({...form, [e.target.name]: e.target.value});
       var file = e.target.files[0];
       //check for file extension
       try {

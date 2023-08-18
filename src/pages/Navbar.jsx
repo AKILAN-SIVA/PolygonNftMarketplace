@@ -19,6 +19,7 @@ function Navbar() {
   const [dataFetched, updateFetched] = useState(false);
   const [foundNft, setFoundNft] = useState([]);
 
+  useEffect(() => {ConnectWallet()})
   async function getNFTData() {
 
 
