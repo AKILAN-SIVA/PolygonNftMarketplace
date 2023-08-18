@@ -98,11 +98,6 @@ function Navbar() {
           navigate(`/searchNft/`, { state: value });
           setShowModal(false);
         }
-        else {
-          alert("there is no nft created in this token id")
-          console.log("there is no nft created in this token id")
-          setShowModal(false);
-        }
       })
     }
 

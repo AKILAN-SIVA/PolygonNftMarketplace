@@ -10,18 +10,6 @@ import { db } from '../components/FirebaseConfig';
 import { onValue, ref } from "firebase/database";
 
 export const Profile = () => {
-    // const [walletAddress, setWalletAddress] = useState('');
-    // useEffect(() => {
-    //     if (window.ethereum) {
-    //         window.ethereum.request({ method: "eth_requestAccounts" })
-    //             .then((accounts) => {
-    //                 console.log(accounts[0]);
-    //                 setWalletAddress(accounts[0]);
-    //             });
-    //     } else {
-    //         alert("Install Metamask Extension");
-    //     }
-    // })
 
     const [data, updateData] = useState([]);
     const [dataFetched, updateFetched] = useState(false);
@@ -32,20 +20,37 @@ export const Profile = () => {
     const [sum, updateSum] = useState("0");
     const [CountNFt, updateNftCount] = useState("0");
     const [NftSold, updateNftSoldCount] = useState();
-    const [profileInfo, setProfileInfo] = useState([]);
+    const [boughtNFT, setBoughtNFT] = useState([]);
+    const [showCreated, setShowCreated] = useState(false);
     const [showSold, setShowSold] = useState(false);
+    const [showBought, setShowBought] = useState(false);
 
+    function handleCreated() {
+        setShowSold(false);
+        setShowBought(false);
+        setShowCreated(true);
+    }
+    function handleSold() {
+        setShowCreated(false);
+        setShowBought(false);
+        setShowSold(true);
+    }
+    function handleBought() {
+        setShowCreated(false);
+        setShowSold(false);
+        setShowBought(true);
+    }
 
-    useEffect(() => {
-        onValue(ref(db), (snapshot) => {
-            const details = snapshot.val();
-            if (details !== null) {
-                Object.values(details).map((profile) => {
-                    setProfileInfo((oldArray) => [...oldArray, profile]);
-                });
-            }
-        });
-    }, []);
+    // useEffect(() => {
+    //     onValue(ref(db), (snapshot) => {
+    //         const details = snapshot.val();
+    //         if (details !== null) {
+    //             Object.values(details).map((profile) => {
+    //                 setProfileInfo((oldArray) => [...oldArray, profile]);
+    //             });
+    //         }
+    //     });
+    // }, []);
 
     async function getNFTData() {
         let sum1 = 0;
@@ -79,7 +84,34 @@ export const Profile = () => {
             return item;
         }))
         updateSum(sum1);
-        updateData(items);
+        {
+            // items.map((value, index) => {
+            //     if (value[index].tokenId != "" ) {
+            //         updateData(items);
+            //     }
+            //     else {
+            //         setBoughtNFT(items)
+            //     }
+            // })
+            for(let i=0 ; i<items.length ; i++){
+                if(items[i].buyNFT == true) {
+                    updateData(items)
+                }
+                else{
+                    setBoughtNFT(items);
+                }
+            }
+        }
+
+        // updateData(items);
+        // {
+        //     data.map((value, index) => {
+        //         if (value.buyNFT == true) {
+        //             setBoughtNFT(value[index])
+        //         }
+
+        //     }, [])
+        // }
         updateFetched(true);
         updateAddress(addr);
         updateNftCount(NFTcount);
@@ -169,7 +201,7 @@ export const Profile = () => {
                 </div>
                 <div className='grid border-2 border-gray-800  mr-28 rounded-xl p-4 h-[500px]'>
                     {
-                        data.length == 0 ?
+                        data.length == 0 && SoldData == 0?
                             <div className='flex flex-wrap justify-center text-2xl font-bold '>
                                 <h1>Oops!, NFT not yet created</h1>
                             </div>
@@ -178,25 +210,28 @@ export const Profile = () => {
                                 {
                                     showSold ?
                                         <div className='flex justify-start '>
-                                            <button className='w-56 p-2' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Created</a></button>
-                                            <button className='bg-gray-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
+                                            <button className='w-56 p-2' onClick={handleCreated}><a className='text-3xl font-bold '>Created</a></button>
+                                            <button className='bg-gray-600 w-56 p-2 border-none rounded-xl' onClick={handleSold}><a className='text-3xl font-bold'>Sold</a></button>
+                                            <button className='w-56 p-2' onClick={handleBought}><a className='text-3xl font-bold '>Bought</a></button>
                                         </div>
                                         :
-                                        <div className='flex justify-start '>
-                                            <button className='bg-gray-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Created</a></button>
-                                            <button className='w-56 p-2' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
-                                        </div>
+                                        showBought ?
+                                            <div className='flex justify-start '>
+                                                <button className='w-56 p-2' onClick={handleCreated}><a className='text-3xl font-bold '>Created</a></button>
+                                                <button className='w-56 p-2' onClick={handleSold}><a className='text-3xl font-bold'>Sold</a></button>
+                                                <button className='bg-gray-600 w-56 p-2 border-none rounded-xl' onClick={handleBought}><a className='text-3xl font-bold '>Bought</a></button>
+                                            </div>
+                                            :
+                                            <div className='flex justify-start '>
+                                                <button className='bg-gray-600 w-56 p-2 border-none rounded-xl' onClick={handleCreated}><a className='text-3xl font-bold '>Created</a></button>
+                                                <button className='w-56 p-2' onClick={handleSold}><a className='text-3xl font-bold'>Sold</a></button>
+                                                <button className='w-56 p-2' onClick={handleBought}><a className='text-3xl font-bold '>Bought</a></button>
+                                            </div>
                                 }
 
                                 <div className='flex '>
                                     {
-                                        showSold == false ?
-                                            <div className='flex flex-wrap gap-6 b w-full h-full p-8'>
-                                                {data.map((value, index) => {
-                                                    return <Card data={value} key={index} />;
-                                                })}
-                                            </div>
-                                            :
+                                        showSold ?
                                             SoldData.length == 0 ?
                                                 <div className='flex flex-wrap justify-center  text-2xl font-bold w-full h-full'>
                                                     <h1>Oops!, NFT not yet sold</h1>
@@ -204,6 +239,24 @@ export const Profile = () => {
                                                 :
                                                 <div className='flex flex-wrap gap-6 w-full h-full p-8'>
                                                     {SoldData.map((value, index) => {
+                                                        return <Card data={value} key={index} />;
+                                                    })}
+                                                </div>
+                                            :
+                                            showBought ?
+                                                boughtNFT.length == 0 ?
+                                                    <div className='flex flex-wrap justify-center  text-2xl font-bold w-full h-full'>
+                                                        <h1>Oops!, NFT not yet sold</h1>
+                                                    </div>
+                                                    :
+                                                    <div className='flex flex-wrap gap-6 b w-full h-full p-8'>
+                                                        {boughtNFT.map((value, index) => {
+                                                            return <Card data={value} key={index} />;
+                                                        })}
+                                                    </div>
+                                                :
+                                                <div className='flex flex-wrap gap-6 b w-full h-full p-8'>
+                                                    {data.map((value, index) => {
                                                         return <Card data={value} key={index} />;
                                                     })}
                                                 </div>
