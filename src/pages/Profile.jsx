@@ -68,6 +68,7 @@ export const Profile = () => {
                 price,
                 tokenId: i.tokenId.toNumber(),
                 owner: i.owner,
+                buyNFT: i.NFTbought,
                 photo: meta.image,
                 title: meta.title,
                 description: meta.description,
@@ -122,7 +123,7 @@ export const Profile = () => {
         // console.log(items);
 
     }
-
+    console.log(data);
     if (!dataFetched)
         getNFTData();
 
