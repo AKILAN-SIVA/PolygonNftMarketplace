@@ -5,6 +5,7 @@ import PreviewImage from "../assets/previewImage.png";
 import { uploadFileToIPFS, uploadJSONToIPFS } from "./Pinata";
 import { ethers } from "ethers";
 import Marketplace from "../Marketplace.json"
+import { Configuration, OpenAIApi } from "openai";
 
 export const Create = () => {
   const [form, setForm] = useState({
@@ -17,9 +18,29 @@ export const Create = () => {
 
   const [fileURL, setFileURL] = useState(null);
   const [Msg, setMsg] = useState("");
+  const [imgUrl, setImgUrl] = useState("");
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
+
+
+  const configuration = new Configuration({
+    apiKey: import.meta.env.VITE_Open_AI_Key,
+  });
+
+  const openai = new OpenAIApi(configuration);
+
+
+  const generateImage = async () => {
+    const res = await openai.createImage({
+      prompt: form.description,
+      n: 1,
+      size: "256x256",
+    });
+
+    setImgUrl(res.data.data[0].url);
+    
+  };
 
   async function OnChangeFile(e) {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -96,7 +117,7 @@ export const Create = () => {
   // console.log("Working", process.env);
 
   return (
-    <div className="bg-black text-white min-h-screen h-fit justify-center">
+    <div className="bg-black text-white min-h-screen justify-center">
       <div className="pt-12">
         <Navbar />
       </div>
@@ -168,16 +189,6 @@ export const Create = () => {
               <div className="flex gap-2 text-lg">
                 <p>Image</p><p className="text-red-800" >*</p>
               </div>
-              {/* {
-              form.photo ?
-                (<div>
-                  <img src={form.photo} alt="Image" className="h-full w-full rounded-2xl object-contain" />
-                </div>)
-                :
-                (<div>
-                  <img src={PreviewImage} alt="previewImage" className="h-56 w-full rounded-2xl shadow-md" />
-                </div>)
-            } */}
               <input
                 type="file"
                 name="photo"
@@ -192,7 +203,18 @@ export const Create = () => {
               </button>
             </div>
           </div>
+          <button className="bg-white text-black h-12 w-full font-bold text-xl rounded-lg" onClick={generateImage}>
+            generate image
+          </button>
+          {
+            imgUrl != "" ?
+            <img src={imgUrl} alt="generated" className="pt-12 w-[300px] h-[300px]" />
+            :
+            <></>
+          }
+          
         </div>
+
       </div>
     </div>
   );

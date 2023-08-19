@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import Search from "../assets/search.png";
 import { IoIosCreate } from "react-icons/io";
 import { MdOutlineTravelExplore } from "react-icons/md";
 import { ImProfile } from "react-icons/im";
+import { RiAuctionFill, RiSearchEyeLine } from "react-icons/ri"
 import { ethers } from 'ethers';
 import Marketplace from '../Marketplace.json'
 import axios from 'axios';
@@ -132,10 +132,16 @@ function Navbar() {
                   <h1 className="text-lg">Profile</h1>
                 </div>
               </Link>
+              <Link to="/bidNft" >
+                <div className="flex items-center gap-2">
+                  <RiAuctionFill size={23} />
+                  <h1 className="text-lg">Bid</h1>
+                </div>
+              </Link>
             </div>
             <div className="flex justify-end py-2 gap-6">
               <button className="" onClick={() => setShowModal(true)}>
-                <img src={Search} alt="SearchIcon" className="h-7 w-7" />
+                <RiSearchEyeLine size={33} />
               </button>
               {showModal ? (
                 <>
