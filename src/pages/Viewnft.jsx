@@ -13,6 +13,8 @@ export const Viewnft = () => {
   const { state } = useLocation();
   const [listPrice, setListPrice] = useState("");
   const [showModal, setShowModal] = useState(false);
+  const [BidPrice,setBidPrice] = useState("");
+  const [durationInSeconds,setDurationInSeconds] = useState('');
 
   useEffect(() => {
     if (window.ethereum) {
@@ -67,6 +69,19 @@ export const Viewnft = () => {
     } catch (e) {
       console.log("NFT buy error : " + e);
     }
+  }
+
+  const CreateBidding = async() =>{
+      try{
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
+        let price = ethers.utils.parseUnits(BidPrice,'ether');
+        let transaction = await contract.createAuctionListing(price,state.data.tokenId,durationInSeconds);
+        await transaction.wait();
+      }catch(e){
+        console.log("Error in creating Bid "+e);
+      }
   }
 
   return (
