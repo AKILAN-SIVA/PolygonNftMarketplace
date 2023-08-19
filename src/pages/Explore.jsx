@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Navbar from "../pages/Navbar"
 import Card from '../components/Card'
 import { ethers } from 'ethers';
@@ -11,6 +11,8 @@ export const Explore = () => {
     const [data, updateData] = useState([]);
     const [dataFetched, updateFetched] = useState(false);
     const [address, updateAddress] = useState("0x");
+    const [filData, setFilData] = useState("");
+
 
     async function getNFTData() {
 
@@ -60,12 +62,16 @@ export const Explore = () => {
 
     if (!dataFetched)
         getNFTData();
+
     return (
         <div className='bg-black min-h-screen h-fit w-full text-white'>
             <div className='pt-12'>
                 <Navbar />
             </div>
-            <div className='grid justify-start pt-20 ml-24 gap-8'>
+            <div className='flex justify-center items-start w-full pt-8'>
+                <input className='bg-transparent border-2 border-gray-400 rounded-xl w-[600px] h-16 px-6 tracking-widest' onChange={(e) => setFilData(e.target.value)} type='text' placeholder='Filter the NFTs...' value={filData} />
+            </div>
+            <div className='grid justify-start pt-12 ml-24 gap-8'>
                 {
                     data.length == 0 ?
                         <>
@@ -75,17 +81,41 @@ export const Explore = () => {
                         </>
                         :
                         <>
-                            <h1 className='text-4xl font-bold tracking-widest'>Top NFT's</h1>
-                            <div className='flex flex-wrap gap-8'>
-                                {data.map((value, index) => {
-                                    return <Card data={value} key={index} />
-                                })}
-                            </div>
+                            {
+                                filData.length != "" ?
+                                    <>
+                                        <h1 className='text-4xl font-bold tracking-widest'>Result for {filData}</h1>
+                                        <div className='flex flex-wrap gap-8'>
+                                            {data.map((value, index) => {
+                                                if ((value.title).toLowerCase() == filData.toLowerCase()) {
+                                                    return <Card data={value} key={index} />
+                                                }
+                                                else if((value.collection).toLowerCase() == filData.toLowerCase()) {
+                                                    return <Card data={value} key={index} />
+                                                }
+                                                else if((value.description).toLowerCase() == filData.toLowerCase()) {
+                                                    return <Card data={value} key={index} />
+                                                }
+                                                else if(value.price == filData) {
+                                                    return <Card data={value} key={index} />
+                                                }
+                                            })}
+                                        </div>
+
+                                    </>
+                                    :
+                                    <>
+                                        <h1 className='text-4xl font-bold tracking-widest'>Top NFT's</h1>
+                                        <div className='flex flex-wrap gap-8'>
+                                            {data.map((value, index) => {
+                                                return <Card data={value} key={index} />
+                                            })}
+                                        </div>
+                                    </>
+                            }
                         </>
 
                 }
-
-
             </div>
         </div>
     )
