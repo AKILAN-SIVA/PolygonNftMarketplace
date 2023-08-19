@@ -163,7 +163,7 @@ export const Profile = () => {
                 <div className='text-4xl font-bold p-2'>
                     <h1>Collections</h1>
                 </div>
-                <div className='grid border-2 border-gray-800  mr-28 rounded-xl p-4 h-[500px]'>
+                <div className='grid border-0 border-gray-800  mr-28 rounded-xl p-4 h-[500px]'>
                     {
                         data.length == 0 ?
                             <div className='flex flex-wrap justify-center text-2xl font-bold '>
@@ -187,7 +187,7 @@ export const Profile = () => {
                                 <div className='flex '>
                                     {
                                         showSold == false ?
-                                            <div className='flex flex-wrap gap-6 b w-full h-full p-8'>
+                                            <div className='flex flex-wrap gap-6 b w-full h-full py-8'>
                                                 {data.map((value, index) => {
                                                     return <Card data={value} key={index} />;
                                                 })}

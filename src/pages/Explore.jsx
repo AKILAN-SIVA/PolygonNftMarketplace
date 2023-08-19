@@ -12,7 +12,11 @@ export const Explore = () => {
     const [dataFetched, updateFetched] = useState(false);
     const [address, updateAddress] = useState("0x");
     const [filData, setFilData] = useState("");
-
+    const [title, setTitle] = useState(false);
+    const [collection, setCollection] = useState(false);
+    const [description, setDescription] = useState(false);
+    const [price, setPrice] = useState(false);
+    const [tokenid, setTokenId] = useState(false);
 
     async function getNFTData() {
 
@@ -84,7 +88,7 @@ export const Explore = () => {
                             {
                                 filData.length != "" ?
                                     <>
-                                        <h1 className='text-4xl font-bold tracking-widest'>Result for {filData}</h1>
+                                        <h1 className='text-4xl font-bold tracking-widest'>Result for {filData} </h1>
                                         <div className='flex flex-wrap gap-8'>
                                             {data.map((value, index) => {
                                                 if ((value.title).toLowerCase() == filData.toLowerCase()) {
@@ -97,6 +101,9 @@ export const Explore = () => {
                                                     return <Card data={value} key={index} />
                                                 }
                                                 else if(value.price == filData) {
+                                                    return <Card data={value} key={index} />
+                                                }
+                                                else if(value.tokenId == filData) {
                                                     return <Card data={value} key={index} />
                                                 }
                                             })}

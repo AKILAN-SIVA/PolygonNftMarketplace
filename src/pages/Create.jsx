@@ -96,7 +96,7 @@ export const Create = () => {
   // console.log("Working", process.env);
 
   return (
-    <div className="bg-black text-white min-h-screen justify-center">
+    <div className="bg-black text-white min-h-screen h-fit justify-center">
       <div className="pt-12">
         <Navbar />
       </div>
