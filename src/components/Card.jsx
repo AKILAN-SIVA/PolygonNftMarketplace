@@ -12,28 +12,6 @@ function Card(data) {
     navigate(`/viewNft/`, { state: data });
   }
 
-  const BuyNFT = async () => {
-
-    try {
-      const provider = new ethers.providers.Web3Provider(window.ethereum);
-      const signer = provider.getSigner();
-
-      //Pull the deployed contract instance
-      let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
-
-      let salePrice = ethers.utils.parseUnits(data.data.price, 'ether');
-      let tokenId = data.data.tokenId;
-      let transaction = await contract.executeSale(tokenId, { value: salePrice });
-
-      await transaction.wait();
-    } catch (e) {
-      console.log("NFT buy error : " + e);
-    }
-
-
-
-  }
-
   return (
     <div className='bg-[#171717] border-2 border-gray-600 rounded-lg h-100 w-64 hover:cursor-pointer scale-100 hover:scale-110' onClick={viewNft}>
       <div className='grid items-start gap-2 p-4'>

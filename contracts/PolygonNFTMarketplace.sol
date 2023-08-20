@@ -14,6 +14,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
     Counters.Counter public TokenCount;
     Counters.Counter public SoldCount;
     Counters.Counter public BuyCount;
+    Counters.Counter public listingCounter;
 
     struct ListedToken{
         uint256 tokenId;
@@ -35,14 +36,13 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
 
     mapping(uint256 => ItemsSold) public idToSoldItems;
 
-     uint256 public listingCounter;
-
     uint8 public constant STATUS_OPEN = 1;
     uint8 public constant STATUS_DONE = 2;
 
     uint256 public minAuctionIncrement = 10; // 10 percent
 
     struct Listing {
+        uint256 biddingId;
         address seller;
         uint256 tokenId;
         uint256 price; // display price
@@ -185,13 +185,14 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
     }
 
     function createAuctionListing (uint256 price, uint256 tokenId, uint256 durationInSeconds) public returns (uint256) {
-        listingCounter++;
-        uint256 listingId = listingCounter;
+        listingCounter.increment();
+        uint256 listingId = listingCounter.current() ;
 
         uint256 startAt = block.timestamp;
         uint256 endAt = startAt + durationInSeconds;
 
         listings[listingId] = Listing({
+            biddingId: listingId,
             seller: msg.sender,
             tokenId: tokenId,
             price: price,
@@ -284,6 +285,26 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
 
         (bool transferSent, ) = to.call{value: amount}("");
         require(transferSent, "Error, failed to send Ether");
+    }
+
+    function getAllBiddedNfts() public view returns(Listing[] memory){
+        uint256 totalItemCount = listingCounter.current();
+        uint256 listCount=0;
+        uint256 count=0;
+        for(uint256 i=0;i<totalItemCount;i+=1){ 
+            if(listings[i+1].price != 0){
+                listCount+=1;
+            }
+        }
+        Listing [] memory items = new Listing[] (listCount);
+        for(uint256 i=0;i<totalItemCount;i+=1){
+            Listing storage currentItem = listings[i+1] ; 
+            if(listings[i+1].price != 0){
+                items[count] = currentItem ;
+                count+=1;
+            }
+        }
+        return items;
     }
 
 }
