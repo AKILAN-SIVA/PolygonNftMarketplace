@@ -123,8 +123,8 @@ export const Create = () => {
             </div>
 
             <div className="flex flex-col gap-2 ">
-              <div className="text-lg">
-                <p>Collection</p>
+              <div className="flex gap-2 text-lg">
+                <p>Collection</p><p className="text-red-800">*</p>
               </div>
               <input
                 className="flex flex-col rounded-xl bg-transparent border-gray-400 border-2 h-12 w-[650px] p-4"
