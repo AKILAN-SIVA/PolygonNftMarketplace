@@ -17,6 +17,46 @@ export const ViewnftBidding = () => {
   const [BidPrice, setBidPrice] = useState("");
   const [durationInSeconds, setDurationInSeconds] = useState("");
 
+  const PlaceBid = async () =>{
+      try{
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        let contract = new ethers.Contract(Marketplace.address,Marketplace.abi,signer);
+        let price = ethers.utils.parseUnits(BidPrice,"ether");
+        let transaction = await contract.bid(state.data.biddingId,{value: price});
+        await transaction.wait();
+
+      }catch(e){
+        console.log("Cannot place bid "+e);
+      }
+  }
+
+  const CompleteBidding = async () =>{
+    try{
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      let contract = new ethers.Contract(Marketplace.address,Marketplace.abi,signer);
+      let transaction = await contract.completeAuction(state.data.biddingId);
+      await transaction.wait();
+
+    }catch(e){
+      console.log("Cannot complete bid "+e);
+    }
+}
+
+const WithdrawMyBid = async () =>{
+  try{
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    let contract = new ethers.Contract(Marketplace.address,Marketplace.abi,signer);
+    let transaction = await contract.withdrawBid(state.data.biddingId);
+    await transaction.wait();
+
+  }catch(e){
+    console.log("Withdraw my bid "+e);
+  }
+}
+
   useEffect(() => {
     if (window.ethereum) {
       window.ethereum
@@ -76,8 +116,23 @@ export const ViewnftBidding = () => {
             )}
             <span className="text-3xl font-bold">Price: {state.data.price}</span>
             <span className="text-3xl font-bold">Status: {state.data.status}(Open)</span>
+            <span className="text-3xl font-bold">Listingid: {state.data.biddingId}</span>
             {/* <span className="text-3xl font-bold">{state.data.startAt}</span> */}
             {/* <span className="text-3xl font-bold">{state.data.endAt}</span> */}
+            <div className="flex flex-col gap-2 ">
+              <div className="flex gap-2 text-lg">
+                <p>Bid Price</p><p className="text-red-800">*</p>
+              </div>
+              <input
+                className="flex flex-col rounded-xl bg-transparent border-gray-400 border-2 h-12 w-[650px] p-4"
+                type="text"
+                name="collection" onChange={(e)=> setBidPrice(e.target.value)}
+                placeholder="Make Bid . . ." value={BidPrice}
+              ></input>
+              <button className="pt-2 bg-gray-600 inline-block p-2" onClick={PlaceBid}>Place Bid</button>
+              <button className="pt-2 bg-gray-600 inline-block p-2" onClick={CompleteBidding}>Complete Action</button>
+              <button className="pt-2 bg-gray-600 inline-block p-2" onClick={WithdrawMyBid}>Withdraw my bid</button>
+            </div>
           </div>
         </div>
         <div className="pb-16">

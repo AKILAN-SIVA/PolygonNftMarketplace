@@ -27,12 +27,12 @@ export const Bid = () => {
         const price = ethers.utils.formatUnits(i.price.toString(), 'ether');
         let startAt = new Date(i.startAt)
         let item = {
-            biddingId: i.biddingId,
+            biddingId: i.biddingId.toNumber(),
             owner: i.seller,
             netPrice: price,
             status: i.status,
             startAt: startAt,
-            endAt: i.endAt.toNumber(),
+            endAt: i.endAt,
             price,
             tokenId: i.tokenId.toNumber(),
             photo: meta.image,
@@ -54,7 +54,8 @@ export const Bid = () => {
 
   if (!dataFetched)
     getNFTData();
-
+  
+  console.log(data);
   console.log(data);
   return (
     <div className='bg-black min-h-screen h-fit w-full text-white'>
