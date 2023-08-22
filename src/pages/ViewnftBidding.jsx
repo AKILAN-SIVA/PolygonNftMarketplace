@@ -69,7 +69,7 @@ export const ViewnftBidding = () => {
         const signer = provider.getSigner();
         let contract = new ethers.Contract(Marketplace.address,Marketplace.abi,signer);
         let price = ethers.utils.parseUnits(BidPrice,"ether");
-        let transaction = await contract.bid(state.data.biddingId,price);
+        let transaction = await contract.bid(state.data.biddingId,{value: price});
         await transaction.wait();
 
       }catch(e){

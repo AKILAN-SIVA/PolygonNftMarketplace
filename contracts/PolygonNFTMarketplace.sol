@@ -213,9 +213,9 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
         return listingId;
     }
 
-    function bid(uint256 listingId,uint256 bidPrice) public payable nonReentrant {
+    function bid(uint256 listingId) public payable nonReentrant {
         require(isAuctionOpen(listingId), "auction has ended");
-        require(bidPrice > listings[listingId].price, "Value is smaller than bid value");
+        require(msg.value > listings[listingId].price, "Value is smaller than bid value");
         require(msg.sender != listings[listingId].seller,"you can't bid your own nft");
         biddingCounter.increment();
         uint256 newbiddingCount = biddingCounter.current();
@@ -223,13 +223,13 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
             listings[listingId].tokenId,
             listingId,
             payable (msg.sender),
-            bidPrice
+            msg.value
             );
         
-        if(bidPrice > highestBidding){
-            highestBidding = bidPrice;
+        if(msg.value > highestBidding){
+            highestBidding = msg.value;
             highestBidder[listingId] = msg.sender;
-            highestBiddingAmount[listingId] = bidPrice;
+            highestBiddingAmount[listingId] = msg.value;
         }
     }
 
@@ -271,7 +271,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
         uint256 tokenId = listing.tokenId;
         address payable seller = listing.seller;
         _transfer(seller,winner,listing.tokenId);
-        approve(seller,listing.tokenId);
+        // approve(seller,listing.tokenId);
         payable (seller).transfer(amount);
         
         listing.seller = payable (winner);
