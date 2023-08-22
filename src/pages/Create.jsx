@@ -38,6 +38,9 @@ export const Create = () => {
   const configuration = new Configuration({
     apiKey: import.meta.env.VITE_Open_AI_Key,
   });
+  // configuration.baseOptions.headers = {
+  //   Authorization: "Bearer " + import.meta.env.VITE_Open_AI_Key,
+  // };
 
   const openai = new OpenAIApi(configuration);
 
@@ -57,9 +60,22 @@ export const Create = () => {
 
   };
 
+
   async function OnChangeFile(e) {
-    setForm({ ...form, [e.target.name]: e.target.value });
-    var file = e.target.files[0];
+    if (imgUrl == "") {
+      setForm({ ...form, [e.target.name]: e.target.value });
+      var file = e.target.files[0];
+    }
+    else {
+      fetch(imgUrl)
+        .then(res => res.blob())
+        .then(blob => {
+
+          var file = new File([blob], form.description , { type: blob.type })
+
+          console.log(file);
+        })
+    }
     //check for file extension
     try {
       //upload the file to IPFS
