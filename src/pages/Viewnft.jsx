@@ -35,6 +35,18 @@ export const Viewnft = () => {
     toast("Token id copying...");
   }
 
+  const daysLeft = (deadline) => {
+    const difference = new Date(deadline).getTime() - Date.now();
+    var remainingDays = 0;
+    if (difference < 0) {
+      remainingDays = 0;
+      return "Expired"
+    } else {
+      remainingDays = difference / (1000 * 3600 * 24);
+      return remainingDays.toFixed(0);
+    }
+    
+  };
   const ListMyNFT = async () => {
     if (listPrice == "") {
       alert("enter the price")
@@ -78,6 +90,8 @@ export const Viewnft = () => {
       const signer = provider.getSigner();
       let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
       let price = ethers.utils.parseUnits(BidPrice, 'ether');
+      // let deadline = daysLeft(durationInSeconds);
+      // console.log(deadline);
       let transaction = await contract.createAuctionListing(price, state.data.tokenId, durationInSeconds);
       await transaction.wait();
     } catch (e) {
@@ -198,8 +212,9 @@ export const Viewnft = () => {
                             <input type="number" onChange={(e) => setBidPrice(e.target.value)} className="bg-transparent w-[600px] h-12 text-black rounded-lg border-2 border-black p-4" placeholder="Enter price for sale" value={BidPrice} />
                           </div>
                           <div className="relative p-6 flex-auto">
-                            <input type="number" onChange={(e) => setDurationInSeconds(e.target.value)} className="bg-transparent w-[600px] h-12 text-black rounded-lg border-2 border-black p-4" placeholder="Enter duration for sale" value={durationInSeconds} />
+                            <input type="number" onChange={(e) => setDurationInSeconds(e.target.value)} className="bg-transparent w-[600px] h-12 text-black rounded-lg border-2 border-black p-4" placeholder="Enter duration for sale in secondes" value={durationInSeconds} />
                           </div>
+                          
                           {/*footer*/}
                           <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                             <button

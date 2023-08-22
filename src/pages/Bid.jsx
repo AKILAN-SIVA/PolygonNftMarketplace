@@ -12,6 +12,19 @@ export const Bid = () => {
   const [data, updateData] = useState([]);
     const [dataFetched, updateFetched] = useState(false);
 
+    const daysLeft = (deadline) => {
+      const difference = new Date(deadline).getTime() - Date.now();
+      var remainingDays = 0;
+      if (difference < 0) {
+        remainingDays = 0;
+        return "Expired"
+      } else {
+        remainingDays = difference / (1000 * 3600 * 24);
+        return remainingDays.toFixed(0);
+      }
+      
+    };
+
   const getNFTData = async() => {
     try{
       const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -25,14 +38,14 @@ export const Bid = () => {
         meta = meta.data;
 
         const price = ethers.utils.formatUnits(i.price.toString(), 'ether');
-        let startAt = new Date(i.startAt)
+        // const deadline = daysLeft(i.deadline);
+        
         let item = {
             biddingId: i.biddingId.toNumber(),
             owner: i.seller,
             netPrice: price,
             status: i.status,
-            startAt: startAt,
-            endAt: i.endAt,
+            endAt: i.deadline.toNumber(),
             price,
             tokenId: i.tokenId.toNumber(),
             photo: meta.image,

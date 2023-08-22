@@ -7,15 +7,61 @@ import AddressIcon from "../assets/addressIcon.png";
 import copy from "copy-to-clipboard";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import axios from 'axios';
 
 export const ViewnftBidding = () => {
   const [walletAddress, setWalletAddress] = useState("");
   const { state } = useLocation();
-  const [listPrice, setListPrice] = useState("");
-  const [showModal, setShowModal] = useState(false);
-  const [showBidModal, setShowBidModal] = useState(false);
   const [BidPrice, setBidPrice] = useState("");
-  const [durationInSeconds, setDurationInSeconds] = useState("");
+
+    const [data, updateData] = useState([]);
+    const [dataFetched, updateFetched] = useState(false);
+    const [address, updateAddress] = useState("0x");
+    const [filData, setFilData] = useState("");
+
+    async function getNFTData() {
+
+
+        //After adding your Hardhat network to your metamask, this code will get providers and signers
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+        const signer = provider.getSigner();
+        const addr = await signer.getAddress();
+
+        //Pull the deployed contract instance
+        let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
+
+        //create an NFT Token
+        let transaction = await contract.getAllBiddingWithListingID();
+        const items = await Promise.all(transaction.map(async i => {
+            const tokenURI = await contract.tokenURI(i.tokenId);
+            let meta = await axios.get(tokenURI);
+            meta = meta.data;
+
+            const price = ethers.utils.formatUnits(i.price.toString(), 'ether');
+            let item = {
+                price,
+                biddingId: i.biddingId.toNumber(),
+                tokenId: i.tokenId.toNumber(),
+                bidder: i.bidder,
+                photo: meta.image,
+                title: meta.title,
+                description: meta.description,
+                collection: meta.collection,
+            }
+
+            return item;
+        }))
+
+        updateData(items);
+        updateFetched(true);
+        updateAddress(addr);
+
+    }
+
+    if (!dataFetched)
+        getNFTData();
+    console.log(data);
+
 
   const PlaceBid = async () =>{
       try{
@@ -23,7 +69,7 @@ export const ViewnftBidding = () => {
         const signer = provider.getSigner();
         let contract = new ethers.Contract(Marketplace.address,Marketplace.abi,signer);
         let price = ethers.utils.parseUnits(BidPrice,"ether");
-        let transaction = await contract.bid(state.data.biddingId,{value: price});
+        let transaction = await contract.bid(state.data.biddingId,price);
         await transaction.wait();
 
       }catch(e){
@@ -44,18 +90,18 @@ export const ViewnftBidding = () => {
     }
 }
 
-const WithdrawMyBid = async () =>{
-  try{
-    const provider = new ethers.providers.Web3Provider(window.ethereum);
-    const signer = provider.getSigner();
-    let contract = new ethers.Contract(Marketplace.address,Marketplace.abi,signer);
-    let transaction = await contract.withdrawBid(state.data.biddingId);
-    await transaction.wait();
+// const WithdrawMyBid = async () =>{
+//   try{
+//     const provider = new ethers.providers.Web3Provider(window.ethereum);
+//     const signer = provider.getSigner();
+//     let contract = new ethers.Contract(Marketplace.address,Marketplace.abi,signer);
+//     let transaction = await contract.withdrawBid(state.data.biddingId);
+//     await transaction.wait();
 
-  }catch(e){
-    console.log("Withdraw my bid "+e);
-  }
-}
+//   }catch(e){
+//     console.log("Withdraw my bid "+e);
+//   }
+// }
 
   useEffect(() => {
     if (window.ethereum) {
@@ -131,7 +177,7 @@ const WithdrawMyBid = async () =>{
               ></input>
               <button className="pt-2 bg-gray-600 inline-block p-2" onClick={PlaceBid}>Place Bid</button>
               <button className="pt-2 bg-gray-600 inline-block p-2" onClick={CompleteBidding}>Complete Action</button>
-              <button className="pt-2 bg-gray-600 inline-block p-2" onClick={WithdrawMyBid}>Withdraw my bid</button>
+              {/* <button className="pt-2 bg-gray-600 inline-block p-2" onClick={WithdrawMyBid}>Withdraw my bid</button> */}
             </div>
           </div>
         </div>

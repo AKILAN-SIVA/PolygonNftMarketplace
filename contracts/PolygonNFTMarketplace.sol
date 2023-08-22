@@ -15,6 +15,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
     Counters.Counter public SoldCount;
     Counters.Counter public BuyCount;
     Counters.Counter public listingCounter;
+    Counters.Counter public biddingCounter;
 
     struct ListedToken{
         uint256 tokenId;
@@ -37,30 +38,26 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
     mapping(uint256 => ItemsSold) public idToSoldItems;
 
     uint8 public constant STATUS_OPEN = 1;
-    uint8 public constant STATUS_DONE = 2;
+    uint8 public constant STATUS_DONE = 0;
 
     uint256 public minAuctionIncrement = 10; // 10 percent
 
     struct Listing {
         uint256 biddingId;
-        address seller;
+        address payable seller;
         uint256 tokenId;
         uint256 price; // display price
         uint256 netPrice; // actual price
         uint256 startAt;
-        uint256 endAt; 
+        uint256 deadline; 
         uint8 status;
     }
-
-    event Minted(address indexed minter, uint256 nftID, string uri);
-    event AuctionCreated(uint256 listingId, address indexed seller, uint256 price, uint256 tokenId, uint256 startAt, uint256 endAt);
-    event BidCreated(uint256 listingId, address indexed bidder, uint256 bid);
-    event AuctionCompleted(uint256 listingId, address indexed seller, address indexed bidder, uint256 bid);
-    event WithdrawBid(uint256 listingId, address indexed bidder, uint256 bid);
 
     mapping(uint256 => Listing) public listings;
     mapping(uint256 => mapping(address => uint256)) public bids;
     mapping(uint256 => address) public highestBidder;
+    mapping(uint256 => uint256) public highestBiddingAmount;
+    uint256 public highestBidding = 0;
 
     constructor() ERC721("PolygonNFTMarketplace","DARK"){
 
@@ -184,108 +181,156 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
         return myItems;
     }
 
-    function createAuctionListing (uint256 price, uint256 tokenId, uint256 durationInSeconds) public returns (uint256) {
+    struct Bidding{
+        uint256 tokenId;
+        uint256 biddingId;
+        address bidder;
+        uint256 price;
+    }
+
+    mapping (uint256 => Bidding) public idToBiddedToken;
+
+
+    function createAuctionListing (uint256 price, uint256 tokenId, uint256 deadline) public returns (uint256) {
         listingCounter.increment();
         uint256 listingId = listingCounter.current() ;
-
         uint256 startAt = block.timestamp;
-        uint256 endAt = startAt + durationInSeconds;
+        uint256 endAt = startAt + deadline;
 
         listings[listingId] = Listing({
             biddingId: listingId,
-            seller: msg.sender,
+            seller: payable (msg.sender),
             tokenId: tokenId,
             price: price,
             netPrice: price,
             status: STATUS_OPEN,
             startAt: startAt,
-            endAt: endAt
+            deadline: endAt
         });
 
-        _transfer(msg.sender, address(this), tokenId);
-
-        emit AuctionCreated(listingId, msg.sender, price, tokenId, startAt, endAt);
+        // _transfer(msg.sender, address(this), tokenId);
 
         return listingId;
     }
 
-    function bid(uint256 listingId) public payable nonReentrant {
-        require(isAuctionOpen(listingId), 'auction has ended');
-        Listing storage listing = listings[listingId];
-        require(msg.sender != listing.seller, "cannot bid on what you own");
-
-        uint256 newBid = bids[listingId][msg.sender] + msg.value;
-        require(newBid >= listing.price, "cannot bid below the latest bidding price");
-
-        bids[listingId][msg.sender] += msg.value;
-        highestBidder[listingId] = msg.sender;
-
-        uint256 incentive = listing.price / minAuctionIncrement;
-        listing.price = listing.price + incentive;
-
-        emit BidCreated(listingId, msg.sender, newBid);
+    function bid(uint256 listingId,uint256 bidPrice) public payable nonReentrant {
+        require(isAuctionOpen(listingId), "auction has ended");
+        require(bidPrice > listings[listingId].price, "Value is smaller than bid value");
+        require(msg.sender != listings[listingId].seller,"you can't bid your own nft");
+        biddingCounter.increment();
+        uint256 newbiddingCount = biddingCounter.current();
+        idToBiddedToken[newbiddingCount] = Bidding(
+            listings[listingId].tokenId,
+            listingId,
+            payable (msg.sender),
+            bidPrice
+            );
+        
+        if(bidPrice > highestBidding){
+            highestBidding = bidPrice;
+            highestBidder[listingId] = msg.sender;
+            highestBiddingAmount[listingId] = bidPrice;
+        }
     }
+
+    function getAllBiddingWithListingID() public view returns(Bidding[] memory){
+        uint256 totalbiddingCount = biddingCounter.current();
+        uint256 count = 0;
+        uint256 biddingToListingId;
+        
+        for(uint256 i=0;i<totalbiddingCount;i++){
+            
+            if(idToBiddedToken[i+1].price != 0){
+                    biddingToListingId++;
+            }
+        }
+        Bidding[] memory myItems = new Bidding[](biddingToListingId);
+        for(uint256 i=0;i<totalbiddingCount;i++){
+            
+            if(idToBiddedToken[i+1].price != 0){
+                    Bidding storage currentItem = idToBiddedToken[i+1];
+                    myItems[count] = currentItem;
+                    count++;
+            }
+        }
+        return myItems;
+    }
+
+
 
 
     function completeAuction(uint256 listingId) public payable nonReentrant {
         require(!isAuctionOpen(listingId), 'auction is still open');
-
         Listing storage listing = listings[listingId];
-        address winner = highestBidder[listingId]; 
+        address winner = highestBidder[listingId];
         require(
             msg.sender == listing.seller || msg.sender == winner, 
             'only seller or winner can complete auction'
         );
-
-        if(winner != address(0)) {
-           _transfer(address(this), winner, listing.tokenId);
-
-            uint256 amount = bids[listingId][winner]; 
-            bids[listingId][winner] = 0;
-            _transferFund(payable(listing.seller), amount);
-
-        } else {
-            _transfer(address(this), listing.seller, listing.tokenId);
-        }
-
+        uint256 amount = highestBiddingAmount[listingId];
+        uint256 tokenId = listing.tokenId;
+        address payable seller = listing.seller;
+        _transfer(seller,winner,listing.tokenId);
+        approve(seller,listing.tokenId);
+        payable (seller).transfer(amount);
+        
+        listing.seller = payable (winner);
+        listing.price = 0;
+        idToListedToken[tokenId].owner = payable (winner);
         listing.status = STATUS_DONE;
 
-        emit AuctionCompleted(listingId, listing.seller, winner, bids[listingId][winner]);
+        // Listing storage listing = listings[listingId];
+        // address winner = highestBidder[listingId]; 
+        // require(
+        //     msg.sender == listing.seller || msg.sender == winner, 
+        //     'only seller or winner can complete auction'
+        // );
+
+        // if(winner != address(0)) {
+        //    _transfer(address(this), winner, listing.tokenId);
+
+        //     uint256 amount = bids[listingId][winner]; 
+        //     bids[listingId][winner] = 0;
+        //     _transferFund(payable(listing.seller), amount);
+
+        // } else {
+        //     _transfer(address(this), listing.seller, listing.tokenId);
+        // }
+
+       
     }
 
-    function withdrawBid(uint256 listingId) public payable nonReentrant {
-        require(isAuctionExpired(listingId), 'auction must be ended');
-        require(highestBidder[listingId] != msg.sender, 'highest bidder cannot withdraw bid');
+    // function withdrawBid(uint256 listingId) public payable nonReentrant {
+    //     require(isAuctionExpired(listingId), "auction must be ended");
+    //     require(highestBidder[listingId] != msg.sender, "highest bidder cannot withdraw bid");
 
-        uint256 balance = bids[listingId][msg.sender];
-        bids[listingId][msg.sender] = 0;
-        _transferFund(payable(msg.sender), balance);
+    //     uint256 balance = bids[listingId][msg.sender];
+    //     bids[listingId][msg.sender] = 0;
+    //     payable (msg.sender).transfer(balance);
 
-        emit WithdrawBid(listingId, msg.sender, balance);
-
-    }
+    // }
 
     function isAuctionOpen(uint256 id) public view returns (bool) {
         return
             listings[id].status == STATUS_OPEN &&
-            listings[id].endAt > block.timestamp;
+            listings[id].deadline > block.timestamp;
     }
 
 
     function isAuctionExpired(uint256 id) public view returns (bool) {
-        return listings[id].endAt <= block.timestamp;
+        return listings[id].deadline <= block.timestamp;
     }
 
 
-    function _transferFund(address payable to, uint256 amount) internal {
-        if (amount == 0) {
-            return;
-        }
-        require(to != address(0), 'Error, cannot transfer to address(0)');
+    // function _transferFund(address payable to, uint256 amount) internal {
+    //     if (amount == 0) {
+    //         return;
+    //     }
+    //     require(to != address(0), 'Error, cannot transfer to address(0)');
 
-        (bool transferSent, ) = to.call{value: amount}("");
-        require(transferSent, "Error, failed to send Ether");
-    }
+    //     (bool transferSent, ) = to.call{value: amount}("");
+    //     require(transferSent, "Error, failed to send Ether");
+    // }
 
     function getAllBiddedNfts() public view returns(Listing[] memory){
         uint256 totalItemCount = listingCounter.current();
