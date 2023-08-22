@@ -12,11 +12,6 @@ export const Explore = () => {
     const [dataFetched, updateFetched] = useState(false);
     const [address, updateAddress] = useState("0x");
     const [filData, setFilData] = useState("");
-    const [title, setTitle] = useState(false);
-    const [collection, setCollection] = useState(false);
-    const [description, setDescription] = useState(false);
-    const [price, setPrice] = useState(false);
-    const [tokenid, setTokenId] = useState(false);
 
     async function getNFTData() {
 
@@ -94,16 +89,16 @@ export const Explore = () => {
                                                 if ((value.title).toLowerCase() == filData.toLowerCase()) {
                                                     return <Card data={value} key={index} />
                                                 }
-                                                else if((value.collection).toLowerCase() == filData.toLowerCase()) {
+                                                else if ((value.collection).toLowerCase() == filData.toLowerCase()) {
                                                     return <Card data={value} key={index} />
                                                 }
-                                                else if((value.description).toLowerCase() == filData.toLowerCase()) {
+                                                else if ((value.description).toLowerCase() == filData.toLowerCase()) {
                                                     return <Card data={value} key={index} />
                                                 }
-                                                else if(value.price == filData) {
+                                                else if (value.price == filData) {
                                                     return <Card data={value} key={index} />
                                                 }
-                                                else if(value.tokenId == filData) {
+                                                else if (value.tokenId == filData) {
                                                     return <Card data={value} key={index} />
                                                 }
                                             })}
