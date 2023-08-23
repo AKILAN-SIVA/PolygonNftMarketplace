@@ -111,6 +111,14 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
         return items;
     }
 
+    function getTotalMintedTokens() public view returns(uint256){
+        return TokenCount.current();
+    }
+
+    function getTotalSoldTokens() public view returns(uint256){
+        return SoldCount.current();
+    }
+
     function getMyNFTs() public view returns(ListedToken[] memory){
         uint256 totalItemCount = TokenCount.current();
         uint256 count = 0;
@@ -268,16 +276,21 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
             'only seller or winner can complete auction'
         );
         uint256 amount = highestBiddingAmount[listingId];
-        uint256 tokenId = listing.tokenId;
+        if( amount == 0){
+            listing.status = STATUS_DONE;
+        }else{
+            uint256 tokenId = listing.tokenId;
         address payable seller = listing.seller;
         _transfer(seller,winner,listing.tokenId);
         // approve(seller,listing.tokenId);
         payable (seller).transfer(amount);
         
         listing.seller = payable (winner);
-        listing.price = 0;
+        // listing.price = 0;
         idToListedToken[tokenId].owner = payable (winner);
         listing.status = STATUS_DONE;
+        }
+        
 
         // Listing storage listing = listings[listingId];
         // address winner = highestBidder[listingId]; 
