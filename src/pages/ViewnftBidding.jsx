@@ -7,101 +7,126 @@ import AddressIcon from "../assets/addressIcon.png";
 import copy from "copy-to-clipboard";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import axios from 'axios';
+import axios from "axios";
 
 export const ViewnftBidding = () => {
   const [walletAddress, setWalletAddress] = useState("");
   const { state } = useLocation();
   const [BidPrice, setBidPrice] = useState("");
 
-    const [data, updateData] = useState([]);
-    const [dataFetched, updateFetched] = useState(false);
-    const [address, updateAddress] = useState("0x");
-    const [filData, setFilData] = useState("");
+  const [data, updateData] = useState([]);
+  const [dataFetched, updateFetched] = useState(false);
+  const [address, updateAddress] = useState("0x");
+  const [filData, setFilData] = useState("");
 
-    async function getNFTData() {
-
-
-        //After adding your Hardhat network to your metamask, this code will get providers and signers
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        const addr = await signer.getAddress();
-
-        //Pull the deployed contract instance
-        let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
-
-        //create an NFT Token
-        let transaction = await contract.getAllBiddingWithListingID();
-        const items = await Promise.all(transaction.map(async i => {
-            const tokenURI = await contract.tokenURI(i.tokenId);
-            let meta = await axios.get(tokenURI);
-            meta = meta.data;
-
-            const price = ethers.utils.formatUnits(i.price.toString(), 'ether');
-            let item = {
-                price,
-                biddingId: i.biddingId.toNumber(),
-                tokenId: i.tokenId.toNumber(),
-                bidder: i.bidder,
-                photo: meta.image,
-                title: meta.title,
-                description: meta.description,
-                collection: meta.collection,
-            }
-
-            return item;
-        }))
-
-        updateData(items);
-        updateFetched(true);
-        updateAddress(addr);
-
+  const daysLeft = (deadline) => {
+    const difference = new Date(deadline).getTime() - Date.now();
+    var remainingDays = 0;
+    if (difference < 0) {
+      remainingDays = 0;
+      return "Expired"
+    } else {
+      remainingDays = difference / (1000 * 3600 * 24);
+      return remainingDays.toFixed(0);
     }
+    
+  };
 
-    if (!dataFetched)
-        getNFTData();
-    console.log(data);
+  async function getNFTData() {
+    //After adding your Hardhat network to your metamask, this code will get providers and signers
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+    const addr = await signer.getAddress();
 
+    //Pull the deployed contract instance
+    let contract = new ethers.Contract(
+      Marketplace.address,
+      Marketplace.abi,
+      signer
+    );
 
-  const PlaceBid = async () =>{
-      try{
-        const provider = new ethers.providers.Web3Provider(window.ethereum);
-        const signer = provider.getSigner();
-        let contract = new ethers.Contract(Marketplace.address,Marketplace.abi,signer);
-        let price = ethers.utils.parseUnits(BidPrice,"ether");
-        let transaction = await contract.bid(state.data.biddingId,{value: price});
-        await transaction.wait();
+    //create an NFT Token
+    let transaction = await contract.getAllBiddingWithListingID();
+    const items = await Promise.all(
+      transaction.map(async (i) => {
+        const tokenURI = await contract.tokenURI(i.tokenId);
+        let meta = await axios.get(tokenURI);
+        meta = meta.data;
 
-      }catch(e){
-        console.log("Cannot place bid "+e);
-      }
+        const price = ethers.utils.formatUnits(i.price.toString(), "ether");
+        let item = {
+          price,
+          biddingId: i.biddingId.toNumber(),
+          tokenId: i.tokenId.toNumber(),
+          bidder: i.bidder,
+          photo: meta.image,
+          title: meta.title,
+          description: meta.description,
+          collection: meta.collection,
+        };
+
+        return item;
+      })
+    );
+
+    updateData(items);
+    updateFetched(true);
+    updateAddress(addr);
   }
 
-  const CompleteBidding = async () =>{
-    try{
+  if (!dataFetched) getNFTData();
+  console.log(data);
+
+  const PlaceBid = async () => {
+    try {
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
-      let contract = new ethers.Contract(Marketplace.address,Marketplace.abi,signer);
+      let contract = new ethers.Contract(
+        Marketplace.address,
+        Marketplace.abi,
+        signer
+      );
+      let price = ethers.utils.parseUnits(BidPrice, "ether");
+      let transaction = await contract.bid(state.data.biddingId, {
+        value: price,
+      });
+      await transaction.wait();
+    } catch (e) {
+      console.log("Cannot place bid " + e);
+    }
+  };
+
+  const CompleteBidding = async () => {
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      let contract = new ethers.Contract(
+        Marketplace.address,
+        Marketplace.abi,
+        signer
+      );
       let transaction = await contract.completeAuction(state.data.biddingId);
       await transaction.wait();
-
-    }catch(e){
-      console.log("Cannot complete bid "+e);
+    } catch (e) {
+      console.log("Cannot complete bid " + e);
     }
-}
+  };
 
-// const WithdrawMyBid = async () =>{
-//   try{
-//     const provider = new ethers.providers.Web3Provider(window.ethereum);
-//     const signer = provider.getSigner();
-//     let contract = new ethers.Contract(Marketplace.address,Marketplace.abi,signer);
-//     let transaction = await contract.withdrawBid(state.data.biddingId);
-//     await transaction.wait();
-
-//   }catch(e){
-//     console.log("Withdraw my bid "+e);
-//   }
-// }
+  const WithdrawMyBid = async () => {
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      let contract = new ethers.Contract(
+        Marketplace.address,
+        Marketplace.abi,
+        signer
+      );
+      let transaction = await contract.withdrawBid(state.data.biddingId);
+      await transaction.wait();
+    } catch (e) {
+      console.log("Withdraw my bid " + e);
+    }
+  };
 
   useEffect(() => {
     if (window.ethereum) {
@@ -117,6 +142,22 @@ export const ViewnftBidding = () => {
     }
   });
 
+  const [userLocalTime,setUserLocalTime] = useState(null);
+  const fixDate = (date) => {
+    
+    const timezoneOffsetMinutes = new Date().getTimezoneOffset();
+    const localTimestamp = date * 1000 + timezoneOffsetMinutes * 60 * 1000;
+    const localTime = new Date(localTimestamp);
+    setUserLocalTime(localTime.toLocaleString());
+    return localTime;
+  };
+
+  useEffect(()=>{
+    fixDate(state.data.endAt);
+  })
+
+  // const ending = fixDate(state.data.endAt);
+  // console.log(ending);
   const copyAddress = (e) => {
     copy(state.data.tokenId);
     toast("Token id copying...");
@@ -160,24 +201,57 @@ export const ViewnftBidding = () => {
                 </div>
               </span>
             )}
-            <span className="text-3xl font-bold">Price: {state.data.price}</span>
-            <span className="text-3xl font-bold">Status: {state.data.status}(Open)</span>
-            <span className="text-3xl font-bold">Listingid: {state.data.biddingId}</span>
+            <span className="text-3xl font-bold">
+              Price: {state.data.price}
+            </span>
+            <span className="text-3xl font-bold">
+              Status: {state.data.status}(Open)
+            </span>
+            <span className="text-3xl font-bold">
+              Listingid: {state.data.biddingId}
+            </span>
+            {state.data.status == 0 ? (
+              <span className="text-3xl font-bold">
+                Bidding Expired
+              </span>
+            ) : (
+              <span className="text-3xl font-bold">
+                Bidding ends in {userLocalTime}
+              </span>
+            )}
             {/* <span className="text-3xl font-bold">{state.data.startAt}</span> */}
             {/* <span className="text-3xl font-bold">{state.data.endAt}</span> */}
             <div className="flex flex-col gap-2 ">
               <div className="flex gap-2 text-lg">
-                <p>Bid Price</p><p className="text-red-800">*</p>
+                <p>Bid Price</p>
+                <p className="text-red-800">*</p>
               </div>
               <input
                 className="flex flex-col rounded-xl bg-transparent border-gray-400 border-2 h-12 w-[650px] p-4"
                 type="text"
-                name="collection" onChange={(e)=> setBidPrice(e.target.value)}
-                placeholder="Make Bid . . ." value={BidPrice}
+                name="collection"
+                onChange={(e) => setBidPrice(e.target.value)}
+                placeholder="Make Bid . . ."
+                value={BidPrice}
               ></input>
-              <button className="pt-2 bg-gray-600 inline-block p-2" onClick={PlaceBid}>Place Bid</button>
-              <button className="pt-2 bg-gray-600 inline-block p-2" onClick={CompleteBidding}>Complete Action</button>
-              {/* <button className="pt-2 bg-gray-600 inline-block p-2" onClick={WithdrawMyBid}>Withdraw my bid</button> */}
+              <button
+                className="pt-2 bg-gray-600 inline-block p-2"
+                onClick={PlaceBid}
+              >
+                Place Bid
+              </button>
+              <button
+                className="pt-2 bg-gray-600 inline-block p-2"
+                onClick={CompleteBidding}
+              >
+                Complete Action
+              </button>
+              <button
+                className="pt-2 bg-gray-600 inline-block p-2"
+                onClick={WithdrawMyBid}
+              >
+                Withdraw my bid
+              </button>
             </div>
           </div>
         </div>
