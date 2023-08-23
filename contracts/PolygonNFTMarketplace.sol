@@ -300,15 +300,28 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
        
     }
 
-    // function withdrawBid(uint256 listingId) public payable nonReentrant {
-    //     require(isAuctionExpired(listingId), "auction must be ended");
-    //     require(highestBidder[listingId] != msg.sender, "highest bidder cannot withdraw bid");
+    function withdrawBid(uint256 listingId) public payable nonReentrant {
+        require(isAuctionExpired(listingId), "auction must be ended");
+        require(highestBidder[listingId] != msg.sender, "highest bidder cannot withdraw bid");
+        uint256 totalBiddingCount = biddingCounter.current();
+        uint256 price;
+        for(uint256 i=0;i<totalBiddingCount;i++){
+            if(idToBiddedToken[i+1].bidder == msg.sender){
+                price += idToBiddedToken[i+1].price;
+            }
+        }
+        // Bidding [] memory items = new Bidding[] (bcount);
+        // for(uint256 i=0;i<totalBiddingCount;i++){
+        //     Bidding storage currentItem = idToBiddedToken[i+1];
+        //     if(idToBiddedToken[i+1].bidder == msg.sender){
+        //        items[count] = currentItem;
+        //        count++;
+        //     }
+        // }
+        
+        payable (msg.sender).transfer(price);
 
-    //     uint256 balance = bids[listingId][msg.sender];
-    //     bids[listingId][msg.sender] = 0;
-    //     payable (msg.sender).transfer(balance);
-
-    // }
+    }
 
     function isAuctionOpen(uint256 id) public view returns (bool) {
         return
