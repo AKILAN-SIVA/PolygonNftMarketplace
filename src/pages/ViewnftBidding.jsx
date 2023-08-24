@@ -142,13 +142,25 @@ export const ViewnftBidding = () => {
     }
   });
 
-  const [userLocalTime,setUserLocalTime] = useState(null);
+  const [userUTCTime,setUserUTCTime] = useState(null);
+  const [Hours,setHours] = useState(null);
+  const [Min,setMin] = useState(null);
+  const [seconds,setSeconds] = useState(null);
   const fixDate = (date) => {
     
     const timezoneOffsetMinutes = new Date().getTimezoneOffset();
     const localTimestamp = date * 1000 + timezoneOffsetMinutes * 60 * 1000;
     const localTime = new Date(localTimestamp);
-    setUserLocalTime(localTime.toLocaleString());
+    const hr = localTime.getHours();
+    const min = localTime.getMinutes();
+    const sec = localTime.getSeconds();
+    console.log(hr+5);
+    console.log(min+30);
+    console.log(sec);
+    setHours(hr+5);
+    setMin(min+30);
+    setSeconds(sec);
+    setUserUTCTime(localTime);
     return localTime;
   };
 
@@ -158,6 +170,8 @@ export const ViewnftBidding = () => {
 
   // const ending = fixDate(state.data.endAt);
   // console.log(ending);
+
+  // const time = fixDate(state.data.endAt);
   const copyAddress = (e) => {
     copy(state.data.tokenId);
     toast("Token id copying...");
@@ -205,7 +219,7 @@ export const ViewnftBidding = () => {
               Price: {state.data.price}
             </span>
             <span className="text-3xl font-bold">
-              Status: {state.data.status}(Open)
+              Status: {state.data.status == 0 ? "Bidding Closed" : "Bidding is Open" }
             </span>
             <span className="text-3xl font-bold">
               Listingid: {state.data.biddingId}
@@ -216,7 +230,7 @@ export const ViewnftBidding = () => {
               </span>
             ) : (
               <span className="text-3xl font-bold">
-                Bidding ends in {userLocalTime}
+                Bidding ends at {Hours} hrs : {Min} min : {seconds} sec
               </span>
             )}
             {/* <span className="text-3xl font-bold">{state.data.startAt}</span> */}
