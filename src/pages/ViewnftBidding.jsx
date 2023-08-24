@@ -164,9 +164,9 @@ export const ViewnftBidding = () => {
     return localTime;
   };
 
-  useEffect(()=>{
-    fixDate(state.data.endAt);
-  })
+  // useEffect(()=>{
+  //   fixDate(state.data.endAt);
+  // })
 
   // const ending = fixDate(state.data.endAt);
   // console.log(ending);
