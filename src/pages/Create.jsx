@@ -6,7 +6,7 @@ import { uploadFileToIPFS, uploadJSONToIPFS } from "./Pinata";
 import { ethers } from "ethers";
 import Marketplace from "../Marketplace.json"
 import key from './HuggingFace'
-
+import crypto from "crypto-js";
 export const Create = () => {
   const [form, setForm] = useState({
     title: "",
@@ -21,7 +21,7 @@ export const Create = () => {
   const [Msg, setMsg] = useState("");
   const [showUploadBtn, setUploadBtn] = useState(false);
   const [showGenerateBtn, setShowGenerateBtn] = useState(false);
-
+  const [hashValue, setHashValue] = useState('');
   const handleUpload = () => {
     setShowGenerateBtn(false);
     setUploadBtn(true);
@@ -70,13 +70,38 @@ export const Create = () => {
     }
   }
 
+  const handleHashImage = async () => {
+    if (!image) {
+      return;
+    }
+
+    const base64String = await convertToBase64(image);
+    console.log(base64String);
+    const hashedValue = hashWithSHA256(base64String);
+    setHashValue(hashedValue);
+    console.log(hashedValue)
+  };
+
+  const convertToBase64 = (file) => {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const base64String = reader.result.split(',')[1];
+        resolve(base64String);
+      };
+      reader.readAsDataURL(file);
+    });
+  };
+
+  const hashWithSHA256 = (input) => {
+    return crypto.SHA256(input).toString();
+  };
 
   async function OnChangeFile(e) {
-
+    
     setForm({ ...form, [e.target.name]: e.target.value });
     var file = e.target.files[0];
-
-
+    setImage(file)
     //check for file extension
     try {
       //upload the file to IPFS
@@ -118,8 +143,10 @@ export const Create = () => {
   async function listNFT(e) {
     e.preventDefault();
     if (showGenerateBtn == true) {
-      await OnChangeFile();
+      alert("download and upload your ai image and create it to nft");
+      download();
     }
+    await handleHashImage();
     //Upload data to IPFS
     try {
       const metadataURL = await uploadMetadataToIPFS();

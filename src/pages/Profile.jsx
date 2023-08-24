@@ -126,7 +126,7 @@ export const Profile = () => {
     if (!FetchedSoldData) { getNFTSoldData(); }
 
     return (
-        <div className='bg-black min-h-screen h-fit w-full text-white'>
+        <div className='bg-black min-h-screen h-max w-full text-white'>
             <div className='pt-12'>
                 <Navbar />
             </div>
