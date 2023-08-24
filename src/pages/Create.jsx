@@ -5,8 +5,8 @@ import PreviewImage from "../assets/previewImage.png";
 import { uploadFileToIPFS, uploadJSONToIPFS } from "./Pinata";
 import { ethers } from "ethers";
 import Marketplace from "../Marketplace.json"
-import { Configuration, OpenAIApi } from "openai";
 import key from './HuggingFace'
+
 export const Create = () => {
   const [form, setForm] = useState({
     title: "",
@@ -19,7 +19,6 @@ export const Create = () => {
   const [fileURL, setFileURL] = useState(null);
   const [image, setImage] = useState(null);
   const [Msg, setMsg] = useState("");
-  const [imgUrl, setImgUrl] = useState("");
   const [showUploadBtn, setUploadBtn] = useState(false);
   const [showGenerateBtn, setShowGenerateBtn] = useState(false);
 
@@ -55,23 +54,29 @@ export const Create = () => {
     console.log(image)
   }
   const download = () => {
-    try{if (!image) {
-      console.log("no image")
-      return};
-    const link = document.createElement('a');
-    link.href = image;
-    link.download = 'generated_image.png';
-  }
-  catch(e){
-    console.log("Error ", e);
-  }
-    //link.click();
+    try {
+      if (!image) {
+        console.log("no image")
+        return
+      };
+      const link = document.createElement('a');
+      link.href = image;
+      link.download = 'generated_image.png';
+      link.click()
+      
+    }
+    catch (e) {
+      console.log("Error ", e);
+    }
   }
 
 
   async function OnChangeFile(e) {
+
     setForm({ ...form, [e.target.name]: e.target.value });
     var file = e.target.files[0];
+
+
     //check for file extension
     try {
       //upload the file to IPFS
@@ -112,7 +117,9 @@ export const Create = () => {
 
   async function listNFT(e) {
     e.preventDefault();
-
+    if (showGenerateBtn == true) {
+      await OnChangeFile();
+    }
     //Upload data to IPFS
     try {
       const metadataURL = await uploadMetadataToIPFS();
@@ -263,10 +270,13 @@ export const Create = () => {
                       {
                         image != null ?
                           <>
-                            <img src={image} alt="generated" className="pt-4 w-[300px] h-[300px]" />
-                            <button className="bg-white text-black h-12 w-full font-bold text-xl rounded-lg" onClick={download}>
-                              Download
+                          <div className="grid justify-center w-full ">
+                          <img src={image} alt="generated" className="pt-4 w-[400px] h-[300px] rounded-t-3xl" />
+                            <button className="bg-gray-700 text-white h-12 w-full font-bold text-xl rounded-b-3xl" onClick={download}>
+                              Download 
                             </button>
+                          </div>
+                            
                           </>
 
                           :
