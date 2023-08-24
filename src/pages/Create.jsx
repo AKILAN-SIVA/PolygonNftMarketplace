@@ -6,7 +6,7 @@ import { uploadFileToIPFS, uploadJSONToIPFS } from "./Pinata";
 import { ethers } from "ethers";
 import Marketplace from "../Marketplace.json"
 import { Configuration, OpenAIApi } from "openai";
-
+import key from './HuggingFace'
 export const Create = () => {
   const [form, setForm] = useState({
     title: "",
@@ -17,6 +17,7 @@ export const Create = () => {
   });
 
   const [fileURL, setFileURL] = useState(null);
+  const [image, setImage] = useState(null);
   const [Msg, setMsg] = useState("");
   const [imgUrl, setImgUrl] = useState("");
   const [showUploadBtn, setUploadBtn] = useState(false);
@@ -35,47 +36,42 @@ export const Create = () => {
     setForm({ ...form, [e.target.name]: e.target.value });
 
 
-  const configuration = new Configuration({
-    apiKey: import.meta.env.VITE_Open_AI_Key,
-  });
-  // configuration.baseOptions.headers = {
-  //   Authorization: "Bearer " + import.meta.env.VITE_Open_AI_Key,
-  // };
+  const generateImage = async (e) => {
+    e.preventDefault();
+    const response = await fetch(
+      "https://api-inference.huggingface.co/models/prompthero/openjourney-v4",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "Authorization": `Bearer ${key}`
+        },
+        body: JSON.stringify({ inputs: form.description }), // Replace with user input or desired text
+      }
+    );
 
-  const openai = new OpenAIApi(configuration);
-
-
-  const generateImage = async () => {
-    if (form.description == "") {
-      alert("enter description to generate your AI image")
-      return;
-    }
-    const res = await openai.createImage({
-      prompt: form.description,
-      n: 1,
-      size: "256x256",
-    });
-
-    setImgUrl(res.data.data[0].url);
-
-  };
+    const blob = await response.blob();
+    setImage(URL.createObjectURL(blob));
+    console.log(image)
+  }
+  const download = () => {
+    try{if (!image) {
+      console.log("no image")
+      return};
+    const link = document.createElement('a');
+    link.href = image;
+    link.download = 'generated_image.png';
+  }
+  catch(e){
+    console.log("Error ", e);
+  }
+    //link.click();
+  }
 
 
   async function OnChangeFile(e) {
-    if (imgUrl == "") {
-      setForm({ ...form, [e.target.name]: e.target.value });
-      var file = e.target.files[0];
-    }
-    else {
-      fetch(imgUrl)
-        .then(res => res.blob())
-        .then(blob => {
-
-          var file = new File([blob], form.description , { type: blob.type })
-
-          console.log(file);
-        })
-    }
+    setForm({ ...form, [e.target.name]: e.target.value });
+    var file = e.target.files[0];
     //check for file extension
     try {
       //upload the file to IPFS
@@ -265,8 +261,14 @@ export const Create = () => {
                     </div>
                     <div>
                       {
-                        imgUrl != "" ?
-                          <img src={imgUrl} alt="generated" className="pt-4 w-[300px] h-[300px]" />
+                        image != null ?
+                          <>
+                            <img src={image} alt="generated" className="pt-4 w-[300px] h-[300px]" />
+                            <button className="bg-white text-black h-12 w-full font-bold text-xl rounded-lg" onClick={download}>
+                              Download
+                            </button>
+                          </>
+
                           :
                           <></>
                       }
