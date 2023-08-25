@@ -1,7 +1,29 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from "../pages/Navbar"
-
+import Marketplace from '../Marketplace.json'
+import { async } from '@firebase/util';
+import { ethers } from 'ethers';
 export const Home = () => {
+
+  const [totTokenId, setTokenId] = useState('');
+  const [totSoldNft, setTotSoldNft] = useState('');
+
+  useEffect(() => {
+    getTotalCount();
+  })
+
+  async function getTotalCount() {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const signer = provider.getSigner();
+
+    let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
+
+    let totalTokenId = await contract.getTotalMintedTokens();
+    let totalSoldNft = await contract.getTotalSoldTokens();
+
+    setTokenId(totalTokenId.toNumber());
+    setTotSoldNft(totalSoldNft.toNumber());
+  }
   return (
     <div className='bg-black min-h-screen h-fit w-full text-white'>
       <div className='pt-12'>
@@ -16,6 +38,8 @@ export const Home = () => {
               Explore
             </button>
           </div>
+          <h1>totalTokenId : {totTokenId}</h1>
+          <h1>totalSoldNft : {totSoldNft}</h1>
         </div>
       </div>
     </div>
