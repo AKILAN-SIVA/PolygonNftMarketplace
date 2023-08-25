@@ -126,11 +126,11 @@ export const Profile = () => {
     if (!FetchedSoldData) { getNFTSoldData(); }
 
     return (
-        <div className='bg-black min-h-screen h-max w-full text-white'>
+        <div className='bg-black min-h-screen h-fit w-full text-white'>
             <div className='pt-12'>
                 <Navbar />
             </div>
-            <div className='grid ml-28 gap-6'>
+            <div className='grid ml-28 gap-6 w-full h-full'>
                 <div className='flex justify-start items-center pt-12'>
                     <div className='border-2 border-white h-32 w-32 rounded-3xl'><Identicon string={address} className="h-32 w-36 rounded-2xl" size={125} /></div>
                     <div className='flex justify-start items-start ml-32 gap-20'>
@@ -149,21 +149,21 @@ export const Profile = () => {
                     </div>
                 </div>
 
-                <h1 className='text-3xl font-mono font-bold'>i_am_akilan</h1>
+                {/* <h1 className='text-3xl font-mono font-bold'>i_am_akilan</h1> */}
                 <div className='flex justify-between w-full h-8 items-center gap-1'>
                     <div className='flex gap-1'>
                         <img src={AddressIcon} className='h-8 w-8' />
                         <button onClick={copyAddress} className='bg-gray-900 rounded-xl p-2'><h1 className='text-white justify-start'>{address.substring(0, 6)}....{address.substring(11, 16)}</h1></button>
                     </div>
-                    <div className=''>
+                    {/* <div className=''>
                         <button className='bg-white hover:bg-gray-300 text-black text-lg h-12 w-40 rounded-xl font-bold mr-28' onClick={() => window.location.replace("/editProfile")}>Edit Profile</button>
-                    </div>
+                    </div> */}
                 </div>
                 <div className='border border-[#171717] h-0 w-11/12 mr-2'> </div>
                 <div className='text-4xl font-bold p-2'>
                     <h1>Collections</h1>
                 </div>
-                <div className='grid border-0 border-gray-800  mr-28 rounded-xl p-4 h-[500px]'>
+                <div className='grid border-0 border-gray-800  mr-28 rounded-xl p-4 '>
                     {
                         data.length == 0 ?
                             <div className='flex flex-wrap justify-center text-2xl font-bold '>
@@ -187,7 +187,7 @@ export const Profile = () => {
                                 <div className='flex '>
                                     {
                                         showSold == false ?
-                                            <div className='flex flex-wrap gap-6 b w-full h-full py-8'>
+                                            <div className='flex flex-wrap gap-6  w-full h-full py-8'>
                                                 {data.map((value, index) => {
                                                     return <Card data={value} key={index} />;
                                                 })}

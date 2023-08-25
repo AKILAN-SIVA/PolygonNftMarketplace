@@ -13,6 +13,7 @@ export const Viewnft = () => {
   const { state } = useLocation();
   const [listPrice, setListPrice] = useState("");
   const [bidPrice, setBidPrice] = useState("");
+  const [timeInSec, setTimeInSec] = useState("");
   const [showListModal, setShowListModal] = useState(false);
   const [showBidModal, setShowBidModal] = useState(false);
 
@@ -47,7 +48,8 @@ export const Viewnft = () => {
       const price = ethers.utils.parseUnits(listPrice, 'ether');
       let transaction = await contract.ListNFT(price, state.data.tokenId);
       await transaction.wait();
-      setShowModal(false);
+      setShowListModal(false);
+      window.location.replace("/exploreNft");
     } catch (e) {
       console.log("Error in listing Nft : " + e);
     }
@@ -68,6 +70,21 @@ export const Viewnft = () => {
       await transaction.wait();
     } catch (e) {
       console.log("NFT buy error : " + e);
+    }
+  }
+
+  const CreateBidding = async () => {
+    try {
+      const provider = new ethers.providers.Web3Provider(window.ethereum);
+      const signer = provider.getSigner();
+      let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
+      let price = ethers.utils.parseUnits(bidPrice, 'ether');
+      // let deadline = daysLeft(durationInSeconds);
+      // console.log(deadline);
+      let transaction = await contract.createAuctionListing(price, state.data.tokenId, timeInSec);
+      await transaction.wait();
+    } catch (e) {
+      console.log("Error in creating Bid " + e);
     }
   }
 
@@ -187,12 +204,15 @@ export const Viewnft = () => {
                           <div className="relative p-6 flex-auto">
                             <input type="number" onChange={(e) => setBidPrice(e.target.value)} className="bg-transparent w-[600px] h-12 text-black rounded-lg border-2 border-black p-4" placeholder="Enter Base price for Bidding" value={bidPrice} />
                           </div>
+                          <div className="relative p-6 flex-auto">
+                            <input type="number" onChange={(e) => setTimeInSec(e.target.value)} className="bg-transparent w-[600px] h-12 text-black rounded-lg border-2 border-black p-4" placeholder="Enter Time in seconds" value={timeInSec} />
+                          </div>
                           {/*footer*/}
                           <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
                             <button
                               className="bg-black text-white active:bg-black font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
                               type="button"
-                              onClick={""}
+                              onClick={CreateBidding}
                             >
                               Make Bid
                             </button>

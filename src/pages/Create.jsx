@@ -162,7 +162,7 @@ export const Create = () => {
       // const price = ethers.utils.parseUnits(form.price,'ether');
 
       //actually create the NFT
-      let transaction = await contract.CreateToken(metadataURL)
+      let transaction = await contract.CreateToken(metadataURL, hashValue)
       await transaction.wait()
 
       alert("Successfully listed your NFT!");

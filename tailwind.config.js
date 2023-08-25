@@ -7,7 +7,11 @@ export default {
     'node_modules/flowbite-react/**/*.{js,jsx,ts,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      backgroundImage: {
+        'blackImg': "url('https://static.vecteezy.com/system/resources/thumbnails/019/591/373/original/the-effect-of-a-film-with-scratches-on-a-black-background-free-video.jpg')",
+      }
+    },
   },
   plugins: [
     require('flowbite/plugin')
