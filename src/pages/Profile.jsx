@@ -126,11 +126,11 @@ export const Profile = () => {
     if (!FetchedSoldData) { getNFTSoldData(); }
 
     return (
-        <div className='bg-black min-h-screen h-fit w-full text-white'>
+        <div className='bg-black min-h-screen h-fit  text-white'>
             <div className='pt-12'>
                 <Navbar />
             </div>
-            <div className='grid ml-28 gap-6 w-full h-full'>
+            <div className='grid ml-28 gap-6 h-full'>
                 <div className='flex justify-start items-center pt-12'>
                     <div className='border-2 border-white h-32 w-32 rounded-3xl'><Identicon string={address} className="h-32 w-36 rounded-2xl" size={125} /></div>
                     <div className='flex justify-start items-start ml-32 gap-20'>
