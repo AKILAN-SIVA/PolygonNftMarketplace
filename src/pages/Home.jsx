@@ -115,7 +115,7 @@ export const Home = () => {
             <div
               key={index}
               className="item"
-              style={{ backgroundImage: `url(${value.photo})`, borderRadius: '50px' }}
+              style={{ backgroundImage: `url(${value.photo})`, borderRadius: '30px' }}
               onClick={() => navigate("/searchNft", { state: value })}
             >
               <div className="content">
@@ -156,7 +156,35 @@ export const Home = () => {
           </Carousel>
         </div>
       </div>
-      <div className='grid justify-center items-center w-full '>
+      <div className="pt-36">
+        <div className="flex justify-center items-start gap-60">
+          <div className="grid justify-center gap-6">
+            <h1 className="text-8xl font-bold">{totTokenId}</h1>
+            <h1 className="text-xl font-bold">NFT Mined</h1>
+          </div>
+          <div className="grid justify-center gap-6">
+            <h1 className="text-8xl font-bold">{totSoldNft}</h1>
+            <h1 className="text-xl font-bold">NFT Sold</h1>
+          </div>
+          <div className="grid justify-center gap-6">
+            <h1 className="text-8xl font-bold">{totSoldNft}</h1>
+            <h1 className="text-xl font-bold">NFT Bids</h1>
+          </div>
+          <div className="grid justify-center gap-6">
+            <h1 className="text-8xl font-bold">{totSoldNft}</h1>
+            <h1 className="text-xl font-bold">Creators</h1>
+          </div>
+        </div>
+      </div>
+      <div>
+        <h1 className="text-5xl p-4 text-white font-semibold">Top Creators</h1>
+      </div>
+      <div className="grid justify-center items-center gap-12">
+        <div>
+
+        </div>
+      </div>
+      {/* <div className='grid justify-center items-center w-full '>
         <div className='from-purple-600 via-pink-600 to-blue-600 bg-gradient-to-r bg-clip-text text-transparent text-8xl font-bold tracking-wide font-serif leading-tight '>
           <h1 className=''>Discover, collect, and</h1>
           <h1>sell extraordinary NFTs</h1>
@@ -168,7 +196,7 @@ export const Home = () => {
           <h1>totalTokenId : {totTokenId}</h1>
           <h1>totalSoldNft : {totSoldNft}</h1>
         </div>
-      </div>
+      </div> */}
     </div>
   )
 }

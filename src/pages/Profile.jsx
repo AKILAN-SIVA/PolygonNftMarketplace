@@ -22,7 +22,7 @@ export const Profile = () => {
     const [SoldAddress, updateSoldAddress] = useState("0x....");
     const [sum, updateSum] = useState("0");
     const [CountNFt, updateNftCount] = useState("0");
-    const [NftSold, updateNftSoldCount] = useState();
+    const [NftSold, updateNftSoldCount] = useState("0");
     const [profileInfo, setProfileInfo] = useState([]);
     const [showSold, setShowSold] = useState(false);
 
@@ -187,7 +187,7 @@ export const Profile = () => {
                                 <div className='flex '>
                                     {
                                         showSold == false ?
-                                            <div className='flex flex-wrap gap-6  w-full h-full py-8'>
+                                            <div className='flex flex-wrap gap-12  w-full h-full py-8'>
                                                 {data.map((value, index) => {
                                                     return <Card data={value} key={index} />;
                                                 })}
@@ -198,7 +198,7 @@ export const Profile = () => {
                                                     <h1>Oops!, NFT not yet sold</h1>
                                                 </div>
                                                 :
-                                                <div className='flex flex-wrap gap-6 w-full h-full p-8'>
+                                                <div className='flex flex-wrap gap-12 w-full h-full p-8'>
                                                     {SoldData.map((value, index) => {
                                                         return <Card data={value} key={index} />;
                                                     })}
