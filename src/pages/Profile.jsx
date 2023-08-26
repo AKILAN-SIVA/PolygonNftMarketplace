@@ -6,11 +6,10 @@ import Card from "../components/Card";
 import { ethers } from 'ethers';
 import Marketplace from '../Marketplace.json'
 import axios from 'axios';
-import { db } from '../components/FirebaseConfig';
-import { onValue, ref } from "firebase/database";
 import copy from 'copy-to-clipboard';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import CountUp from 'react-countup';
 
 export const Profile = () => {
 
@@ -31,17 +30,6 @@ export const Profile = () => {
         toast("Address copying...");
     }
 
-
-    useEffect(() => {
-        onValue(ref(db), (snapshot) => {
-            const details = snapshot.val();
-            if (details !== null) {
-                Object.values(details).map((profile) => {
-                    setProfileInfo((oldArray) => [...oldArray, profile]);
-                });
-            }
-        });
-    }, []);
 
     async function getNFTData() {
         let sum1 = 0;
@@ -135,16 +123,16 @@ export const Profile = () => {
                     <div className='border-2 border-white h-32 w-32 rounded-3xl'><Identicon string={address} className="h-32 w-36 rounded-2xl" size={125} /></div>
                     <div className='flex justify-start items-start ml-32 gap-20'>
                         <div className='grid justify-center items-center gap-4'>
-                            <h1 className='text-5xl font-bold'>{CountNFt}</h1>
-                            <h1 className='text-lg font-bold'>NFT mined</h1>
+                            <h1 className='text-5xl font-bold'><CountUp start={0} end={CountNFt} /></h1>
+                            <h1 className='text-lg font-bold'>Mined</h1>
                         </div>
                         <div className='grid justify-center items-center gap-4'>
-                            <h1 className='text-5xl font-bold'>{sum}</h1>
+                            <h1 className='text-5xl font-bold'><CountUp start={0} end={sum} /></h1>
                             <h1 className='text-lg font-bold'>Total value</h1>
                         </div>
                         <div className='grid justify-center items-center gap-4'>
-                            <h1 className='text-5xl font-bold'>{NftSold}</h1>
-                            <h1 className='text-lg font-bold'>NFT Sold</h1>
+                            <h1 className='text-5xl font-bold'><CountUp start={0} end={NftSold} /></h1>
+                            <h1 className='text-lg font-bold'>Sold</h1>
                         </div>
                     </div>
                 </div>

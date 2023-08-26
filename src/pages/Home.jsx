@@ -11,7 +11,8 @@ import "./pages.css"
 import axios from 'axios';
 import AddressIcon from "../assets/addressIcon.png";
 import { useNavigate } from "react-router-dom";
-import Card from "../components/Card";
+import CarouselCard from "../components/CarouselCard";
+import CountUp from "react-countup";
 
 export const Home = () => {
 
@@ -140,63 +141,48 @@ export const Home = () => {
         </div>
       </div>
       <div className="bg-black w-full min-h-screen"></div>
-      <div className="grid justify-center items-center gap-12">
-        <div>
-          <h1 className="text-5xl p-4 text-white font-semibold">Top Bids</h1>
+      <div className="flex justify-center">
+          <h1 className="text-5xl text-white font-semibold">Top Bids</h1>
         </div>
+      <div className="grid justify-center items-center gap-12 pt-16">
         <div>
           <Carousel cols={4} rows={1} gap={90} loop={true} autoplay={1000}>
             {
               allBidNfts.map((value, index) => (
                 <Carousel.Item>
-                  <Card data={value} key={index} />
+                  <CarouselCard data={value} key={index} />
                 </Carousel.Item>
               ))
             }
           </Carousel>
         </div>
       </div>
+      <div className="flex justify-center items-center pt-12">
+          <button className="bg-white text-xl text-black font-semibold  w-56 h-14 rounded-3xl" onClick={() => window.location.replace("/bidNft")}>View More</button>
+        </div>
       <div className="pt-36">
         <div className="flex justify-center items-start gap-60">
           <div className="grid justify-center gap-6">
-            <h1 className="text-8xl font-bold">{totTokenId}</h1>
-            <h1 className="text-xl font-bold">NFT Mined</h1>
+            <h1 className="text-8xl font-bold"><CountUp start={0} end={totTokenId} /></h1>
+            <h1 className="text-xl font-bold">Mined</h1>
           </div>
           <div className="grid justify-center gap-6">
-            <h1 className="text-8xl font-bold">{totSoldNft}</h1>
-            <h1 className="text-xl font-bold">NFT Sold</h1>
+            <h1 className="text-8xl font-bold"><CountUp start={0} end={totSoldNft} /></h1>
+            <h1 className="text-xl font-bold">Sold</h1>
           </div>
           <div className="grid justify-center gap-6">
-            <h1 className="text-8xl font-bold">{totSoldNft}</h1>
-            <h1 className="text-xl font-bold">NFT Bids</h1>
+            <h1 className="text-8xl font-bold"><CountUp start={0} end={totTokenId} /></h1>
+            <h1 className="text-xl font-bold">Bids</h1>
           </div>
           <div className="grid justify-center gap-6">
-            <h1 className="text-8xl font-bold">{totSoldNft}</h1>
+            <h1 className="text-8xl font-bold"><CountUp start={0} end={totTokenId} /></h1>
             <h1 className="text-xl font-bold">Creators</h1>
           </div>
         </div>
       </div>
-      <div>
-        <h1 className="text-5xl p-4 text-white font-semibold">Top Creators</h1>
+      <div className="pt-24">
+        <div className="bg-[#080808] w-full h-[500px]"> </div>
       </div>
-      <div className="grid justify-center items-center gap-12">
-        <div>
-
-        </div>
-      </div>
-      {/* <div className='grid justify-center items-center w-full '>
-        <div className='from-purple-600 via-pink-600 to-blue-600 bg-gradient-to-r bg-clip-text text-transparent text-8xl font-bold tracking-wide font-serif leading-tight '>
-          <h1 className=''>Discover, collect, and</h1>
-          <h1>sell extraordinary NFTs</h1>
-          <div className='flex justify-center pt-24 place-items-center'>
-            <button className='bg-white hover:bg-[#ec4899] text-3xl text-black font-bold border-none rounded-full w-60 h-16 tracking-wide' onClick={() => window.location.replace('/exploreNft')}>
-              Explore
-            </button>
-          </div>
-          <h1>totalTokenId : {totTokenId}</h1>
-          <h1>totalSoldNft : {totSoldNft}</h1>
-        </div>
-      </div> */}
     </div>
   )
 }

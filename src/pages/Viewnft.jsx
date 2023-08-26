@@ -83,6 +83,7 @@ export const Viewnft = () => {
       // console.log(deadline);
       let transaction = await contract.createAuctionListing(price, state.data.tokenId, timeInSec);
       await transaction.wait();
+      setShowBidModal(false)
     } catch (e) {
       console.log("Error in creating Bid " + e);
     }

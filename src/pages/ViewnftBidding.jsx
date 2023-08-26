@@ -8,16 +8,42 @@ import copy from "copy-to-clipboard";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
+import { useRef } from "react";
 
+const formatTime = (time) => {
+  // let hours = Math.floor(time / 60*60);
+  let minutes = Math.floor(time / 60);
+  let seconds = Math.floor(time - minutes  * 60)
+  // if(hours <= 10) hours = "0"+hours;
+  if(minutes <= 10) minutes = "0"+minutes;
+  if(seconds <= 10) seconds = "0"+seconds;
+  return minutes + ":" + seconds
+  // return hours + ":" + minutes + ':' + seconds
+}
 export const ViewnftBidding = () => {
   const [walletAddress, setWalletAddress] = useState("");
   const { state } = useLocation();
   const [BidPrice, setBidPrice] = useState("");
-
+  const [countDown, setCountDown] = useState(600);
+  const timerId = useRef();
   const [data, updateData] = useState([]);
   const [dataFetched, updateFetched] = useState(false);
   const [address, updateAddress] = useState("0x");
   const [filData, setFilData] = useState("");
+
+  useEffect(() => {
+    timerId.current = setInterval(() => {
+      setCountDown(prev => prev -1)
+    }, 1000)
+    return () => clearInterval(timerId.current)
+  },[])
+
+  useEffect(() => {
+    if(countDown <=0 ){
+      clearInterval(timerId.current);
+    }
+  },[countDown])
+
 
   const daysLeft = (deadline) => {
     const difference = new Date(deadline).getTime() - Date.now();
@@ -221,17 +247,15 @@ export const ViewnftBidding = () => {
             <span className="text-3xl font-bold">
               Status: {state.data.status == 0 ? "Bidding Closed" : "Bidding is Open" }
             </span>
-            <span className="text-3xl font-bold">
-              Listingid: {state.data.biddingId}
-            </span>
             {state.data.status == 0 ? (
               <span className="text-3xl font-bold">
                 Bidding Expired
               </span>
             ) : (
               <span className="text-3xl font-bold">
-                Bidding ends at {Hours} hrs : {Min} min : {seconds} sec
+                Bidding ends at {formatTime(countDown)}
               </span>
+              
             )}
             {/* <span className="text-3xl font-bold">{state.data.startAt}</span> */}
             {/* <span className="text-3xl font-bold">{state.data.endAt}</span> */}
@@ -270,7 +294,7 @@ export const ViewnftBidding = () => {
           </div>
         </div>
         <div className="pb-16">
-          <div className="bg-gray-900 border-2 border-gray-500 w-[700px] h-48 rounded-lg">
+          <div className="bg-gray-900 border-2 border-gray-500 w-[700px] h-fit rounded-lg">
             <div className="grid px-4 py-6 gap-2">
               <div className="flex justify-between">
                 <a className="text-xl">Contract Address</a>
@@ -286,6 +310,15 @@ export const ViewnftBidding = () => {
                   className="bg-gray-800 rounded-xl px-4"
                 >
                   <a className="text-xl">{state.data.tokenId}</a>
+                </button>
+              </div>
+              <div className="flex justify-between">
+                <a className="text-xl">Listing Id</a>
+                <button
+                  onClick={copyAddress}
+                  className="bg-gray-800 rounded-xl px-4"
+                >
+                  <a className="text-xl">{state.data.biddingId}</a>
                 </button>
               </div>
               <div className="flex justify-between">
