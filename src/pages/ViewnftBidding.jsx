@@ -190,6 +190,7 @@ if (!dataFetched) getNFTData();
     copy(state.data.tokenId);
     toast("Token id copying...");
   };
+  console.log(state.data.status);
 
   return (
     <div className="bg-black h-full w-full text-white">

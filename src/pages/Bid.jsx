@@ -44,7 +44,7 @@ export const Bid = () => {
             biddingId: i.biddingId.toNumber(),
             owner: i.seller,
             netPrice: price,
-            status: i.status,
+            status: i.status.toNumber(),
             endAt: i.deadline.toNumber(),
             price,
             tokenId: i.tokenId.toNumber(),
