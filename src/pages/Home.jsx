@@ -18,6 +18,8 @@ export const Home = () => {
 
   const [totTokenId, setTokenId] = useState('');
   const [totSoldNft, setTotSoldNft] = useState('');
+  const [totBidNft, setTotBidNft] = useState('');
+  const [totUser, setTotUser] = useState('');
   const slideRef = useRef(null);
   const [loadingProgress, setLoadingProgress] = useState(0);
   const [allNfts, setAllNfts] = useState([]);
@@ -37,6 +39,8 @@ export const Home = () => {
 
     let totalTokenId = await contract.getTotalMintedTokens();
     let totalSoldNft = await contract.getTotalSoldTokens();
+    let totalBidNft = await contract.getTotalBiddedTokens();
+    let totalCreators = await contract.getTotalUser();
     let nfts = await contract.getAllNfts();
     let bidNfts = await contract.getAllBiddedNfts();
 
@@ -87,6 +91,8 @@ export const Home = () => {
 
     setTokenId(totalTokenId.toNumber());
     setTotSoldNft(totalSoldNft.toNumber());
+    setTotBidNft(totalBidNft.toNumber());
+    setTotUser(totalCreators.toNumber());
     setAllNfts(items);
     setAllBidNfts(bids);
     console.log(bids)
@@ -171,11 +177,11 @@ export const Home = () => {
             <h1 className="text-xl font-bold">Sold</h1>
           </div>
           <div className="grid justify-center gap-6">
-            <h1 className="text-8xl font-bold"><CountUp start={0} end={totTokenId} /></h1>
+            <h1 className="text-8xl font-bold"><CountUp start={0} end={totBidNft} /></h1>
             <h1 className="text-xl font-bold">Bids</h1>
           </div>
           <div className="grid justify-center gap-6">
-            <h1 className="text-8xl font-bold"><CountUp start={0} end={totTokenId} /></h1>
+            <h1 className="text-8xl font-bold"><CountUp start={0} end={totUser} /></h1>
             <h1 className="text-xl font-bold">Creators</h1>
           </div>
         </div>

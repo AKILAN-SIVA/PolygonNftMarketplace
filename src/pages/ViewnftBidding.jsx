@@ -44,20 +44,6 @@ export const ViewnftBidding = () => {
     }
   },[countDown])
 
-
-  const daysLeft = (deadline) => {
-    const difference = new Date(deadline).getTime() - Date.now();
-    var remainingDays = 0;
-    if (difference < 0) {
-      remainingDays = 0;
-      return "Expired"
-    } else {
-      remainingDays = difference / (1000 * 3600 * 24);
-      return remainingDays.toFixed(0);
-    }
-    
-  };
-
   async function getNFTData() {
     //After adding your Hardhat network to your metamask, this code will get providers and signers
     const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -100,7 +86,7 @@ export const ViewnftBidding = () => {
     updateAddress(addr);
   }
 
-  if (!dataFetched) getNFTData();
+if (!dataFetched) getNFTData();
   console.log(data);
 
   const PlaceBid = async () => {
@@ -172,6 +158,8 @@ export const ViewnftBidding = () => {
   const [Hours,setHours] = useState(null);
   const [Min,setMin] = useState(null);
   const [seconds,setSeconds] = useState(null);
+
+
   const fixDate = (date) => {
     
     const timezoneOffsetMinutes = new Date().getTimezoneOffset();

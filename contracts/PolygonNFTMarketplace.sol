@@ -16,6 +16,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
     Counters.Counter public BuyCount;
     Counters.Counter public listingCounter;
     Counters.Counter public biddingCounter;
+    Counters.Counter public CreatorsCount;
 
     struct ListedToken{
         uint256 tokenId;
@@ -39,6 +40,8 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
 
     mapping(uint256 => string) public idToImageHash;
 
+    mapping(uint256 => address) public Creators;
+
     uint8 public constant STATUS_OPEN = 1;
     uint8 public constant STATUS_DONE = 0;
 
@@ -52,11 +55,10 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
         uint256 netPrice; // actual price
         uint256 startAt;
         uint256 deadline; 
-        uint8 status;
+        uint256 status;
     }
 
     mapping(uint256 => Listing) public listings;
-    mapping(uint256 => mapping(address => uint256)) public bids;
     mapping(uint256 => address) public highestBidder;
     mapping(uint256 => uint256) public highestBiddingAmount;
     uint256 public highestBidding = 0;
@@ -82,7 +84,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
     function CreateToken(string memory tokenURI, string memory imageHash) public payable returns(uint256){
 
         bool exist = checkImageExist(imageHash);
-        require(exist != true , "NFT already exist");
+        require(exist == false , "NFT already exist");
         TokenCount.increment();
         uint256 newTokenId = TokenCount.current();
         
@@ -105,7 +107,23 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
             false,
             false
         ); 
+        newUser(msg.sender);
         }
+    
+    function newUser(address user) public {
+        uint256 Totuser = CreatorsCount.current();
+        uint256 count=0;
+        for(uint256 i=0;i<Totuser;i++){
+            if(Creators[i+1] == user){
+                    count +=1;
+            }
+        }
+        if(count == 0){
+            CreatorsCount.increment();
+            uint256 count2 = CreatorsCount.current();
+            Creators[count2] = user;
+        }
+    }
     
     function ListNFT(uint256 price,uint256 id) public{
         idToListedToken[id].price = price;
@@ -137,6 +155,14 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
 
     function getTotalSoldTokens() public view returns(uint256){
         return SoldCount.current();
+    }
+
+    function getTotalBiddedTokens() public view returns(uint256){
+        return biddingCounter.current();
+    }
+
+    function getTotalUser() public view returns(uint256){
+        return CreatorsCount.current();
     }
 
     function getMyNFTs() public view returns(ListedToken[] memory){
@@ -184,6 +210,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
             true
         );
         idToListedToken[tokenId].price = 0;
+        newUser(msg.sender);
     }
 
     function getMySoldNFTs() public view returns(ItemsSold[] memory){
@@ -259,6 +286,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
             highestBidder[listingId] = msg.sender;
             highestBiddingAmount[listingId] = msg.value;
         }
+        newUser(msg.sender);
     }
 
     function getAllBiddingWithListingID() public view returns(Bidding[] memory){
@@ -317,6 +345,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
         for(uint256 i=0;i<totalBiddingCount;i++){
             if(idToBiddedToken[i+1].bidder == msg.sender){
                 price += idToBiddedToken[i+1].price;
+                idToBiddedToken[i+1].price = 0;
             }
         }
         
