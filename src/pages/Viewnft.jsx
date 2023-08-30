@@ -14,6 +14,7 @@ export const Viewnft = () => {
   const [listPrice, setListPrice] = useState("");
   const [bidPrice, setBidPrice] = useState("");
   const [timeInSec, setTimeInSec] = useState("");
+  const [timeInStr, setTimeInStr] = useState("");
   const [showListModal, setShowListModal] = useState(false);
   const [showBidModal, setShowBidModal] = useState(false);
 
@@ -81,7 +82,7 @@ export const Viewnft = () => {
       let price = ethers.utils.parseUnits(bidPrice, 'ether');
       // let deadline = daysLeft(durationInSeconds);
       // console.log(deadline);
-      let transaction = await contract.createAuctionListing(price, state.data.tokenId, timeInSec);
+      let transaction = await contract.createAuctionListing(price, state.data.tokenId, timeInSec, timeInStr);
       await transaction.wait();
       setShowBidModal(false)
     } catch (e) {
@@ -208,6 +209,9 @@ export const Viewnft = () => {
                           </div>
                           <div className="relative p-6 flex-auto">
                             <input type="number" onChange={(e) => setTimeInSec(e.target.value)} className="bg-transparent w-[600px] h-12 text-black rounded-lg border-2 border-black p-4" placeholder="Enter Time in seconds" value={timeInSec} />
+                          </div>
+                          <div className="relative p-6 flex-auto">
+                            <input type="text" onChange={(e) => setTimeInStr(e.target.value)} className="bg-transparent w-[600px] h-12 text-black rounded-lg border-2 border-black p-4" placeholder="eg: 13 october 2003" value={timeInStr} />
                           </div>
                           {/*footer*/}
                           <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">

@@ -31,18 +31,18 @@ export const ViewnftBidding = () => {
   const [address, updateAddress] = useState("0x");
   const [filData, setFilData] = useState("");
 
-  useEffect(() => {
-    timerId.current = setInterval(() => {
-      setCountDown(prev => prev -1)
-    }, 1000)
-    return () => clearInterval(timerId.current)
-  },[])
+  // useEffect(() => {
+  //   timerId.current = setInterval(() => {
+  //     setCountDown(prev => prev -1)
+  //   }, 1000)
+  //   return () => clearInterval(timerId.current)
+  // },[])
 
-  useEffect(() => {
-    if(countDown <=0 ){
-      clearInterval(timerId.current);
-    }
-  },[countDown])
+  // useEffect(() => {
+  //   if(countDown <=0 ){
+  //     clearInterval(timerId.current);
+  //   }
+  // },[countDown])
 
   async function getNFTData() {
     //After adding your Hardhat network to your metamask, this code will get providers and signers
@@ -75,6 +75,7 @@ export const ViewnftBidding = () => {
           title: meta.title,
           description: meta.description,
           collection: meta.collection,
+          date: meta.timeInStr,
         };
 
         return item;
@@ -232,6 +233,9 @@ if (!dataFetched) getNFTData();
             )}
             <span className="text-3xl font-bold">
               Price: {state.data.price}
+            </span>
+            <span className="text-3xl font-bold">
+              date: {state.data.date}
             </span>
             <span className="text-3xl font-bold">
               Status: {state.data.status == 0 ? "Bidding Closed" : "Bidding is Open" }

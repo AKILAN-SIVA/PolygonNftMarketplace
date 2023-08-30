@@ -53,6 +53,8 @@ export const Profile = () => {
                 tokenId: i.tokenId.toNumber(),
                 owner: i.owner,
                 buyNFT: i.NFTbought,
+                listNFT: i.NFTListed,
+                bidNFT: i.NFTBidded,
                 photo: meta.image,
                 title: meta.title,
                 description: meta.description,
@@ -67,6 +69,7 @@ export const Profile = () => {
         updateFetched(true);
         updateAddress(addr);
         updateNftCount(NFTcount);
+        console.log(items)
 
     }
 

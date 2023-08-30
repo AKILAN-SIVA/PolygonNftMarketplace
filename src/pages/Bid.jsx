@@ -44,6 +44,7 @@ export const Bid = () => {
             biddingId: i.biddingId.toNumber(),
             owner: i.seller,
             netPrice: price,
+            timeInStr: i.date,
             status: i.status.toNumber(),
             endAt: i.deadline.toNumber(),
             price,
