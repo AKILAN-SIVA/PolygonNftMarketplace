@@ -7,6 +7,7 @@ import AddressIcon from "../assets/addressIcon.png";
 import copy from 'copy-to-clipboard';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { faL } from '@fortawesome/free-solid-svg-icons';
 
 export const Viewnft = () => {
   const [walletAddress, setWalletAddress] = useState('');
@@ -19,6 +20,7 @@ export const Viewnft = () => {
   const [showBidModal, setShowBidModal] = useState(false);
 
   useEffect(() => {
+    console.log(state)
     if (window.ethereum) {
       window.ethereum.request({ method: "eth_requestAccounts" })
         .then((accounts) => {
@@ -125,7 +127,7 @@ export const Viewnft = () => {
                 <a className='text-2xl  tracking-widest'>Price: {state.data.price} MATIC</a>
                 <div className='border border-gray-500 w-[500px] h-0'></div>
                 {
-                  (state.data.owner).toLowerCase() == walletAddress.toLowerCase() ? state.data.price == 0 ?
+                  (state.data.owner).toLowerCase() == walletAddress.toLowerCase() ? state.data.bidNFT == false && state.data.listNFT == false ?
                     <>
                       <button className='text-black bg-white rounded-xl w-full h-12 font-bold' onClick={() => setShowListModal(true)}>List your NFT</button>
                       <div className='flex justify-center text-lg'><span>Or</span></div>
@@ -133,7 +135,18 @@ export const Viewnft = () => {
                     </>
 
                     :
-                    <button className='text-black bg-white rounded-xl w-full h-12 font-bold'>You Can't list the NFT Again </button>
+                    <>
+                    {
+                      state.data.listNFT == true ? 
+                      <>
+                      <button className='text-black bg-white rounded-xl w-full h-12 font-bold'>You Can't list the NFT Again </button>
+                      </> 
+                      :
+                      <>
+                      <button className='text-black bg-white rounded-xl w-full h-12 font-bold'>You Can't Bid the NFT Again </button>
+                      </>
+                    }</>
+                    
 
                     :
                     <button className='text-black bg-white rounded-xl w-full h-12 font-bold' onClick={BuyNFT}>Buy NFT</button>
