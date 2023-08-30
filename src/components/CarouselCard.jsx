@@ -6,9 +6,9 @@ import AddressIcon from "../assets/addressIcon.png";
 
 const CarouselCard = (data) => {
 
-    const navigate = useNavigate();
+  const navigate = useNavigate();
   function viewNft() {
-    navigate(`/viewNftBidding/`, { state: data });
+    // navigate(`/viewNftBidding/`, { state: data });
   }
   return (
     <div className='bg-[#171717] border-2 border-gray-600 rounded-lg h-100 w-64 hover:cursor-pointer scale-100 ' onClick={viewNft}>

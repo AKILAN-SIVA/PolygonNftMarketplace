@@ -17,8 +17,7 @@ export const ViewnftBidding = () => {
   const [data, updateData] = useState([]);
   const [dataFetched, updateFetched] = useState(false);
   const [address, updateAddress] = useState("0x");
-
-
+  const [loadingProgress, setLoadingProgress] = useState(true);
   const [timerDays, setTimerDays] = useState('00');
   const [timerHours, setTimerHours] = useState('00');
   const [timerMinutes, setTimerMinutes] = useState('00');
@@ -99,6 +98,7 @@ export const ViewnftBidding = () => {
     updateData(items);
     updateFetched(true);
     updateAddress(addr);
+    setLoadingProgress(false);
   }
 
   if (!dataFetched) getNFTData();
@@ -174,163 +174,178 @@ export const ViewnftBidding = () => {
     toast("Token id copying...");
   };
   console.log(state.data.status);
-
+  let circleCommonClasses = 'h-6 w-6 bg-current  rounded-full';
   return (
     <div className="bg-black h-full w-full text-white">
       <div className="pt-12">
         <Navbar />
       </div>
-      <div className="grid justify-start mt-12 ml-24 gap-8">
-        <div className="flex justify-start gap-16">
-          <div className="border-2 border-gray-600 rounded-3xl shadow-md">
-            <img
-              src={state.data.photo}
-              className="w-[700px] h-full rounded-3xl"
-            />
-          </div>
-          <div className="grid justify-start items-start h-fit gap-8 mt-8">
-            <span className=" flex justify-start gap-6 text-2xl font-bold">
-              Created by
-              <div className="flex gap-1">
-                <img src={AddressIcon} className="h-8 w-8" />
-                <h1 className="text-white justify-start">
-                  {state.data.owner.substring(0, 7)}....
-                  {state.data.owner.substring(12, 19)}
-                </h1>
-              </div>
-            </span>
-            {state.data.Buyer == null ? (
-              <div></div>
-            ) : (
-              <span className="flex justify-start gap-6 text-2xl font-bold">
-                Owned by
-                <div className="flex gap-1">
-                  <img src={AddressIcon} className="h-8 w-8" />
-                  <h1 className="text-white justify-start">
-                    {state.data.Buyer.substring(0, 7)}....
-                    {state.data.Buyer.substring(12, 19)}
-                  </h1>
+      {
+        loadingProgress ?
+          <>
+            <div className='flex justify-center mt-96 gap-6'>
+              <div className={`${circleCommonClasses} mt-1 animate-bounce`}></div>
+              <div
+                className={`${circleCommonClasses} mt-1 animate-bounce200`}
+              ></div>
+              <div className={`${circleCommonClasses} mt-1 animate-bounce400`}></div>
+            </div>
+          </>
+          :
+          <>
+            <div className="grid justify-start mt-12 ml-24 gap-8">
+              <div className="flex justify-start gap-16">
+                <div className="border-2 border-gray-600 rounded-3xl shadow-md">
+                  <img
+                    src={state.data.photo}
+                    className="w-[700px] h-full rounded-3xl"
+                  />
                 </div>
-              </span>
-            )}
-            <span className="text-3xl font-bold">
-              Price: {state.data.price}
-            </span>
-            {(timerDays == "00" && timerHours == "00" && timerMinutes == "00" && timerSeconds == "00") ? (
-              <span className="text-3xl font-bold">
-                Bidding Expired
-              </span>
-            ) : (
-              <span className="text-3xl font-bold">
-                Bidding ends at {state.data.timeInStr}
-              </span>
+                <div className="grid justify-start items-start h-fit gap-8 mt-8">
+                  <span className=" flex justify-start gap-6 text-2xl font-bold">
+                    Created by
+                    <div className="flex gap-1">
+                      <img src={AddressIcon} className="h-8 w-8" />
+                      <h1 className="text-white justify-start">
+                        {state.data.owner.substring(0, 7)}....
+                        {state.data.owner.substring(12, 19)}
+                      </h1>
+                    </div>
+                  </span>
+                  {state.data.Buyer == null ? (
+                    <div></div>
+                  ) : (
+                    <span className="flex justify-start gap-6 text-2xl font-bold">
+                      Owned by
+                      <div className="flex gap-1">
+                        <img src={AddressIcon} className="h-8 w-8" />
+                        <h1 className="text-white justify-start">
+                          {state.data.Buyer.substring(0, 7)}....
+                          {state.data.Buyer.substring(12, 19)}
+                        </h1>
+                      </div>
+                    </span>
+                  )}
+                  <span className="text-3xl font-bold">
+                    Price: {state.data.price}
+                  </span>
+                  {(timerDays == "00" && timerHours == "00" && timerMinutes == "00" && timerSeconds == "00") ? (
+                    <span className="text-3xl font-bold">
+                      Bidding Expired
+                    </span>
+                  ) : (
+                    <span className="text-3xl font-bold">
+                      Bidding ends at {state.data.timeInStr}
+                    </span>
 
-            )}
-            <div className="flex justify-center items-center gap-32">
-              <div className="grid text-6xl font-bold gap-4">
-                <span>{timerDays}</span>
-                <span className="text-lg">Days</span>
+                  )}
+                  <div className="flex justify-center items-center gap-32">
+                    <div className="grid text-6xl font-bold gap-4">
+                      <span>{timerDays}</span>
+                      <span className="text-lg">Days</span>
+                    </div>
+                    <div className="grid text-6xl font-bold gap-4">
+                      <span>{timerHours}</span>
+                      <span className="text-lg">Hours</span>
+                    </div>
+                    <div className="grid text-6xl font-bold gap-4">
+                      <span>{timerMinutes}</span>
+                      <span className="text-lg">Minutes</span>
+                    </div>
+                    <div className="grid text-6xl font-bold gap-4">
+                      <span>{timerSeconds}</span>
+                      <span className="text-lg">Seconds</span>
+                    </div>
+                  </div>
+                  <div className="flex flex-col gap-2 ">
+                    <div className="flex gap-2 text-lg">
+
+                    </div>
+                    {
+                      (timerDays == "00" && timerHours == "00" && timerMinutes == "00" && timerSeconds == "00") ?
+                        <>
+                          <button
+                            className="pt-2 bg-gray-600 inline-block p-2"
+                            onClick={CompleteBidding}
+                          >
+                            Complete Action
+                          </button>
+                          <button
+                            className="pt-2 bg-gray-600 inline-block p-2"
+                            onClick={WithdrawMyBid}
+                          >
+                            Withdraw my bid
+                          </button>
+                        </>
+                        :
+                        <>
+                          <p>Bid Price <span className="text-red-800">*</span></p>
+
+                          <input
+                            className="flex flex-col rounded-xl bg-transparent border-gray-400 border-2 h-12 w-[650px] p-4zzzzzz"
+                            type="text"
+                            name="collection"
+                            onChange={(e) => setBidPrice(e.target.value)}
+                            placeholder="Make Bid . . ."
+                            value={BidPrice}
+                          ></input>
+                          <button
+                            className="pt-2 bg-gray-600 inline-block p-2"
+                            onClick={PlaceBid}
+                          >
+                            Place Bid
+                          </button>
+                        </>
+                    }
+
+
+                  </div>
+
+                </div>
               </div>
-              <div className="grid text-6xl font-bold gap-4">
-                <span>{timerHours}</span>
-                <span className="text-lg">Hours</span>
-              </div>
-              <div className="grid text-6xl font-bold gap-4">
-                <span>{timerMinutes}</span>
-                <span className="text-lg">Minutes</span>
-              </div>
-              <div className="grid text-6xl font-bold gap-4">
-                <span>{timerSeconds}</span>
-                <span className="text-lg">Seconds</span>
+              <div className="pb-16">
+                <div className="bg-gray-900 border-2 border-gray-500 w-[700px] h-fit rounded-lg">
+                  <div className="grid px-4 py-6 gap-2">
+                    <div className="flex justify-between">
+                      <a className="text-xl">Contract Address</a>
+                      <a className="text-xl">
+                        {Marketplace.address.substring(0, 6)}....
+                        {Marketplace.address.substring(11, 16)}
+                      </a>
+                    </div>
+                    <div className="flex justify-between">
+                      <a className="text-xl">Token Id</a>
+                      <button
+                        onClick={copyAddress}
+                        className="bg-gray-800 rounded-xl px-4"
+                      >
+                        <a className="text-xl">{state.data.tokenId}</a>
+                      </button>
+                    </div>
+                    <div className="flex justify-between">
+                      <a className="text-xl">Listing Id</a>
+                      <button
+                        onClick={copyAddress}
+                        className="bg-gray-800 rounded-xl px-4"
+                      >
+                        <a className="text-xl">{state.data.biddingId}</a>
+                      </button>
+                    </div>
+                    <div className="flex justify-between">
+                      <a className="text-xl">Contract</a>
+                      <a className="text-xl">ERC-721</a>
+                    </div>
+                    <div className="flex justify-between">
+                      <a className="text-xl">Network</a>
+                      <a className="text-xl">Polygon</a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="flex flex-col gap-2 ">
-              <div className="flex gap-2 text-lg">
-
-              </div>
-              {
-                (timerDays == "00" && timerHours == "00" && timerMinutes == "00" && timerSeconds == "00") ?
-                  <>
-                    <button
-                      className="pt-2 bg-gray-600 inline-block p-2"
-                      onClick={CompleteBidding}
-                    >
-                      Complete Action
-                    </button>
-                    <button
-                      className="pt-2 bg-gray-600 inline-block p-2"
-                      onClick={WithdrawMyBid}
-                    >
-                      Withdraw my bid
-                    </button>
-                  </>
-                  :
-                  <>
-                    <p>Bid Price</p>
-                    <p className="text-red-800">*</p>
-                    <input
-                      className="flex flex-col rounded-xl bg-transparent border-gray-400 border-2 h-12 w-[650px] p-4"
-                      type="text"
-                      name="collection"
-                      onChange={(e) => setBidPrice(e.target.value)}
-                      placeholder="Make Bid . . ."
-                      value={BidPrice}
-                    ></input>
-                    <button
-                      className="pt-2 bg-gray-600 inline-block p-2"
-                      onClick={PlaceBid}
-                    >
-                      Place Bid
-                    </button>
-                  </>
-              }
-
-
-            </div>
-
-          </div>
-        </div>
-        <div className="pb-16">
-          <div className="bg-gray-900 border-2 border-gray-500 w-[700px] h-fit rounded-lg">
-            <div className="grid px-4 py-6 gap-2">
-              <div className="flex justify-between">
-                <a className="text-xl">Contract Address</a>
-                <a className="text-xl">
-                  {Marketplace.address.substring(0, 6)}....
-                  {Marketplace.address.substring(11, 16)}
-                </a>
-              </div>
-              <div className="flex justify-between">
-                <a className="text-xl">Token Id</a>
-                <button
-                  onClick={copyAddress}
-                  className="bg-gray-800 rounded-xl px-4"
-                >
-                  <a className="text-xl">{state.data.tokenId}</a>
-                </button>
-              </div>
-              <div className="flex justify-between">
-                <a className="text-xl">Listing Id</a>
-                <button
-                  onClick={copyAddress}
-                  className="bg-gray-800 rounded-xl px-4"
-                >
-                  <a className="text-xl">{state.data.biddingId}</a>
-                </button>
-              </div>
-              <div className="flex justify-between">
-                <a className="text-xl">Contract</a>
-                <a className="text-xl">ERC-721</a>
-              </div>
-              <div className="flex justify-between">
-                <a className="text-xl">Network</a>
-                <a className="text-xl">Polygon</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <ToastContainer />
+            <ToastContainer />
+          </>
+      }
     </div>
   );
 };

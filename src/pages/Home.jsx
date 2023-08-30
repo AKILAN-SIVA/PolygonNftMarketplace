@@ -21,7 +21,7 @@ export const Home = () => {
   const [totBidNft, setTotBidNft] = useState('');
   const [totUser, setTotUser] = useState('');
   const slideRef = useRef(null);
-  const [loadingProgress, setLoadingProgress] = useState(0);
+  const [loadingProgress, setLoadingProgress] = useState(true);
   const [allNfts, setAllNfts] = useState([]);
   const [allBidNfts, setAllBidNfts] = useState([]);
   const navigate = useNavigate();
@@ -88,15 +88,14 @@ export const Home = () => {
       return item;
     }))
 
-
     setTokenId(totalTokenId.toNumber());
     setTotSoldNft(totalSoldNft.toNumber());
     setTotBidNft(totalBidNft.toNumber());
     setTotUser(totalCreators.toNumber());
     setAllNfts(items);
     setAllBidNfts(bids);
-    console.log(bids)
-
+    console.log(bids);
+    setLoadingProgress(false)
   }
 
   const handleClickNext = () => {
@@ -109,86 +108,101 @@ export const Home = () => {
     slideRef.current.prepend(items[items.length - 1]);
   };
 
+  let circleCommonClasses = 'h-6 w-6 bg-current  rounded-full';
   return (
     <div className='bg-black min-h-screen h-fit w-full text-white'>
       <div className='pt-12'>
         <Navbar />
       </div>
+      {
+        loadingProgress ?
+          <>
+            <div className='flex justify-center mt-96 gap-6'>
+              <div className={`${circleCommonClasses} mt-1 animate-bounce`}></div>
+              <div
+                className={`${circleCommonClasses} mt-1 animate-bounce200`}
+              ></div>
+              <div className={`${circleCommonClasses} mt-1 animate-bounce400`}></div>
+            </div>
+          </>
+          :
+          <>
+            <div className="container">
+              <div className="loadbar" style={{ width: `${loadingProgress}%` }}></div>
+              <div id="slide" ref={slideRef}>
+                {allNfts.map((value, index) => (
+                  <div
+                    key={index}
+                    className="item"
+                    style={{ backgroundImage: `url(${value.photo})`, borderRadius: '30px' }}
+                    onClick={() => navigate("/searchNft", { state: value })}
+                  >
+                    <div className="content">
+                      <div className="grid gap-6 justify-center items-center">
+                        <div className="text-7xl font-bold text-gray-100 tracking-wider">{value.title}</div>
+                        <div className="flex gap-1 text-3xl font-semibold text-gray-100"><img src={AddressIcon} className='h-8 w-8' /> {value.price}</div>
+                      </div>
 
-      <div className="container">
-        <div className="loadbar" style={{ width: `${loadingProgress}%` }}></div>
-        <div id="slide" ref={slideRef}>
-          {allNfts.map((value, index) => (
-            <div
-              key={index}
-              className="item"
-              style={{ backgroundImage: `url(${value.photo})`, borderRadius: '30px' }}
-              onClick={() => navigate("/searchNft", { state: value })}
-            >
-              <div className="content">
-                <div className="grid gap-6 justify-center items-center">
-                  <div className="text-7xl font-bold text-gray-100 tracking-wider">{value.title}</div>
-                  <div className="flex gap-1 text-3xl font-semibold text-gray-100"><img src={AddressIcon} className='h-8 w-8' /> {value.price}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="buttons">
+                <div className="flex justify-center gap-6">
+                  <button id="prev" onClick={handleClickPrev}>
+                    <FontAwesomeIcon icon={faAngleLeft} />
+                  </button>
+                  <button id="next" onClick={handleClickNext}>
+                    <FontAwesomeIcon icon={faAngleRight} />
+                  </button>
                 </div>
-
               </div>
             </div>
-          ))}
-        </div>
-        <div className="buttons">
-          <div className="flex justify-center gap-6">
-            <button id="prev" onClick={handleClickPrev}>
-              <FontAwesomeIcon icon={faAngleLeft} />
-            </button>
-            <button id="next" onClick={handleClickNext}>
-              <FontAwesomeIcon icon={faAngleRight} />
-            </button>
-          </div>
-        </div>
-      </div>
-      <div className="bg-black w-full min-h-screen"></div>
-      <div className="flex justify-center">
-          <h1 className="text-5xl text-white font-semibold">Top Bids</h1>
-        </div>
-      <div className="grid justify-center items-center gap-12 pt-16">
-        <div>
-          <Carousel cols={4} rows={1} gap={90} loop={true} autoplay={1000}>
-            {
-              allBidNfts.map((value, index) => (
-                <Carousel.Item>
-                  <CarouselCard data={value} key={index} />
-                </Carousel.Item>
-              ))
-            }
-          </Carousel>
-        </div>
-      </div>
-      <div className="flex justify-center items-center pt-12">
-          <button className="bg-white text-xl text-black font-semibold  w-56 h-14 rounded-3xl" onClick={() => window.location.replace("/bidNft")}>View More</button>
-        </div>
-      <div className="pt-36">
-        <div className="flex justify-center items-start gap-60">
-          <div className="grid justify-center gap-6">
-            <h1 className="text-8xl font-bold"><CountUp start={0} end={totTokenId} /></h1>
-            <h1 className="text-xl font-bold">Mined</h1>
-          </div>
-          <div className="grid justify-center gap-6">
-            <h1 className="text-8xl font-bold"><CountUp start={0} end={totSoldNft} /></h1>
-            <h1 className="text-xl font-bold">Sold</h1>
-          </div>
-          <div className="grid justify-center gap-6">
-            <h1 className="text-8xl font-bold"><CountUp start={0} end={totBidNft} /></h1>
-            <h1 className="text-xl font-bold">Bids</h1>
-          </div>
-          <div className="grid justify-center gap-6">
-            <h1 className="text-8xl font-bold"><CountUp start={0} end={totUser} /></h1>
-            <h1 className="text-xl font-bold">Creators</h1>
-          </div>
-        </div>
-      </div>
-      <div className="pt-24">
-        <div className="bg-[#080808] w-full h-[500px]"> </div>
-      </div>
+            <div className="bg-black w-full min-h-screen"></div>
+            <div className="flex justify-center">
+              <h1 className="text-5xl text-white font-semibold">Top Bids</h1>
+            </div>
+            <div className="grid justify-center items-center gap-12 pt-16">
+              <div>
+                <Carousel cols={4} rows={1} gap={90} loop={true} autoplay={1000}>
+                  {
+                    allBidNfts.map((value, index) => (
+                      <Carousel.Item>
+                        <CarouselCard data={value} key={index} />
+                      </Carousel.Item>
+                    ))
+                  }
+                </Carousel>
+              </div>
+            </div>
+            <div className="flex justify-center items-center pt-12">
+              <button className="bg-white text-xl text-black font-semibold  w-56 h-14 rounded-3xl" onClick={() => window.location.replace("/bidNft")}>View More</button>
+            </div>
+            <div className="pt-36">
+              <div className="flex justify-center items-start gap-60">
+                <div className="grid justify-center gap-6">
+                  <h1 className="text-8xl font-bold"><CountUp start={0} end={totTokenId} /></h1>
+                  <h1 className="text-xl font-bold">Mined</h1>
+                </div>
+                <div className="grid justify-center gap-6">
+                  <h1 className="text-8xl font-bold"><CountUp start={0} end={totSoldNft} /></h1>
+                  <h1 className="text-xl font-bold">Sold</h1>
+                </div>
+                <div className="grid justify-center gap-6">
+                  <h1 className="text-8xl font-bold"><CountUp start={0} end={totBidNft} /></h1>
+                  <h1 className="text-xl font-bold">Bids</h1>
+                </div>
+                <div className="grid justify-center gap-6">
+                  <h1 className="text-8xl font-bold"><CountUp start={0} end={totUser} /></h1>
+                  <h1 className="text-xl font-bold">Creators</h1>
+                </div>
+              </div>
+            </div>
+            <div className="pt-24">
+              <div className="bg-[#080808] w-full h-[500px]"> </div>
+            </div>
+          </>
+      }
     </div>
   )
 }

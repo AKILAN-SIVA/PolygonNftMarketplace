@@ -7,7 +7,7 @@ import AddressIcon from "../assets/addressIcon.png";
 
 export const BiddingCard = (data) => {
 
-const navigate = useNavigate();
+  const navigate = useNavigate();
   function viewNft() {
     navigate(`/viewNftBidding/`, { state: data });
   }

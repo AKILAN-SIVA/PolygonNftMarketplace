@@ -24,6 +24,7 @@ export const Profile = () => {
     const [NftSold, updateNftSoldCount] = useState("0");
     const [profileInfo, setProfileInfo] = useState([]);
     const [showSold, setShowSold] = useState(false);
+    const [loadingProgress, setLoadingProgress] = useState(true);
 
     const copyAddress = (e) => {
         copy(address);
@@ -70,7 +71,7 @@ export const Profile = () => {
         updateAddress(addr);
         updateNftCount(NFTcount);
         console.log(items)
-
+        setLoadingProgress(false);
     }
 
     async function getNFTSoldData() {
@@ -116,93 +117,109 @@ export const Profile = () => {
 
     if (!FetchedSoldData) { getNFTSoldData(); }
 
+    let circleCommonClasses = 'h-6 w-6 bg-current  rounded-full';
     return (
         <div className='bg-black min-h-screen h-fit  text-white'>
             <div className='pt-12'>
                 <Navbar />
             </div>
-            <div className='grid ml-28 gap-6 h-full'>
-                <div className='flex justify-start items-center pt-12'>
-                    <div className='border-2 border-white h-32 w-32 rounded-3xl'><Identicon string={address} className="h-32 w-36 rounded-2xl" size={125} /></div>
-                    <div className='flex justify-start items-start ml-32 gap-20'>
-                        <div className='grid justify-center items-center gap-4'>
-                            <h1 className='text-5xl font-bold'><CountUp start={0} end={CountNFt} /></h1>
-                            <h1 className='text-lg font-bold'>Mined</h1>
+            {
+                loadingProgress ?
+                    <>
+                        <div className='flex justify-center mt-96 gap-6'>
+                            <div className={`${circleCommonClasses} mt-1 animate-bounce`}></div>
+                            <div
+                                className={`${circleCommonClasses} mt-1 animate-bounce200`}
+                            ></div>
+                            <div className={`${circleCommonClasses} mt-1 animate-bounce400`}></div>
                         </div>
-                        <div className='grid justify-center items-center gap-4'>
-                            <h1 className='text-5xl font-bold'><CountUp start={0} end={sum} /></h1>
-                            <h1 className='text-lg font-bold'>Total value</h1>
-                        </div>
-                        <div className='grid justify-center items-center gap-4'>
-                            <h1 className='text-5xl font-bold'><CountUp start={0} end={NftSold} /></h1>
-                            <h1 className='text-lg font-bold'>Sold</h1>
-                        </div>
-                    </div>
-                </div>
-
-                {/* <h1 className='text-3xl font-mono font-bold'>i_am_akilan</h1> */}
-                <div className='flex justify-between w-full h-8 items-center gap-1'>
-                    <div className='flex gap-1'>
-                        <img src={AddressIcon} className='h-8 w-8' />
-                        <button onClick={copyAddress} className='bg-gray-900 rounded-xl p-2'><h1 className='text-white justify-start'>{address.substring(0, 6)}....{address.substring(11, 16)}</h1></button>
-                    </div>
-                    {/* <div className=''>
-                        <button className='bg-white hover:bg-gray-300 text-black text-lg h-12 w-40 rounded-xl font-bold mr-28' onClick={() => window.location.replace("/editProfile")}>Edit Profile</button>
-                    </div> */}
-                </div>
-                <div className='border border-[#171717] h-0 w-11/12 mr-2'> </div>
-                <div className='text-4xl font-bold p-2'>
-                    <h1>Collections</h1>
-                </div>
-                <div className='grid border-0 border-gray-800  mr-28 rounded-xl p-4 '>
-                    {
-                        data.length == 0 ?
-                            <div className='flex flex-wrap justify-center text-2xl font-bold '>
-                                <h1>Oops!, NFT not yet created or owned</h1>
-                            </div>
-                            :
-                            <div>
-                                {
-                                    showSold ?
-                                        <div className='flex justify-start '>
-                                            <button className='w-56 p-2' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Owned</a></button>
-                                            <button className='bg-gray-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
-                                        </div>
-                                        :
-                                        <div className='flex justify-start '>
-                                            <button className='bg-gray-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Owned</a></button>
-                                            <button className='w-56 p-2' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
-                                        </div>
-                                }
-
-                                <div className='flex '>
-                                    {
-                                        showSold == false ?
-                                            <div className='flex flex-wrap gap-12  w-full h-full py-8'>
-                                                {data.map((value, index) => {
-                                                    return <Card data={value} key={index} />;
-                                                })}
-                                            </div>
-                                            :
-                                            SoldData.length == 0 ?
-                                                <div className='flex flex-wrap justify-center  text-2xl font-bold w-full h-full'>
-                                                    <h1>Oops!, NFT not yet sold</h1>
-                                                </div>
-                                                :
-                                                <div className='flex flex-wrap gap-12 w-full h-full p-8'>
-                                                    {SoldData.map((value, index) => {
-                                                        return <Card data={value} key={index} />;
-                                                    })}
-                                                </div>
-                                    }
+                    </>
+                    :
+                    <>
+                        <div className='grid ml-28 gap-6 h-full'>
+                            <div className='flex justify-start items-center pt-12'>
+                                <div className='border-2 border-white h-32 w-32 rounded-3xl'><Identicon string={address} className="h-32 w-36 rounded-2xl" size={125} /></div>
+                                <div className='flex justify-start items-start ml-32 gap-20'>
+                                    <div className='grid justify-center items-center gap-4'>
+                                        <h1 className='text-5xl font-bold'><CountUp start={0} end={CountNFt} /></h1>
+                                        <h1 className='text-lg font-bold'>Mined</h1>
+                                    </div>
+                                    <div className='grid justify-center items-center gap-4'>
+                                        <h1 className='text-5xl font-bold'><CountUp start={0} end={sum} /></h1>
+                                        <h1 className='text-lg font-bold'>Total value</h1>
+                                    </div>
+                                    <div className='grid justify-center items-center gap-4'>
+                                        <h1 className='text-5xl font-bold'><CountUp start={0} end={NftSold} /></h1>
+                                        <h1 className='text-lg font-bold'>Sold</h1>
+                                    </div>
                                 </div>
                             </div>
 
-                    }
-                </div>
-                <br />
-            </div>
-            <ToastContainer />
+                            {/* <h1 className='text-3xl font-mono font-bold'>i_am_akilan</h1> */}
+                            <div className='flex justify-between w-full h-8 items-center gap-1'>
+                                <div className='flex gap-1'>
+                                    <img src={AddressIcon} className='h-8 w-8' />
+                                    <button onClick={copyAddress} className='bg-gray-900 rounded-xl p-2'><h1 className='text-white justify-start'>{address.substring(0, 6)}....{address.substring(11, 16)}</h1></button>
+                                </div>
+                                {/* <div className=''>
+                        <button className='bg-white hover:bg-gray-300 text-black text-lg h-12 w-40 rounded-xl font-bold mr-28' onClick={() => window.location.replace("/editProfile")}>Edit Profile</button>
+                    </div> */}
+                            </div>
+                            <div className='border border-[#171717] h-0 w-11/12 mr-2'> </div>
+                            <div className='text-4xl font-bold p-2'>
+                                <h1>Collections</h1>
+                            </div>
+                            <div className='grid border-0 border-gray-800  mr-28 rounded-xl p-4 '>
+                                {
+                                    data.length == 0 ?
+                                        <div className='flex flex-wrap justify-center text-2xl font-bold '>
+                                            <h1>Oops!, NFT not yet created or owned</h1>
+                                        </div>
+                                        :
+                                        <div>
+                                            {
+                                                showSold ?
+                                                    <div className='flex justify-start '>
+                                                        <button className='w-56 p-2' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Owned</a></button>
+                                                        <button className='bg-gray-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
+                                                    </div>
+                                                    :
+                                                    <div className='flex justify-start '>
+                                                        <button className='bg-gray-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Owned</a></button>
+                                                        <button className='w-56 p-2' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
+                                                    </div>
+                                            }
+
+                                            <div className='flex '>
+                                                {
+                                                    showSold == false ?
+                                                        <div className='flex flex-wrap gap-12  w-full h-full py-8'>
+                                                            {data.map((value, index) => {
+                                                                return <Card data={value} key={index} />;
+                                                            })}
+                                                        </div>
+                                                        :
+                                                        SoldData.length == 0 ?
+                                                            <div className='flex flex-wrap justify-center  text-2xl font-bold w-full h-full'>
+                                                                <h1>Oops!, NFT not yet sold</h1>
+                                                            </div>
+                                                            :
+                                                            <div className='flex flex-wrap gap-12 w-full h-full p-8'>
+                                                                {SoldData.map((value, index) => {
+                                                                    return <Card data={value} key={index} />;
+                                                                })}
+                                                            </div>
+                                                }
+                                            </div>
+                                        </div>
+
+                                }
+                            </div>
+                            <br />
+                        </div>
+                        <ToastContainer />
+                    </>
+            }
         </div>
     )
 }
