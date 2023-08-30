@@ -235,7 +235,7 @@ if (!dataFetched) getNFTData();
               Price: {state.data.price}
             </span>
             <span className="text-3xl font-bold">
-              date: {state.data.date}
+              date: {state.data.timeInStr}
             </span>
             <span className="text-3xl font-bold">
               Status: {state.data.status == 0 ? "Bidding Closed" : "Bidding is Open" }

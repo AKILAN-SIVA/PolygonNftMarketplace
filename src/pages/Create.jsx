@@ -163,13 +163,13 @@ export const Create = () => {
 
       //actually create the NFT
       let transaction = await contract.checkImageExist(hashValue);
-      await transaction.wait();
       if(transaction == true){
         let creating = await contract.CreateToken(metadataURL,hashValue);
         await creating.wait();
       }
       else{
         alert("NFT already exist");
+        return
       }
 
       alert("Successfully listed your NFT!");
