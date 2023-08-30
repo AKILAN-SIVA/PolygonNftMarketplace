@@ -89,6 +89,7 @@ export const Viewnft = () => {
     }
   }
 
+
   return (
     <div className='bg-black h-full w-full text-white'>
       <div className='pt-12'>
