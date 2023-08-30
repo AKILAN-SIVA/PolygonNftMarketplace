@@ -10,27 +10,80 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useRef } from "react";
 
-const formatTime = (time) => {
-  // let hours = Math.floor(time / 60*60);
-  let minutes = Math.floor(time / 60);
-  let seconds = Math.floor(time - minutes  * 60)
-  // if(hours <= 10) hours = "0"+hours;
-  if(minutes <= 10) minutes = "0"+minutes;
-  if(seconds <= 10) seconds = "0"+seconds;
-  return minutes + ":" + seconds
-  // return hours + ":" + minutes + ':' + seconds
-}
+// const formatTime = (time) => {
+//   // let hours = Math.floor(time / 60*60);
+//   let minutes = Math.floor(time / 60);
+//   let seconds = Math.floor(time - minutes  * 60)
+//   // if(hours <= 10) hours = "0"+hours;
+//   if(minutes <= 10) minutes = "0"+minutes;
+//   if(seconds <= 10) seconds = "0"+seconds;
+//   return minutes + ":" + seconds
+//   // return hours + ":" + minutes + ':' + seconds
+// }
 export const ViewnftBidding = () => {
   const [walletAddress, setWalletAddress] = useState("");
   const { state } = useLocation();
   const [BidPrice, setBidPrice] = useState("");
   const [countDown, setCountDown] = useState(600);
-  const timerId = useRef();
   const [data, updateData] = useState([]);
   const [dataFetched, updateFetched] = useState(false);
   const [address, updateAddress] = useState("0x");
   const [filData, setFilData] = useState("");
 
+  const [timerDays, setTimerDays] = useState('00');
+  const [timerHours, setTimerHours] = useState('00');
+  const [timerMinutes, setTimerMinutes] = useState('00');
+  const [timerSeconds, setTimerSeconds] = useState('00');
+  // const [inputDate, setInputDate] = useState(state.data.timeInStr);
+  // const [currentDate, setCurrentDate] = useState(inputDate);
+
+  let interval = useRef();
+
+  const startTimer = () => {
+    const countDownDate = new Date(state.data.timeInStr).getTime();
+
+    interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = countDownDate - now;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24) / (1000 * 60 * 60)));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      if(distance < 0) {
+        clearInterval(interval.current);
+      }
+      else {
+        setTimerDays(days);
+        setTimerHours(hours);
+        setTimerMinutes(minutes);
+        setTimerSeconds(seconds);
+      }
+    }, 1000)
+  }
+
+  useEffect(() => {
+    startTimer();
+    return () => {
+      clearInterval(interval.current);
+    }
+  });
+
+  // useEffect(() => {
+  //   const changingDate = new Date(inputDate);
+  //   const currentDate = new Date();
+  //   const totalSeconds = (changingDate - currentDate) / 1000;
+
+  //   setDays(formatTime(Math.floor(totalSeconds / 3600 / 24)));
+  //   setHours(Math.floor(totalSeconds / 3600) % 24);
+  //   setMinutes(Math.floor(totalSeconds / 60) % 60);
+  //   setSeconds(Math.floor(totalSeconds % 60));
+  // },[currentDate])
+
+  // function formatTime(time) {
+  //   return time < 10 ? `0${time}` : time ;
+  // }
   // useEffect(() => {
   //   timerId.current = setInterval(() => {
   //     setCountDown(prev => prev -1)
@@ -141,43 +194,43 @@ if (!dataFetched) getNFTData();
     }
   };
 
-  useEffect(() => {
-    if (window.ethereum) {
-      window.ethereum
-        .request({ method: "eth_requestAccounts" })
-        .then((accounts) => {
-          console.log(accounts[0]);
-          setWalletAddress(accounts[0]);
-          console.log("address ", state.data.owner);
-        });
-    } else {
-      alert("Install Metamask Extension");
-    }
-  });
+  // useEffect(() => {
+  //   if (window.ethereum) {
+  //     window.ethereum
+  //       .request({ method: "eth_requestAccounts" })
+  //       .then((accounts) => {
+  //         console.log(accounts[0]);
+  //         setWalletAddress(accounts[0]);
+  //         console.log("address ", state.data.owner);
+  //       });
+  //   } else {
+  //     alert("Install Metamask Extension");
+  //   }
+  // });
 
-  const [userUTCTime,setUserUTCTime] = useState(null);
-  const [Hours,setHours] = useState(null);
-  const [Min,setMin] = useState(null);
-  const [seconds,setSeconds] = useState(null);
+  // const [userUTCTime,setUserUTCTime] = useState(null);
+  // const [Hours,setHours] = useState(null);
+  // const [Min,setMin] = useState(null);
+  // const [seconds,setSeconds] = useState(null);
 
 
-  const fixDate = (date) => {
+  // const fixDate = (date) => {
     
-    const timezoneOffsetMinutes = new Date().getTimezoneOffset();
-    const localTimestamp = date * 1000 + timezoneOffsetMinutes * 60 * 1000;
-    const localTime = new Date(localTimestamp);
-    const hr = localTime.getHours();
-    const min = localTime.getMinutes();
-    const sec = localTime.getSeconds();
-    console.log(hr+5);
-    console.log(min+30);
-    console.log(sec);
-    setHours(hr+5);
-    setMin(min+30);
-    setSeconds(sec);
-    setUserUTCTime(localTime);
-    return localTime;
-  };
+  //   const timezoneOffsetMinutes = new Date().getTimezoneOffset();
+  //   const localTimestamp = date * 1000 + timezoneOffsetMinutes * 60 * 1000;
+  //   const localTime = new Date(localTimestamp);
+  //   const hr = localTime.getHours();
+  //   const min = localTime.getMinutes();
+  //   const sec = localTime.getSeconds();
+  //   console.log(hr+5);
+  //   console.log(min+30);
+  //   console.log(sec);
+  //   setHours(hr+5);
+  //   setMin(min+30);
+  //   setSeconds(sec);
+  //   setUserUTCTime(localTime);
+  //   return localTime;
+  // };
 
   // useEffect(()=>{
   //   fixDate(state.data.endAt);
@@ -207,9 +260,9 @@ if (!dataFetched) getNFTData();
             />
           </div>
           <div className="grid justify-start items-start h-fit gap-8 mt-8">
-            <span className="text-2xl font-bold">
+            <span className=" flex justify-start gap-6 text-2xl font-bold">
               Created by
-              <div className="flex gap-1 mt-4">
+              <div className="flex gap-1">
                 <img src={AddressIcon} className="h-8 w-8" />
                 <h1 className="text-white justify-start">
                   {state.data.owner.substring(0, 7)}....
@@ -220,9 +273,9 @@ if (!dataFetched) getNFTData();
             {state.data.Buyer == null ? (
               <div></div>
             ) : (
-              <span className="text-2xl font-bold">
+              <span className="flex justify-start gap-6 text-2xl font-bold">
                 Owned by
-                <div className="flex gap-1 mt-4">
+                <div className="flex gap-1">
                   <img src={AddressIcon} className="h-8 w-8" />
                   <h1 className="text-white justify-start">
                     {state.data.Buyer.substring(0, 7)}....
@@ -234,30 +287,62 @@ if (!dataFetched) getNFTData();
             <span className="text-3xl font-bold">
               Price: {state.data.price}
             </span>
-            <span className="text-3xl font-bold">
-              date: {state.data.timeInStr}
-            </span>
-            <span className="text-3xl font-bold">
-              Status: {state.data.status == 0 ? "Bidding Closed" : "Bidding is Open" }
-            </span>
-            {state.data.status == 0 ? (
+            {/* <span className="text-3xl font-bold">
+              Status: {(timerDays=="00" && timerHours=="00" && timerMinutes=="00" && timerSeconds=="00") ? "Bidding Closed" : "Bidding is Open" }
+            </span> */}
+            {(timerDays=="00" && timerHours=="00" && timerMinutes=="00" && timerSeconds=="00") ? (
               <span className="text-3xl font-bold">
                 Bidding Expired
               </span>
             ) : (
               <span className="text-3xl font-bold">
-                Bidding ends at {formatTime(countDown)}
+                Bidding ends at {state.data.timeInStr}
               </span>
               
             )}
-            {/* <span className="text-3xl font-bold">{state.data.startAt}</span> */}
-            {/* <span className="text-3xl font-bold">{state.data.endAt}</span> */}
+            <div className="flex justify-center items-center gap-32">
+              <div className="grid text-6xl font-bold gap-4">
+                <span>{timerDays}</span>
+                <span className="text-lg">Days</span>
+              </div>
+              <div className="grid text-6xl font-bold gap-4">
+                <span>{timerHours}</span>
+                <span className="text-lg">Hours</span>
+              </div>
+              <div className="grid text-6xl font-bold gap-4">
+                <span>{timerMinutes}</span>
+                <span className="text-lg">Minutes</span>
+              </div>
+              <div className="grid text-6xl font-bold gap-4">
+                <span>{timerSeconds}</span>
+                <span className="text-lg">Seconds</span>
+              </div>
+            </div>
             <div className="flex flex-col gap-2 ">
               <div className="flex gap-2 text-lg">
-                <p>Bid Price</p>
-                <p className="text-red-800">*</p>
+               
               </div>
-              <input
+              {
+                (timerDays=="00" && timerHours=="00" && timerMinutes=="00" && timerSeconds=="00") ?
+                <>
+                <button
+                className="pt-2 bg-gray-600 inline-block p-2"
+                onClick={CompleteBidding}
+              >
+                Complete Action
+              </button>
+              <button
+                className="pt-2 bg-gray-600 inline-block p-2"
+                onClick={WithdrawMyBid}
+              >
+                Withdraw my bid
+              </button>
+                </>
+                :
+                <>
+                 <p>Bid Price</p>
+                <p className="text-red-800">*</p>
+                <input
                 className="flex flex-col rounded-xl bg-transparent border-gray-400 border-2 h-12 w-[650px] p-4"
                 type="text"
                 name="collection"
@@ -271,19 +356,12 @@ if (!dataFetched) getNFTData();
               >
                 Place Bid
               </button>
-              <button
-                className="pt-2 bg-gray-600 inline-block p-2"
-                onClick={CompleteBidding}
-              >
-                Complete Action
-              </button>
-              <button
-                className="pt-2 bg-gray-600 inline-block p-2"
-                onClick={WithdrawMyBid}
-              >
-                Withdraw my bid
-              </button>
+                </>
+              }
+              
+              
             </div>
+           
           </div>
         </div>
         <div className="pb-16">

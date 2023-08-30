@@ -224,7 +224,7 @@ export const Viewnft = () => {
                             <input type="number" onChange={(e) => setTimeInSec(e.target.value)} className="bg-transparent w-[600px] h-12 text-black rounded-lg border-2 border-black p-4" placeholder="Enter Time in seconds" value={timeInSec} />
                           </div>
                           <div className="relative p-6 flex-auto">
-                            <input type="text" onChange={(e) => setTimeInStr(e.target.value)} className="bg-transparent w-[600px] h-12 text-black rounded-lg border-2 border-black p-4" placeholder="eg: 13 october 2003" value={timeInStr} />
+                            <input type="text" onChange={(e) => setTimeInStr(e.target.value)} className="bg-transparent w-[600px] h-12 text-black rounded-lg border-2 border-black p-4" placeholder="October 13, 2023 13:10:00" value={timeInStr} />
                           </div>
                           {/*footer*/}
                           <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
