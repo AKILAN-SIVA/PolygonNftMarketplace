@@ -162,8 +162,15 @@ export const Create = () => {
       // const price = ethers.utils.parseUnits(form.price,'ether');
 
       //actually create the NFT
-      let transaction = await contract.checkImageExist(hashValue, metadataURL)
-      await transaction.wait()
+      let transaction = await contract.checkImageExist(hashValue);
+      await transaction.wait();
+      if(transaction == true){
+        let creating = await contract.CreateToken(metadataURL,hashValue);
+        await creating.wait();
+      }
+      else{
+        alert("NFT already exist");
+      }
 
       alert("Successfully listed your NFT!");
       setMsg("");
