@@ -71,22 +71,17 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
 
     }
 
-    function checkImageExist(string memory imageHash,string memory tokenURI) public {
+    function checkImageExist(string memory imageHash) public view returns(bool) {
         uint256 tokenCount = TokenCount.current();
         string memory imghash = imageHash;
         string memory idHash;
-        uint256 count = 0;
         for(uint256 i=0;i<tokenCount;i++){
             idHash = idToImageHash[i+1];
             if(keccak256(abi.encodePacked(idHash)) == keccak256(abi.encodePacked(imghash))){
-                count += 1;
+                return false;
             }
         }
-        if(count == 0){
-            CreateToken(tokenURI, imageHash);
-        }else{
-            require(count == 0,"NFT already exist");
-        }
+        return true;
         
     } 
 
@@ -273,7 +268,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
             date: aucDate,
             deadline: endAt
         });
-
+        idToListedToken[tokenId].NFTBidded = true; 
         // _transfer(msg.sender, address(this), tokenId);
 
         return listingId;
@@ -297,7 +292,6 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
             highestBidder[listingId] = msg.sender;
             highestBiddingAmount[listingId] = msg.value;
         }
-        idToListedToken[listings[listingId].tokenId].NFTBidded = true;
         newUser(msg.sender);
     }
 
