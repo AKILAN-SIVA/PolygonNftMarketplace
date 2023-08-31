@@ -292,8 +292,8 @@ export const ViewnftBidding = () => {
                             <>
                               {data.map((value, index) => {
                                 if (
-                                  address == value.bidder &&
-                                  value.biddingId == state.data.biddingId
+                                  (address == value.bidder &&
+                                  value.biddingId == state.data.biddingId) && (address != highestBidderAddress)
                                 ) {
                                   return (
                                     <div>
