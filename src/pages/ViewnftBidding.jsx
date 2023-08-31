@@ -355,7 +355,7 @@ export const ViewnftBidding = () => {
                         value={BidPrice}
                       ></input>
                       <button
-                        className="pt-2 bg-gray-600 inline-block p-2"
+                        className="pt-2 bg-gray-600 inline-block p-2 w-full mt-4"
                         onClick={PlaceBid}
                       >
                         Place Bid
@@ -382,8 +382,8 @@ export const ViewnftBidding = () => {
                                     className="bg-gray-900 rounded-xl p-2"
                                   >
                                     <h1 className="text-white justify-start tracking-widest">
-                                      {address.substring(0, 7)}....
-                                      {address.substring(21, 29)}
+                                      {(value.bidder).substring(0, 7)}....
+                                      {(value.bidder).substring(21, 29)}
                                     </h1>
                                   </button>
                                 </div>
