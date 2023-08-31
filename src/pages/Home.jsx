@@ -90,11 +90,12 @@ export const Home = () => {
 
     setTokenId(totalTokenId.toNumber());
     setTotSoldNft(totalSoldNft.toNumber());
-    setTotBidNft(totalBidNft.toNumber());
+    setTotBidNft(bids.length);
     setTotUser(totalCreators.toNumber());
     setAllNfts(items);
     setAllBidNfts(bids);
     console.log(bids);
+    console.log(totalBidNft.toNumber());
     setLoadingProgress(false)
   }
 

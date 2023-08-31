@@ -295,6 +295,10 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
         newUser(msg.sender);
     }
 
+    function getHighestBidder(uint256 listingId) public view returns(address){
+            return highestBidder[listingId];
+    }
+
     function getAllBiddingWithListingID() public view returns(Bidding[] memory){
         uint256 totalbiddingCount = biddingCounter.current();
         uint256 count = 0;

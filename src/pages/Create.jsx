@@ -7,6 +7,8 @@ import { ethers } from "ethers";
 import Marketplace from "../Marketplace.json"
 import key from './HuggingFace'
 import crypto from "crypto-js";
+
+
 export const Create = () => {
   const [form, setForm] = useState({
     title: "",
