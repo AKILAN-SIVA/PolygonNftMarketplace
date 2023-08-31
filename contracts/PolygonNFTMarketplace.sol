@@ -216,6 +216,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
         );
         idToListedToken[tokenId].price = 0;
         newUser(msg.sender);
+        idToListedToken[tokenId].NFTListed = false;
     }
 
     function getMySoldNFTs() public view returns(ItemsSold[] memory){
@@ -344,6 +345,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
         // listing.price = 0;
         idToListedToken[tokenId].owner = payable (winner);
         listing.status = STATUS_DONE;
+        idToListedToken[tokenId].NFTBidded = false;
         }
     }
 
