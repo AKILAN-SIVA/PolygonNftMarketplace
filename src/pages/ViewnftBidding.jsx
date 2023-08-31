@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Navbar from "./Navbar";
 import { useLocation } from "react-router-dom";
 import { ethers } from "ethers";
@@ -8,7 +8,7 @@ import copy from "copy-to-clipboard";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { useRef } from "react";
+import Identicon from "react-identicons";
 
 export const ViewnftBidding = () => {
   let count;
@@ -179,6 +179,11 @@ export const ViewnftBidding = () => {
     copy(state.data.tokenId);
     toast("Token id copying...");
   };
+  const copyBidderAddress = (addr) => {
+    copy(addr);
+    toast("Address copying...");
+  };
+
   console.log(state.data.status);
   let circleCommonClasses = "h-6 w-6 bg-current  rounded-full";
   return (
@@ -281,14 +286,17 @@ export const ViewnftBidding = () => {
                         </button>
                       ) : (
                         <div>
-                          {data.length != 0  ? (
+                          {data.length != 0 ? (
                             <>
                               {data.map((value, index) => {
-                                if (address == value.bidder && value.biddingId == state.data.biddingId) {
+                                if (
+                                  address == value.bidder &&
+                                  value.biddingId == state.data.biddingId
+                                ) {
                                   return (
                                     <div>
                                       <button
-                                        className="pt-2 bg-gray-600 inline-block p-2"
+                                        className="pt-2 bg-gray-600 inline-block p-2 w-full"
                                         onClick={WithdrawMyBid}
                                       >
                                         Withdraw my bid
@@ -333,6 +341,7 @@ export const ViewnftBidding = () => {
                     </>
                   ) : (
                     <>
+                    <div>
                       <p>
                         Bid Price <span className="text-red-800">*</span>
                       </p>
@@ -351,19 +360,41 @@ export const ViewnftBidding = () => {
                       >
                         Place Bid
                       </button>
+                    </div>
                     </>
                   )}
-                  <div>
-                    <p className="text-3xl">Total bids</p>
+                  <div className="pt-12">
+                    <p className="text-3xl">Bid History</p>
                     <div>
                       {data.map((value, index) => {
                         if (value.tokenId == state.data.tokenId) {
                           return (
-                            <div>
-                              <p className="text-xl">
+                            <div className="grid mt-8">
+                              <div className="flex justify-between">
+                                <div className="flex gap-4">
+                                  <Identicon
+                                    string={value.bidder}
+                                    size={50}
+                                    className="border border-gray-500 rounded-3xl"
+                                  />
+                                  <button
+                                    onClick={copyBidderAddress}
+                                    className="bg-gray-900 rounded-xl p-2"
+                                  >
+                                    <h1 className="text-white justify-start tracking-widest">
+                                      {address.substring(0, 7)}....
+                                      {address.substring(21, 29)}
+                                    </h1>
+                                  </button>
+                                </div>
+                                <div>
+                                  <span className="text-2xl ">{value.price}</span>
+                                </div>
+                              </div>
+                              {/* <p className="text-xl">
                                 Bidder: <span>{value.bidder}</span> Price:{" "}
                                 <span>{value.price}</span>
-                              </p>
+                              </p> */}
                             </div>
                           );
                         }
