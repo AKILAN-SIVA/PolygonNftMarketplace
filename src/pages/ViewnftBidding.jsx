@@ -73,6 +73,7 @@ export const ViewnftBidding = () => {
     );
 
     let highestBidder = await contract.getHighestBidder(state.data.biddingId);
+    console.log(highestBidder, "is highest bidder")
     updateHighestBidderAddress(highestBidder);
 
     //create an NFT Token
@@ -108,6 +109,7 @@ export const ViewnftBidding = () => {
 
   if (!dataFetched) getNFTData();
   console.log(data);
+  console.log("highestBidderAddress", highestBidderAddress)
   console.log(address);
 
   const PlaceBid = async () => {
@@ -276,8 +278,8 @@ export const ViewnftBidding = () => {
                   timerMinutes == "00" &&
                   timerSeconds == "00" ? (
                     <>
-                      {address == highestBidderAddress ||
-                      address == state.data.owner ? (
+                      {(address == highestBidderAddress ||
+                      address == state.data.owner) && state.data.status != 0 ? (
                         <button
                           className="pt-2 bg-gray-600 inline-block p-2"
                           onClick={CompleteBidding}
