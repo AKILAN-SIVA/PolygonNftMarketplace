@@ -8,6 +8,7 @@ import copy from 'copy-to-clipboard';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { faL } from '@fortawesome/free-solid-svg-icons';
+import { PiShoppingCartSimpleFill } from "react-icons/pi"
 
 export const Viewnft = () => {
   const [walletAddress, setWalletAddress] = useState('');
@@ -119,16 +120,19 @@ export const Viewnft = () => {
           <>
             <div className='grid justify-start mt-12 ml-24 gap-8'>
               <div className='flex justify-start gap-16'>
-                <div className='border-4 border-gray-600 w-[700px] h-[500px]  rounded-3xl shadow-md'>
-                  <img src={state.data.photo} className='w-full h-full rounded-3xl' />
+                <div className='border-4 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md overflow-hidden'>
+                  <img src={state.data.photo} className='w-full h-full' />
                 </div>
                 <div className='grid justify-start items-start h-fit gap-8 mt-8'>
-                  <span className='text-2xl font-bold'>Created by
-                    <div className='flex gap-1 mt-4'>
-                      <img src={AddressIcon} className='h-8 w-8' />
-                      <h1 className='text-white justify-start'>{(state.data.owner).substring(0, 7)}....{(state.data.owner).substring(12, 19)}</h1>
+                  <div className='flex justify-start items-center gap-4'>
+                    <span className='text-2xl font-bold'>Created by</span>
+                    <div className='bg-purple-500  w-fit flex justify-between h-12 items-center rounded-2xl px-2'>
+                      <div className='flex items-center gap-1'>
+                        <img src={AddressIcon} className='h-6 w-6' />
+                        <h1 className='text-white justify-start text-lg'>{(state.data.owner).substring(0, 6)}....{(state.data.owner).substring(36, 42)}</h1>
+                      </div>
                     </div>
-                  </span>
+                  </div>
                   {
                     state.data.Buyer == null ?
                       <div></div>
@@ -140,8 +144,8 @@ export const Viewnft = () => {
                         </div>
                       </span>
                   }
-                  <span className='text-3xl font-bold'>{state.data.title}</span>
-                  <div className='bg-gray-900 border-2 border-gray-700 w-full h-fit rounded-xl'>
+                  {/* <span className='text-3xl font-bold'>{state.data.title}</span> */}
+                  <div className='border-2 border-gray-800 w-full h-fit rounded-xl'>
                     <div className='grid justify-start items-center gap-4 p-8'>
                       <a className='text-2xl  tracking-widest'>Price: {state.data.price} MATIC</a>
                       <div className='border border-gray-500 w-[500px] h-0'></div>
@@ -168,7 +172,13 @@ export const Viewnft = () => {
 
 
                           :
-                          <button className='text-black bg-white rounded-xl w-full h-12 font-bold' onClick={BuyNFT}>Buy NFT</button>
+                          <>
+                            <div className='flex justify-center items-center gap-4 text-black bg-white rounded-xl w-full h-12 font-bold cursor-pointer'>
+                              <button className='' onClick={BuyNFT}>Buy NFT </button>
+                              <PiShoppingCartSimpleFill size={22} />
+                            </div>
+                          </>
+
                       }
                       {showListModal ? (
                         <>
@@ -263,6 +273,21 @@ export const Viewnft = () => {
                       ) : null}
                     </div>
                   </div>
+                  <div className='grid border border-gray-600 w-[700px] h-[340px] rounded-xl px-4'>
+                    <div><h1 className='text-xl font-bold tracking-widest'>Item Details</h1></div>
+                    <div className='flex justify-between'>
+                      <a className='text-xl'>Name</a>
+                      <a className='text-xl'>{state.data.title}</a>
+                    </div>
+                    <div className='flex justify-between'>
+                      <a className='text-xl'>Collection</a>
+                      <a className='text-xl'>{state.data.collection}</a>
+                    </div>
+                    <div className='flex justify-between'>
+                      <a className='text-xl'>Description</a>
+                      <a className='text-xl'>{state.data.description}</a>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div className='pb-16'>
@@ -281,7 +306,7 @@ export const Viewnft = () => {
                       <a className='text-xl'>ERC-721</a>
                     </div>
                     <div className='flex justify-between'>
-                      <a className='text-xl'>Network</a>
+                      <a className='text-xl'>Chain</a>
                       <a className='text-xl'>Polygon</a>
                     </div>
                   </div>

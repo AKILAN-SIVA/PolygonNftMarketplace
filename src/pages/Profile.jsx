@@ -137,9 +137,9 @@ export const Profile = () => {
                     :
                     <>
                         <div className='grid ml-28 gap-6 h-full'>
-                            <div className='flex justify-start items-center pt-12'>
-                                <div className='border-2 border-white h-32 w-32 rounded-3xl'><Identicon string={address} className="h-32 w-36 rounded-2xl" size={125} /></div>
-                                <div className='flex justify-start items-start ml-32 gap-20'>
+                            <div className='flex justify-start items-center pt-12 gap-32'>
+                                <div className='border-2 border-gray-700 h-32 w-32 rounded-3xl'><Identicon string={address} className="h-32 w-36 rounded-2xl" size={125} /></div>
+                                <div className='flex justify-start items-start gap-20'>
                                     <div className='grid justify-center items-center gap-4'>
                                         <h1 className='text-5xl font-bold'><CountUp start={0} end={CountNFt} /></h1>
                                         <h1 className='text-lg font-bold'>Mined</h1>
@@ -154,22 +154,21 @@ export const Profile = () => {
                                     </div>
                                 </div>
                             </div>
-
                             {/* <h1 className='text-3xl font-mono font-bold'>i_am_akilan</h1> */}
-                            <div className='flex justify-between w-full h-8 items-center gap-1'>
+                            <div className='bg-purple-500  w-fit flex justify-between h-12 items-center gap-1 rounded-xl p-2'>
                                 <div className='flex gap-1'>
                                     <img src={AddressIcon} className='h-8 w-8' />
-                                    <button onClick={copyAddress} className='bg-gray-900 rounded-xl p-2'><h1 className='text-white justify-start'>{address.substring(0, 6)}....{address.substring(11, 16)}</h1></button>
+                                    <button onClick={copyAddress} className=' '><h1 className='text-white justify-start'>{address.substring(0, 6)}....{address.substring(36, 42)}</h1></button>
                                 </div>
                                 {/* <div className=''>
-                        <button className='bg-white hover:bg-gray-300 text-black text-lg h-12 w-40 rounded-xl font-bold mr-28' onClick={() => window.location.replace("/editProfile")}>Edit Profile</button>
-                    </div> */}
+                                <button className='bg-white hover:bg-gray-300 text-black text-lg h-12 w-40 rounded-xl font-bold mr-28' onClick={() => window.location.replace("/editProfile")}>Edit Profile</button>
+                                </div> */}
                             </div>
                             <div className='border border-[#171717] h-0 w-11/12 mr-2'> </div>
-                            <div className='text-4xl font-bold p-2'>
+                            {/* <div className='text-4xl font-bold p-2'>
                                 <h1>Collections</h1>
-                            </div>
-                            <div className='grid border-0 border-gray-800  mr-28 rounded-xl p-4 '>
+                            </div> */}
+                            <div className='grid border-0 border-gray-800  rounded-xl p-4 '>
                                 {
                                     data.length == 0 ?
                                         <div className='flex flex-wrap justify-center text-2xl font-bold '>
@@ -179,18 +178,18 @@ export const Profile = () => {
                                         <div>
                                             {
                                                 showSold ?
-                                                    <div className='flex justify-start '>
+                                                    <div className='flex justify-center '>
                                                         <button className='w-56 p-2' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Owned</a></button>
-                                                        <button className='bg-gray-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
+                                                        <button className='bg-violet-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
                                                     </div>
                                                     :
-                                                    <div className='flex justify-start '>
-                                                        <button className='bg-gray-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Owned</a></button>
+                                                    <div className='flex justify-center '>
+                                                        <button className='bg-violet-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Owned</a></button>
                                                         <button className='w-56 p-2' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
                                                     </div>
                                             }
 
-                                            <div className='flex '>
+                                            <div className='flex pt-16'>
                                                 {
                                                     showSold == false ?
                                                         <div className='flex flex-wrap gap-12  w-full h-full py-8'>

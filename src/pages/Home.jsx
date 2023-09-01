@@ -14,6 +14,8 @@ import { useNavigate } from "react-router-dom";
 import CarouselCard from "../components/CarouselCard";
 import CountUp from "react-countup";
 import { FiArrowUpRight } from "react-icons/fi";
+import { RiSeparator } from "react-icons/ri";
+
 
 export const Home = () => {
 
@@ -161,12 +163,13 @@ export const Home = () => {
               </div>
             </div>
             <div className="w-full min-h-screen"></div>
-            <div className="flex justify-center">
+            <div className="flex justify-center "><RiSeparator size={80} /></div>
+            <div className="flex justify-center pt-24">
               <h1 className="text-5xl text-white font-semibold">Top <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">Bids</span></h1>
             </div>
-            <div className="grid justify-center items-center gap-12 pt-16">
+            <div className="grid justify-center items-center gap-12 pt-20 px-24">
               <div>
-                <Carousel cols={4} rows={1} gap={90} loop={true} autoplay={1000}>
+                <Carousel cols={5} rows={1} gap={40} loop={true} autoplay={10000}>
                   {
                     allBidNfts.map((value, index) => (
                       <Carousel.Item>
@@ -177,11 +180,11 @@ export const Home = () => {
                 </Carousel>
               </div>
             </div>
-            <div className="flex justify-center items-center pt-12 gap-4">
+            <div className="flex justify-center items-center pt-16 gap-4">
               <button className="flex justify-center items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 tracking-widest text-xl text-black font-semibold  w-56 h-14 rounded-3xl" onClick={() => window.location.replace("/bidNft")}>View More <FiArrowUpRight size={28} /></button>
-              
             </div>
-            <div className="pt-36">
+            <div className="flex justify-center pt-24"><RiSeparator size={80} /></div>
+            <div className="pt-24">
               <div className="flex justify-center items-start gap-60">
                 <div className="grid justify-center gap-6">
                   <h1 className="text-8xl font-bold"><CountUp start={0} end={totTokenId} /></h1>
