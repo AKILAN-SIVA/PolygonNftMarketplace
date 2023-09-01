@@ -369,7 +369,7 @@ export const ViewnftBidding = () => {
                     <p className="text-3xl">Bid History</p>
                     <div>
                       {data.map((value, index) => {
-                        if (value.tokenId == state.data.tokenId) {
+                        if (value.biddingId == state.data.biddingId) {
                           return (
                             <div className="grid mt-8">
                               <div className="flex justify-between">

@@ -64,7 +64,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
     mapping(uint256 => Listing) public listings;
     mapping(uint256 => address) public highestBidder;
     mapping(uint256 => uint256) public highestBiddingAmount;
-    uint256 public highestBidding = 0;
+    // uint256 public highestBidding = 0;
     
 
     constructor() ERC721("PolygonNFTMarketplace","DARK"){
@@ -279,7 +279,21 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
         require(isAuctionOpen(listingId), "auction has ended");
         require(msg.value > listings[listingId].price, "Value is smaller than bid value");
         require(msg.sender != listings[listingId].seller,"you can't bid your own nft");
-        biddingCounter.increment();
+        uint256 count = 0;
+        uint256 highestBidding =0;
+        for(uint256 i=0;i<biddingCounter.current();i++){
+            if((msg.sender == idToBiddedToken[i+1].bidder) && (listingId==idToBiddedToken[i+1].biddingId)){
+                idToBiddedToken[i+1].price += msg.value;
+                count = 1;
+                highestBidding = highestBiddingAmount[listingId];
+            if( idToBiddedToken[i+1].price > highestBidding){
+                highestBidder[listingId] = msg.sender;
+                highestBiddingAmount[listingId] = idToBiddedToken[i+1].price;
+        }
+        }
+        }
+        if(count == 0){
+            biddingCounter.increment();
         uint256 newbiddingCount = biddingCounter.current();
         idToBiddedToken[newbiddingCount] = Bidding(
             listings[listingId].tokenId,
@@ -287,17 +301,21 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
             payable (msg.sender),
             msg.value
             );
-        
+        highestBidding = highestBiddingAmount[listingId];
         if(msg.value > highestBidding){
-            highestBidding = msg.value;
             highestBidder[listingId] = msg.sender;
             highestBiddingAmount[listingId] = msg.value;
+        }
         }
         newUser(msg.sender);
     }
 
     function getHighestBidder(uint256 listingId) public view returns(address){
             return highestBidder[listingId];
+    }
+
+    function getHighestBiddingAmount(uint256 listingId) public view returns(uint256){
+            return highestBiddingAmount[listingId];
     }
 
     function getAllBiddingWithListingID() public view returns(Bidding[] memory){
@@ -355,7 +373,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
         uint256 totalBiddingCount = biddingCounter.current();
         uint256 price;
         for(uint256 i=0;i<totalBiddingCount;i++){
-            if(idToBiddedToken[i+1].bidder == msg.sender){
+            if((idToBiddedToken[i+1].bidder == msg.sender) && (listingId == idToBiddedToken[i+1].biddingId)){
                 price += idToBiddedToken[i+1].price;
                 idToBiddedToken[i+1].price = 0;
             }
