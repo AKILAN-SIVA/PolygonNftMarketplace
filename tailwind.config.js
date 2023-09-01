@@ -15,6 +15,9 @@ export default {
         bounce200: 'bounce 1s infinite 200ms',
         bounce400: 'bounce 1s infinite 400ms',
       },
+      colors: {
+        'black': "#070017"
+      }
     },
   },
   plugins: [

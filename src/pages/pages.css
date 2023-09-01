@@ -9,9 +9,7 @@
   font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
 }
 
-body {
-  background-color: black;
-}
+
 
 .container {
   position: absolute;
@@ -21,7 +19,6 @@ body {
   width: 1000px;
   height: 600px;
   padding: 50px;
-  background-color: #070000;
   /* box-shadow: 0 10px 30px #a9a8a8; */
 }
 

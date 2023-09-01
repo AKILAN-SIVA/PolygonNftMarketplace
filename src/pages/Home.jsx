@@ -4,7 +4,7 @@ import Marketplace from '../Marketplace.json'
 import { async } from '@firebase/util';
 import { ethers } from 'ethers';
 import Carousel from 'react-grid-carousel'
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from  "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import "./pages.css"
@@ -13,6 +13,7 @@ import AddressIcon from "../assets/addressIcon.png";
 import { useNavigate } from "react-router-dom";
 import CarouselCard from "../components/CarouselCard";
 import CountUp from "react-countup";
+import { FiArrowUpRight } from "react-icons/fi";
 
 export const Home = () => {
 
@@ -111,7 +112,7 @@ export const Home = () => {
 
   let circleCommonClasses = 'h-6 w-6 bg-current  rounded-full';
   return (
-    <div className='bg-black min-h-screen h-fit w-full text-white'>
+    <div className='bg-[#070017] min-h-screen h-fit w-full text-white'>
       <div className='pt-12'>
         <Navbar />
       </div>
@@ -159,9 +160,9 @@ export const Home = () => {
                 </div>
               </div>
             </div>
-            <div className="bg-black w-full min-h-screen"></div>
+            <div className="w-full min-h-screen"></div>
             <div className="flex justify-center">
-              <h1 className="text-5xl text-white font-semibold">Top Bids</h1>
+              <h1 className="text-5xl text-white font-semibold">Top <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">Bids</span></h1>
             </div>
             <div className="grid justify-center items-center gap-12 pt-16">
               <div>
@@ -176,8 +177,9 @@ export const Home = () => {
                 </Carousel>
               </div>
             </div>
-            <div className="flex justify-center items-center pt-12">
-              <button className="bg-white text-xl text-black font-semibold  w-56 h-14 rounded-3xl" onClick={() => window.location.replace("/bidNft")}>View More</button>
+            <div className="flex justify-center items-center pt-12 gap-4">
+              <button className="flex justify-center items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 tracking-widest text-xl text-black font-semibold  w-56 h-14 rounded-3xl" onClick={() => window.location.replace("/bidNft")}>View More <FiArrowUpRight size={28} /></button>
+              
             </div>
             <div className="pt-36">
               <div className="flex justify-center items-start gap-60">
