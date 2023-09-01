@@ -96,7 +96,7 @@ export const Searchnft = () => {
           <>
             <div className='grid justify-start mt-12 ml-24 gap-8'>
               <div className='flex justify-start gap-16'>
-                <div className='border-2 border-gray-600 rounded-3xl shadow-md w-[700px] h-[500px]'>
+                <div className='border-2 border-gray-600 rounded-3xl shadow-md w-[700px] h-[700px]'>
                   <img src={state.photo} className='w-full h-full rounded-3xl' />
                 </div>
                 <div className='grid justify-start items-start h-fit gap-8 mt-8'>
