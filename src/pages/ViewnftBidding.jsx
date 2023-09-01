@@ -216,16 +216,33 @@ export const ViewnftBidding = () => {
                 />
               </div>
               <div className="grid justify-start items-start h-fit gap-8 mt-8">
-                <span className=" flex justify-start gap-6 text-2xl font-bold">
-                  Created by
-                  <div className="flex gap-1">
-                    <img src={AddressIcon} className="h-8 w-8" />
-                    <h1 className="text-white justify-start">
-                      {state.data.owner.substring(0, 7)}....
-                      {state.data.owner.substring(12, 19)}
-                    </h1>
+                <div className="flex justify-between items-center">
+                  <div className='flex justify-start items-center gap-4'>
+                    <span className='text-2xl font-bold'>Created by</span>
+                    <div className='bg-purple-500  w-fit flex justify-between h-12 items-center rounded-2xl px-2'>
+                      <div className='flex items-center gap-1'>
+                        <img src={AddressIcon} className='h-6 w-6' />
+                        <h1 className='text-white justify-start text-lg'>{(state.data.owner).substring(0, 6)}....{(state.data.owner).substring(36, 42)}</h1>
+                      </div>
+                    </div>
                   </div>
-                </span>
+                  <div>
+                    {
+                      timerDays == "00" &&
+                        timerHours == "00" &&
+                        timerMinutes == "00" &&
+                        timerSeconds == "00" ?
+                        <>
+                          <h1 className='flex justify-center items-center bg-red-600 p-4 text-white text-lg h-10 rounded-xl'>Expired</h1>
+                        </>
+                        :
+                        <>
+                          <h1 className='flex justify-center items-center bg-green-600 p-4 text-white text-lg h-10 rounded-xl'>Active</h1>
+                        </>
+                    }
+                  </div>
+                </div>
+
                 {state.data.Buyer == null ? (
                   <div></div>
                 ) : (
@@ -244,12 +261,12 @@ export const ViewnftBidding = () => {
                   Price: {state.data.price}
                 </span>
                 {timerDays == "00" &&
-                timerHours == "00" &&
-                timerMinutes == "00" &&
-                timerSeconds == "00" ? (
-                  <span className="text-3xl font-bold">Bidding Expired</span>
+                  timerHours == "00" &&
+                  timerMinutes == "00" &&
+                  timerSeconds == "00" ? (
+                  <></>
                 ) : (
-                  <span className="text-3xl font-bold">
+                  <span className="text-xl ">
                     Bidding ends at {state.data.timeInStr}
                   </span>
                 )}
@@ -274,12 +291,12 @@ export const ViewnftBidding = () => {
                 <div className="flex flex-col gap-2 ">
                   <div className="flex gap-2 text-lg"></div>
                   {timerDays == "00" &&
-                  timerHours == "00" &&
-                  timerMinutes == "00" &&
-                  timerSeconds == "00" ? (
+                    timerHours == "00" &&
+                    timerMinutes == "00" &&
+                    timerSeconds == "00" ? (
                     <>
                       {(address == highestBidderAddress ||
-                      address == state.data.owner) && state.data.status != 0 ? (
+                        address == state.data.owner) && state.data.status != 0 ? (
                         <button
                           className="pt-2 bg-gray-600 inline-block p-2"
                           onClick={CompleteBidding}
@@ -293,7 +310,7 @@ export const ViewnftBidding = () => {
                               {data.map((value, index) => {
                                 if (
                                   (address == value.bidder &&
-                                  value.biddingId == state.data.biddingId) && (address != highestBidderAddress)
+                                    value.biddingId == state.data.biddingId) && (address != highestBidderAddress)
                                 ) {
                                   return (
                                     <div>
@@ -343,26 +360,26 @@ export const ViewnftBidding = () => {
                     </>
                   ) : (
                     <>
-                    <div>
-                      <p>
-                        Bid Price <span className="text-red-800">*</span>
-                      </p>
+                      <div>
+                        <p className="pb-4 text-xl">
+                          Bid Price <span className="text-red-800">*</span>
+                        </p>
 
-                      <input
-                        className="flex flex-col rounded-xl bg-transparent border-gray-400 border-2 h-12 w-[650px] p-4zzzzzz"
-                        type="text"
-                        name="collection"
-                        onChange={(e) => setBidPrice(e.target.value)}
-                        placeholder="Make Bid . . ."
-                        value={BidPrice}
-                      ></input>
-                      <button
-                        className="pt-2 bg-gray-600 inline-block p-2 w-full mt-4"
-                        onClick={PlaceBid}
-                      >
-                        Place Bid
-                      </button>
-                    </div>
+                        <input
+                          className="flex flex-col rounded-xl bg-transparent border-gray-400 border-2 h-12 w-[650px] p-4"
+                          type="number"
+                          name="collection"
+                          onChange={(e) => setBidPrice(e.target.value)}
+                          placeholder="Make Bid . . ."
+                          value={BidPrice}
+                        ></input>
+                        <button
+                          className="pt-2 bg-gray-600 inline-block p-2 w-full mt-4 rounded-xl"
+                          onClick={PlaceBid}
+                        >
+                          Place Bid
+                        </button>
+                      </div>
                     </>
                   )}
                   <div className="pt-12">

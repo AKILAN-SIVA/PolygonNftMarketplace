@@ -4,7 +4,7 @@ import Marketplace from '../Marketplace.json'
 import { async } from '@firebase/util';
 import { ethers } from 'ethers';
 import Carousel from 'react-grid-carousel'
-import React, { useRef, useEffect, useState } from  "react";
+import React, { useRef, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import "./pages.css"
@@ -138,11 +138,11 @@ export const Home = () => {
                   <div
                     key={index}
                     className="item"
-                    style={{ backgroundImage: `url(${value.photo})`, borderRadius: '30px' }}
+                    style={{ backgroundImage: `url(${value.photo})`, borderRadius: '30px', }}
                     onClick={() => navigate("/searchNft", { state: value })}
                   >
                     <div className="content">
-                      <div className="grid gap-6 justify-center items-center">
+                      <div className="bg-[#3c3d3c] grid gap-6 justify-center items-center rounded-xl p-4">
                         <div className="text-7xl font-bold text-gray-100 tracking-wider">{value.title}</div>
                         <div className="flex gap-1 text-3xl font-semibold text-gray-100"><img src={AddressIcon} className='h-8 w-8' /> {value.price}</div>
                       </div>
@@ -167,43 +167,47 @@ export const Home = () => {
             <div className="flex justify-center pt-24">
               <h1 className="text-5xl text-white font-semibold">Top <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">Bids</span></h1>
             </div>
-            <div className="grid justify-center items-center gap-12 pt-20 px-24">
-              <div>
-                <Carousel cols={5} rows={1} gap={40} loop={true} autoplay={10000}>
-                  {
-                    allBidNfts.map((value, index) => (
-                      <Carousel.Item>
-                        <CarouselCard data={value} key={index} />
-                      </Carousel.Item>
-                    ))
-                  }
-                </Carousel>
-              </div>
+            <div className="grid justify-center items-center gap-12 pt-20 px-28">
+
+              <Carousel cols={5} rows={1} loop={true} autoplay={10000}>
+                {
+                  allBidNfts.map((value, index) => (
+                    <Carousel.Item>
+                      <CarouselCard data={value} key={index} />
+                    </Carousel.Item>
+                  ))
+                }
+              </Carousel>
+
             </div>
             <div className="flex justify-center items-center pt-16 gap-4">
               <button className="flex justify-center items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 tracking-widest text-xl text-black font-semibold  w-56 h-14 rounded-3xl" onClick={() => window.location.replace("/bidNft")}>View More <FiArrowUpRight size={28} /></button>
             </div>
             <div className="flex justify-center pt-24"><RiSeparator size={80} /></div>
             <div className="pt-24">
-              <div className="flex justify-center items-start gap-60">
+              <div className="flex justify-center items-center gap-32">
                 <div className="grid justify-center gap-6">
                   <h1 className="text-8xl font-bold"><CountUp start={0} end={totTokenId} /></h1>
-                  <h1 className="text-xl font-bold">Mined</h1>
+                  <h1 className="text-xl font-bold">Total Mined</h1>
                 </div>
+                <div className="border-2 border-gray-800 w-1 h-40" ></div>
                 <div className="grid justify-center gap-6">
                   <h1 className="text-8xl font-bold"><CountUp start={0} end={totSoldNft} /></h1>
-                  <h1 className="text-xl font-bold">Sold</h1>
+                  <h1 className="text-xl font-bold">Total Sold</h1>
                 </div>
+                <div className="border-2 border-gray-800 w-1 h-40" ></div>
                 <div className="grid justify-center gap-6">
                   <h1 className="text-8xl font-bold"><CountUp start={0} end={totBidNft} /></h1>
-                  <h1 className="text-xl font-bold">Bids</h1>
+                  <h1 className="text-xl font-bold">Total Bids</h1>
                 </div>
+                <div className="border-2 border-gray-800 w-1 h-40" ></div>
                 <div className="grid justify-center gap-6">
                   <h1 className="text-8xl font-bold"><CountUp start={0} end={totUser} /></h1>
                   <h1 className="text-xl font-bold">Creators</h1>
                 </div>
               </div>
             </div>
+            <div className="flex justify-center pt-24"><RiSeparator size={80} /></div>
             <div className="pt-24">
               <div className="bg-[#080808] w-full h-[500px]"> </div>
             </div>

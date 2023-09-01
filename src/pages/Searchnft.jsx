@@ -96,16 +96,19 @@ export const Searchnft = () => {
           <>
             <div className='grid justify-start mt-12 ml-24 gap-8'>
               <div className='flex justify-start gap-16'>
-                <div className='border-2 border-gray-600 rounded-3xl shadow-md'>
-                  <img src={state.photo} className='w-[700px] h-[500px] rounded-3xl' />
+                <div className='border-2 border-gray-600 rounded-3xl shadow-md w-[700px] h-[500px]'>
+                  <img src={state.photo} className='w-full h-full rounded-3xl' />
                 </div>
                 <div className='grid justify-start items-start h-fit gap-8 mt-8'>
-                  <span className='text-2xl font-bold'>Created by
-                    <div className='flex gap-1 mt-4'>
-                      <img src={AddressIcon} className='h-8 w-8' />
-                      <h1 className='text-white justify-start'>{(state.owner).substring(0, 7)}....{(state.owner).substring(12, 19)}</h1>
+                <div className='flex justify-start items-center gap-4'>
+                    <span className='text-2xl font-bold'>Created by</span>
+                    <div className='bg-purple-500  w-fit flex justify-between h-12 items-center rounded-2xl px-2'>
+                      <div className='flex items-center gap-1'>
+                        <img src={AddressIcon} className='h-6 w-6' />
+                        <h1 className='text-white justify-start text-lg'>{(state.owner).substring(0, 6)}....{(state.owner).substring(36, 42)}</h1>
+                      </div>
                     </div>
-                  </span>
+                  </div>
                   <span className='text-3xl font-bold'>{state.title}</span>
                   <div className='bg-gray-900 border-2 border-gray-700 w-full h-48 rounded-xl'>
                     <div className='grid justify-start items-center gap-4 p-8'>
@@ -161,8 +164,26 @@ export const Searchnft = () => {
                       ) : null}
                     </div>
                   </div>
+                  <div className='grid border border-gray-600 w-[700px] h-fit rounded-xl px-4 py-4 gap-8'>
+                    <div><h1 className='text-xl font-bold tracking-widest'>Item Details</h1></div>
+                    <div className='grid gap-6'>
+                      <div className='flex justify-between'>
+                        <a className='text-xl'>Name</a>
+                        <a className='text-xl'>{state.title}</a>
+                      </div>
+                      <div className='flex justify-between'>
+                        <a className='text-xl'>Collection</a>
+                        <a className='text-xl'>{state.collection}</a>
+                      </div>
+                      <div className='flex justify-between'>
+                        <a className='text-xl'>Description</a>
+                        <a className='text-xl'>{state.description}</a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
+              
               <div className='pb-16'>
                 <div className='bg-gray-900 border-2 border-gray-500 w-[700px] h-48 rounded-lg'>
                   <div className='grid px-4 py-6 gap-2'>

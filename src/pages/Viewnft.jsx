@@ -120,7 +120,7 @@ export const Viewnft = () => {
           <>
             <div className='grid justify-start mt-12 ml-24 gap-8'>
               <div className='flex justify-start gap-16'>
-                <div className='border-4 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md overflow-hidden'>
+                <div className='border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md overflow-hidden'>
                   <img src={state.data.photo} className='w-full h-full' />
                 </div>
                 <div className='grid justify-start items-start h-fit gap-8 mt-8'>
@@ -145,7 +145,7 @@ export const Viewnft = () => {
                       </span>
                   }
                   {/* <span className='text-3xl font-bold'>{state.data.title}</span> */}
-                  <div className='border-2 border-gray-800 w-full h-fit rounded-xl'>
+                  <div className='border-2 border-gray-800 w-fit h-fit rounded-xl'>
                     <div className='grid justify-start items-center gap-4 p-8'>
                       <a className='text-2xl  tracking-widest'>Price: {state.data.price} MATIC</a>
                       <div className='border border-gray-500 w-[500px] h-0'></div>
@@ -273,19 +273,21 @@ export const Viewnft = () => {
                       ) : null}
                     </div>
                   </div>
-                  <div className='grid border border-gray-600 w-[700px] h-[340px] rounded-xl px-4'>
+                  <div className='grid border border-gray-600 w-[700px] h-fit rounded-xl px-4 py-4 gap-8'>
                     <div><h1 className='text-xl font-bold tracking-widest'>Item Details</h1></div>
-                    <div className='flex justify-between'>
-                      <a className='text-xl'>Name</a>
-                      <a className='text-xl'>{state.data.title}</a>
-                    </div>
-                    <div className='flex justify-between'>
-                      <a className='text-xl'>Collection</a>
-                      <a className='text-xl'>{state.data.collection}</a>
-                    </div>
-                    <div className='flex justify-between'>
-                      <a className='text-xl'>Description</a>
-                      <a className='text-xl'>{state.data.description}</a>
+                    <div className='grid gap-6'>
+                      <div className='flex justify-between'>
+                        <a className='text-xl'>Name</a>
+                        <a className='text-xl'>{state.data.title}</a>
+                      </div>
+                      <div className='flex justify-between'>
+                        <a className='text-xl'>Collection</a>
+                        <a className='text-xl'>{state.data.collection}</a>
+                      </div>
+                      <div className='flex justify-between'>
+                        <a className='text-xl'>Description</a>
+                        <a className='text-xl'>{state.data.description}</a>
+                      </div>
                     </div>
                   </div>
                 </div>

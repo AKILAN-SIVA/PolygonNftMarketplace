@@ -30,7 +30,7 @@
 .item {
   width: 200px;
   height: 300px;
-  background-position: 50% 50%;
+  background-position: 50% 60%;
   display: inline-block;
   transition: 0.8s;
   background-size: cover;
@@ -40,6 +40,7 @@
   transform: translate(0, -50%);
   border-radius: 20px;
   box-shadow: 0 30px 50px #505050;
+  
 }
 
 .item:hover {
@@ -58,11 +59,11 @@
 }
 
 .item:nth-child(3) {
-  left: 80%;
+  left: 85%;
 }
 
 .item:nth-child(4) {
-  left: calc(75% + 220px);
+  left: calc(65% + 220px);
 }
 
 .item:nth-child(5) {
@@ -120,6 +121,7 @@
   z-index: 222222;
   text-align: center;
   width: 100%;
+  
 }
 
 .buttons button {
@@ -128,6 +130,7 @@
   border-radius: 50%;
   border: 1px solid #fef6f6;
   transition: 0.5s;
+  background-color: #050501;
 }
 
 .buttons button:hover {

@@ -9,6 +9,7 @@ import Identicon from "react-identicons";
 function Card(data) {
   const navigate = useNavigate();
   function viewNft() {
+    console.log(data)
     navigate(`/viewNft/`, { state: data });
   }
 
