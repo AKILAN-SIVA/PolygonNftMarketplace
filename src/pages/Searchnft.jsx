@@ -77,7 +77,7 @@ export const Searchnft = () => {
   }
   let circleCommonClasses = 'h-6 w-6 bg-current  rounded-full';
   return (
-    <div className='bg-black h-full w-full text-white'>
+    <div className='bg-black min-h-screen h-fit w-full text-white'>
       <div className='pt-12'>
         <Navbar />
       </div>
