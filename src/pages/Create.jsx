@@ -113,7 +113,7 @@ export const Create = () => {
       setHashValue(sha256Hash)
     };
 
-    reader.readAsArrayBuffer(file);
+    // reader.readAsArrayBuffer(file);
   };
 
   async function OnChangeFile(e) {
@@ -182,8 +182,8 @@ export const Create = () => {
 
       //actually create the NFT
       let transaction = await contract.checkImageExist(hashValue);
-      if (transaction == true) {
-        let creating = await contract.CreateToken(metadataURL, hashValue);
+      if (transaction == 0) {
+        let creating = await contract.CreateToken(metadataURL, hashValue,form.fileFormat);
         await creating.wait();
       }
       else {
