@@ -62,6 +62,7 @@ export const Profile = () => {
                 title: meta.title,
                 description: meta.description,
                 collection: meta.collection,
+                format: meta.fileFormat,
             }
             sum1 += Number(price);
             NFTcount += 1;
@@ -101,6 +102,7 @@ export const Profile = () => {
                 title: meta.title,
                 description: meta.description,
                 collection: meta.collection,
+                
             }
             itemsSoldCount += 1;
             return item;

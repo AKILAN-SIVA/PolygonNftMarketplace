@@ -38,7 +38,7 @@ export const Viewnft = () => {
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      const totSec = (days*24*60*60) + (hours*60*60) + (minutes*60) + seconds;
+      const totSec = (days * 24 * 60 * 60) + (hours * 60 * 60) + (minutes * 60) + seconds;
       setTotalSec(totSec);
     }, 1000);
   }
@@ -144,9 +144,38 @@ export const Viewnft = () => {
           <>
             <div className='grid justify-start mt-12 ml-24 gap-8'>
               <div className='flex justify-start gap-16'>
-                <div className='border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md overflow-hidden'>
-                  <img src={state.data.photo} className='w-full h-full' />
-                </div>
+                {
+                  state.data.format == "1" ?
+                    <>
+
+                      <div className='border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md overflow-hidden'>
+                        <img src={state.data.photo} className='w-full h-full' />
+                      </div>
+                    </>
+                    :
+                    <></>
+                }
+                {
+                  state.data.format == "2" ?
+                    <>
+                      <div className='border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md overflow-hidden'>
+                        <audio src={state.data.photo} className='w-full h-full' />
+                      </div>
+                    </>
+                    :
+                    <></>
+                }
+                {
+                  state.data.format == "3" ?
+                    <>
+                      <div className='border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md overflow-hidden'>
+                        <video src={state.data.photo} className='w-full h-full' controls  controlsList='nodownload'/>
+                      </div>
+                    </>
+                    :
+                    <></>
+                }
+
                 <div className='grid justify-start items-start h-fit gap-8 mt-8'>
                   <div className='flex justify-start items-center gap-4'>
                     <span className='text-2xl font-bold'>Created by</span>

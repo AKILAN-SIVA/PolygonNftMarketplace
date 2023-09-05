@@ -5,7 +5,6 @@ import { useNavigate } from 'react-router-dom';
 import Identicon from "react-identicons";
 
 
-
 function Card(data) {
   const navigate = useNavigate();
   function viewNft() {
@@ -33,9 +32,37 @@ function Card(data) {
     // </div>
 
     <div className='bg-gray-800  border-gray-700 rounded-xl h-[370px] w-60 hover:cursor-pointer font-mono hover:scale-105' onClick={viewNft}>
-      <div>
-        <img src={data.data.photo} className='h-60 w-full rounded-t-xl' />
-      </div>
+      {
+        data.data.format == "1" ?
+          <>
+            <div>
+              <img src={data.data.photo} className='h-60 w-full rounded-t-xl' />
+            </div>
+          </>
+          :
+          <></>
+      }
+      {
+        data.data.format == "2" ?
+          <>
+            <div>
+              <img src={data.data.photo} className='h-60 w-full rounded-t-xl' />
+            </div>
+          </>
+          :
+          <></>
+      }
+      {
+        data.data.format == "3" ?
+          <>
+            <div>
+              <video src={data.data.photo} className='h-60 w-full rounded-t-xl' controlsList='nodownload' controls/>
+            </div>
+          </>
+          :
+          <></>
+      }
+
       <div className='flex justify-start items-center gap-4 pt-4 pl-4 pb-2'>
         <Identicon string={data.data.owner} size={30} className="border border-gray-500 rounded-2xl overflow-hidden" />
         <h1 className='text-xl font-bold tracking-widest'>{data.data.title}</h1>

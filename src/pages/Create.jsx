@@ -78,16 +78,16 @@ export const Create = () => {
     }
   }
 
-  const handleHashFile = async () => {
-    if (!form.file) {
+  const handleHashImage = async () => {
+    if (!image) {
       return;
     }
 
-    // const base64String = await convertToBase64(image);
-    // console.log(base64String);
-    hashWithSHA256(form.file);
-    // setHashValue(hashedValue);
-    console.log(hashValue)
+    const base64String = await convertToBase64(image);
+    console.log(base64String);
+    const hashedValue = hashWithSHA256(base64String);
+    setHashValue(hashedValue);
+    console.log(hashedValue)
   };
 
   const convertToBase64 = (file) => {
@@ -101,19 +101,8 @@ export const Create = () => {
     });
   };
 
-  const hashWithSHA256 = (file) => {
-    const reader = new FileReader();
-
-    reader.onload = (event) => {
-      const data = event.target.result;
-      const sha256Hash = crypto
-        .createHash("sha256")
-        .update(data)
-        .digest("hex");
-      setHashValue(sha256Hash)
-    };
-
-    // reader.readAsArrayBuffer(file);
+  const hashWithSHA256 = (input) => {
+    return crypto.SHA256(input).toString();
   };
 
   async function OnChangeFile(e) {
@@ -165,7 +154,7 @@ export const Create = () => {
       alert("download and upload your ai image and create it to nft");
       download();
     }
-    await handleHashFile();
+    await handleHashImage();
     //Upload data to IPFS
     try {
       const metadataURL = await uploadMetadataToIPFS();
@@ -183,7 +172,7 @@ export const Create = () => {
       //actually create the NFT
       let transaction = await contract.checkImageExist(hashValue);
       if (transaction == 0) {
-        let creating = await contract.CreateToken(metadataURL, hashValue,form.fileFormat);
+        let creating = await contract.CreateToken(metadataURL, hashValue, form.fileFormat);
         await creating.wait();
       }
       else {

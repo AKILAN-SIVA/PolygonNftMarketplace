@@ -49,6 +49,7 @@ export const Explore = () => {
                 title: meta.title,
                 description: meta.description,
                 collection: meta.collection,
+                format: meta.fileFormat,
             }
 
             return item;
