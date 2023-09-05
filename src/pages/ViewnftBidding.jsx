@@ -24,6 +24,7 @@ export const ViewnftBidding = () => {
   const [timerMinutes, setTimerMinutes] = useState("00");
   const [timerSeconds, setTimerSeconds] = useState("00");
   const [highestBidderAddress, updateHighestBidderAddress] = useState("0x");
+  const [timesec,setTime] = useState();
 
   let interval = useRef();
 
@@ -40,7 +41,9 @@ export const ViewnftBidding = () => {
       );
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
+      const totsec = (days * 24 *60 * 60) + (hours * 60 * 60) + (minutes * 60) + seconds;
+      setTime(totsec);
+      console.log(totsec);
       if (distance < 0) {
         clearInterval(interval.current);
       } else {
@@ -52,6 +55,7 @@ export const ViewnftBidding = () => {
     }, 1000);
   };
 
+  
   useEffect(() => {
     startTimer();
     return () => {
@@ -111,6 +115,7 @@ export const ViewnftBidding = () => {
   console.log(data);
   console.log("highestBidderAddress", highestBidderAddress)
   console.log(address);
+  console.log(timesec);
 
   const PlaceBid = async () => {
     try {

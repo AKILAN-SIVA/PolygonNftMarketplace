@@ -21,7 +21,9 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
     struct ListedToken{
         uint256 tokenId;
         uint256 price;
+        uint256 bidPrice;
         address payable owner;
+        uint256 format;
         bool NFTsold;
         bool NFTbought;
         bool NFTListed;
@@ -71,21 +73,21 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
 
     }
 
-    function checkImageExist(string memory imageHash) public view returns(bool) {
+    function checkImageExist(string memory imageHash) public view returns(uint256) {
         uint256 tokenCount = TokenCount.current();
         string memory imghash = imageHash;
         string memory idHash;
         for(uint256 i=0;i<tokenCount;i++){
             idHash = idToImageHash[i+1];
             if(keccak256(abi.encodePacked(idHash)) == keccak256(abi.encodePacked(imghash))){
-                return false;
+                return 1;
             }
         }
-        return true;
+        return 0;
         
     } 
 
-    function CreateToken(string memory tokenURI, string memory imageHash) public payable returns(uint256){
+    function CreateToken(string memory tokenURI, string memory imageHash, uint256 fileType) public payable returns(uint256){
 
         TokenCount.increment();
         uint256 newTokenId = TokenCount.current();
@@ -96,16 +98,18 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
 
         idToImageHash[newTokenId] = imageHash;
 
-        createListedToken(newTokenId);
+        createListedToken(newTokenId,fileType);
 
         return newTokenId;
     }
 
-    function createListedToken(uint256 id) private{
+    function createListedToken(uint256 id,uint256 fileType) private{
         idToListedToken[id] = ListedToken(
             id,
             0,
+            0,
             payable (msg.sender),
+            fileType,
             false,
             false,
             false,
@@ -257,6 +261,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
         uint256 listingId = listingCounter.current() ;
         uint256 startAt = block.timestamp;
         uint256 endAt = startAt + deadline;
+        idToListedToken[tokenId].bidPrice = price;
 
         listings[listingId] = Listing({
             biddingId: listingId,
@@ -350,19 +355,31 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
             'only seller or winner can complete auction'
         );
         uint256 amount = highestBiddingAmount[listingId];
+        uint256 tokenId = listing.tokenId;
         if( amount == 0){
             listing.status = STATUS_DONE;
+            idToListedToken[tokenId].NFTBidded = false;
+            idToListedToken[tokenId].bidPrice = 0;
         }else{
-            uint256 tokenId = listing.tokenId;
         address payable seller = listing.seller;
         _transfer(seller,winner,listing.tokenId);
         // approve(seller,listing.tokenId);
         payable (seller).transfer(amount);
+        SoldCount.increment();
+        uint256 scount = SoldCount.current();
+        idToSoldItems[scount] = ItemsSold (
+            tokenId,
+            amount,
+            seller,
+            msg.sender,
+            true
+        );
         
         listing.seller = payable (winner);
         // listing.price = 0;
         idToListedToken[tokenId].owner = payable (winner);
         listing.status = STATUS_DONE;
+        idToListedToken[tokenId].bidPrice = 0;
         idToListedToken[tokenId].NFTBidded = false;
         }
     }
