@@ -9,6 +9,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Identicon from "react-identicons";
+import Music from "../assets/music.png"
 
 export const ViewnftBidding = () => {
   let count;
@@ -24,7 +25,21 @@ export const ViewnftBidding = () => {
   const [timerMinutes, setTimerMinutes] = useState("00");
   const [timerSeconds, setTimerSeconds] = useState("00");
   const [highestBidderAddress, updateHighestBidderAddress] = useState("0x");
-  const [timesec,setTime] = useState();
+  const [timesec, setTime] = useState();
+
+
+  const videoRef = useRef(null);
+  const [isVideoReady, setIsVideoReady] = useState(false);
+  const handleLoadedMetadata = () => {
+    setIsVideoReady(true);
+  };
+
+  // Use useEffect to automatically play the video when it's ready
+  useEffect(() => {
+    if (isVideoReady && videoRef.current) {
+      videoRef.current.play();
+    }
+  }, [isVideoReady]);
 
   let interval = useRef();
 
@@ -41,7 +56,7 @@ export const ViewnftBidding = () => {
       );
       const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-      const totsec = (days * 24 *60 * 60) + (hours * 60 * 60) + (minutes * 60) + seconds;
+      const totsec = (days * 24 * 60 * 60) + (hours * 60 * 60) + (minutes * 60) + seconds;
       setTime(totsec);
       console.log(totsec);
       if (distance < 0) {
@@ -55,7 +70,7 @@ export const ViewnftBidding = () => {
     }, 1000);
   };
 
-  
+
   useEffect(() => {
     startTimer();
     return () => {
@@ -99,6 +114,7 @@ export const ViewnftBidding = () => {
           description: meta.description,
           collection: meta.collection,
           date: meta.timeInStr,
+          format: meta.fileFormat,
         };
 
         return item;

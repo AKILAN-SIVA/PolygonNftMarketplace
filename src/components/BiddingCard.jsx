@@ -1,13 +1,27 @@
-import React from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { ethers } from "ethers";
 import Marketplace from '../Marketplace.json';
 import { useNavigate } from 'react-router-dom';
 import Identicon from "react-identicons";
 import AddressIcon from "../assets/addressIcon.png";
-
+import Music from "../assets/music.png"
 export const BiddingCard = (data) => {
 
+  const videoRef = useRef(null);
   const navigate = useNavigate();
+  const [isVideoReady, setIsVideoReady] = useState(false);
+  const handleLoadedMetadata = () => {
+    setIsVideoReady(true);
+  };
+
+  // Use useEffect to automatically play the video when it's ready
+  useEffect(() => {
+    if (isVideoReady && videoRef.current) {
+      videoRef.current.play();
+    }
+  }, [isVideoReady]);
+
+
   function viewNft() {
     navigate(`/viewNftBidding/`, { state: data });
   }
@@ -20,7 +34,37 @@ export const BiddingCard = (data) => {
           <h1 className='text-xl font-bold tracking-widest'>{data.data.title}</h1>
         </div>
         <div className='mt-2'>
-          <img src={data.data.photo} className='h-56 w-full rounded-xl ' />
+          {
+            data.data.format == "1" ?
+              <>
+                <div>
+                  <img src={data.data.photo} className='h-56 w-full rounded-xl ' />
+                </div>
+              </>
+              :
+              <></>
+          }
+          {
+            data.data.format == "2" ?
+              <>
+                <div className="grid justify-center">
+                  <img src={Music} className='h-56 w-full rounded-xl' />
+                  <audio src={data.data.photo} className='w-56 h-10' controls controlsList='nodownload' />
+                </div>
+              </>
+              :
+              <></>
+          }
+          {
+            data.data.format == "3" ?
+              <>
+                <div>
+                  <video loop autoPlay src={data.data.photo} className='h-56 w-full rounded-xl' controlsList='nodownload' onLoadedMetadata={handleLoadedMetadata} controls />
+                </div>
+              </>
+              :
+              <></>
+          }
         </div>
         <div className='grid text-white text-xl gap-2 mt-4'>
           <div className='flex justify-between items-end text-lg'>

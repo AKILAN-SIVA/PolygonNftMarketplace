@@ -36,11 +36,11 @@ export const Viewnft = () => {
     }
   }, [isVideoReady]);
 
-  
+
   let interval = useRef();
 
   const startTimer = () => {
-    const countDownDate = new Date(state.data.timeInStr).getTime();
+    const countDownDate = new Date(timeInStr).getTime();
 
     interval = setInterval(() => {
       const now = new Date().getTime();
@@ -54,8 +54,9 @@ export const Viewnft = () => {
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
       const totSec = (days * 24 * 60 * 60) + (hours * 60 * 60) + (minutes * 60) + seconds;
+      console.log("totsec is equal to ", totSec)
       setTotalSec(totSec);
-    }, 1000);
+    });
   }
 
 
@@ -124,13 +125,17 @@ export const Viewnft = () => {
   const CreateBidding = async () => {
     try {
       startTimer();
+
+
+      if (totalSec == 0) {
+        console.log("total seconds is 0");
+        return;
+      }
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
       let price = ethers.utils.parseUnits(bidPrice, 'ether');
-      let deadline = Number(totalSec);
-      console.log(deadline);
-      let transaction = await contract.createAuctionListing(price, state.data.tokenId, deadline, timeInStr);
+      let transaction = await contract.createAuctionListing(price, state.data.tokenId, totalSec, timeInStr);
       await transaction.wait();
       setShowBidModal(false)
     } catch (e) {
@@ -140,7 +145,7 @@ export const Viewnft = () => {
 
   let circleCommonClasses = 'h-6 w-6 bg-current  rounded-full';
   return (
-    <div className='bg-black min-h-screen h-fit w-full text-white'>
+    <div className='bg-black min-h-screen h-fit min-w-full w-fit text-white'>
       <div className='pt-12'>
         <Navbar />
       </div>
@@ -174,9 +179,9 @@ export const Viewnft = () => {
                   state.data.format == "2" ?
                     <>
                       <div className='border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md '>
-                      
-                        <img src={Music} className='w-full h-[655px]'/>
-                        <audio src={state.data.photo} className='w-full h-10' controls/>
+
+                        <img src={Music} className='w-full h-[655px]' />
+                        <audio src={state.data.photo} className='w-full h-10' controls />
                       </div>
                     </>
                     :
@@ -186,7 +191,7 @@ export const Viewnft = () => {
                   state.data.format == "3" ?
                     <>
                       <div className='border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md overflow-hidden'>
-                        <video src={state.data.photo} className='w-full h-full' controls loop autoPlay onLoadedMetadata={handleLoadedMetadata}   controlsList='nodownload'/>
+                        <video src={state.data.photo} className='w-full h-full' controls loop autoPlay onLoadedMetadata={handleLoadedMetadata} controlsList='nodownload' />
                       </div>
                     </>
                     :
