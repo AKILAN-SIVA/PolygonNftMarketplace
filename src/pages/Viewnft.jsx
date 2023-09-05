@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Navbar from './Navbar'
 import { useLocation } from 'react-router-dom'
 import { ethers } from "ethers";
@@ -20,6 +20,29 @@ export const Viewnft = () => {
   const [showListModal, setShowListModal] = useState(false);
   const [showBidModal, setShowBidModal] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(true);
+  const [totalSec, setTotalSec] = useState("");
+
+  let interval = useRef();
+
+  const startTimer = () => {
+    const countDownDate = new Date(state.data.timeInStr).getTime();
+
+    interval = setInterval(() => {
+      const now = new Date().getTime();
+      const distance = countDownDate - now;
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+      );
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      const totSec = (days*24*60*60) + (hours*60*60) + (minutes*60) + seconds;
+      setTotalSec(totSec);
+    }, 1000);
+  }
+
 
   useEffect(() => {
     if (window.ethereum) {
@@ -85,13 +108,14 @@ export const Viewnft = () => {
 
   const CreateBidding = async () => {
     try {
+      startTimer();
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
       let price = ethers.utils.parseUnits(bidPrice, 'ether');
       // let deadline = daysLeft(durationInSeconds);
       // console.log(deadline);
-      let transaction = await contract.createAuctionListing(price, state.data.tokenId, timeInSec, timeInStr);
+      let transaction = await contract.createAuctionListing(price, state.data.tokenId, totalSec, timeInStr);
       await transaction.wait();
       setShowBidModal(false)
     } catch (e) {
@@ -101,7 +125,7 @@ export const Viewnft = () => {
 
   let circleCommonClasses = 'h-6 w-6 bg-current  rounded-full';
   return (
-    <div className='bg-black h-full w-full text-white'>
+    <div className='bg-black min-h-screen h-fit w-full text-white'>
       <div className='pt-12'>
         <Navbar />
       </div>
@@ -249,9 +273,9 @@ export const Viewnft = () => {
                                 <div className="relative p-6 flex-auto">
                                   <input type="number" onChange={(e) => setBidPrice(e.target.value)} className="bg-transparent w-[600px] h-12 text-black rounded-lg border-2 border-black p-4" placeholder="Enter Base price for Bidding" value={bidPrice} />
                                 </div>
-                                <div className="relative p-6 flex-auto">
+                                {/* <div className="relative p-6 flex-auto">
                                   <input type="number" onChange={(e) => setTimeInSec(e.target.value)} className="bg-transparent w-[600px] h-12 text-black rounded-lg border-2 border-black p-4" placeholder="Enter Time in seconds" value={timeInSec} />
-                                </div>
+                                </div> */}
                                 <div className="relative p-6 flex-auto">
                                   <input type="text" onChange={(e) => setTimeInStr(e.target.value)} className="bg-transparent w-[600px] h-12 text-black rounded-lg border-2 border-black p-4" placeholder="October 13, 2023 13:10:00" value={timeInStr} />
                                 </div>

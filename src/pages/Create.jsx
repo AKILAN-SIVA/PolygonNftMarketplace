@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import Navbar from "../pages/Navbar";
 import PreviewImage from "../assets/previewImage.png";
@@ -15,8 +15,14 @@ export const Create = () => {
     description: "",
     collection: "",
     price: "",
-    photo: "",
+    file: "",
+    fileFormat: "",
   });
+
+
+  useEffect(() => {
+    console.log("fileformat is ", form.fileFormat)
+  })
 
   const [fileURL, setFileURL] = useState(null);
   const [image, setImage] = useState(null);
@@ -65,23 +71,23 @@ export const Create = () => {
       link.href = image;
       link.download = 'generated_image.png';
       link.click()
-      
+
     }
     catch (e) {
       console.log("Error ", e);
     }
   }
 
-  const handleHashImage = async () => {
-    if (!image) {
+  const handleHashFile = async () => {
+    if (!form.file) {
       return;
     }
 
-    const base64String = await convertToBase64(image);
-    console.log(base64String);
-    const hashedValue = hashWithSHA256(base64String);
-    setHashValue(hashedValue);
-    console.log(hashedValue)
+    // const base64String = await convertToBase64(image);
+    // console.log(base64String);
+    hashWithSHA256(form.file);
+    // setHashValue(hashedValue);
+    console.log(hashValue)
   };
 
   const convertToBase64 = (file) => {
@@ -95,12 +101,23 @@ export const Create = () => {
     });
   };
 
-  const hashWithSHA256 = (input) => {
-    return crypto.SHA256(input).toString();
+  const hashWithSHA256 = (file) => {
+    const reader = new FileReader();
+
+    reader.onload = (event) => {
+      const data = event.target.result;
+      const sha256Hash = crypto
+        .createHash("sha256")
+        .update(data)
+        .digest("hex");
+      setHashValue(sha256Hash)
+    };
+
+    reader.readAsArrayBuffer(file);
   };
 
   async function OnChangeFile(e) {
-    
+
     setForm({ ...form, [e.target.name]: e.target.value });
     var file = e.target.files[0];
     setImage(file)
@@ -120,13 +137,13 @@ export const Create = () => {
 
   //This function uploads the metadata to IPFS
   async function uploadMetadataToIPFS() {
-    const { title, collection, description } = form;
+    const { title, collection, description, fileFormat } = form;
     //Make sure that none of the fields are empty
-    if (!title || !collection || !description || !fileURL)
+    if (!title || !collection || !description || !fileURL || !fileFormat)
       return;
     setMsg("Uploading NFT(takes 2-3 mins)...")
     const nftJSON = {
-      title, collection, description, image: fileURL
+      title, collection, description, fileFormat, image: fileURL
     }
 
     try {
@@ -148,7 +165,7 @@ export const Create = () => {
       alert("download and upload your ai image and create it to nft");
       download();
     }
-    await handleHashImage();
+    await handleHashFile();
     //Upload data to IPFS
     try {
       const metadataURL = await uploadMetadataToIPFS();
@@ -165,18 +182,18 @@ export const Create = () => {
 
       //actually create the NFT
       let transaction = await contract.checkImageExist(hashValue);
-      if(transaction == true){
-        let creating = await contract.CreateToken(metadataURL,hashValue);
+      if (transaction == true) {
+        let creating = await contract.CreateToken(metadataURL, hashValue);
         await creating.wait();
       }
-      else{
+      else {
         alert("NFT already exist");
         return
       }
 
       alert("Successfully listed your NFT!");
       setMsg("");
-      setForm({ title: '', collection: '', description: '', photo: '' });
+      setForm({ title: '', collection: '', description: '', file: '', fileFormat: '' });
       window.location.replace("/profile")
     }
     catch (e) {
@@ -226,30 +243,13 @@ export const Create = () => {
                 onChange={handleChange}
               ></input>
             </div>
-
-            {/* <div className="flex flex-col gap-2 ">
-              <div className="flex gap-2 text-lg">
-                <p>Price</p><p className="text-red-800">*</p>
-              </div>
-              <input
-                className="flex flex-col rounded-xl bg-transparent border-gray-400 border-2 h-12 w-[650px] p-4"
-                type="number"
-                name="price"
-                value={form.price}
-                placeholder="Enter price for Listing. . ."
-                onChange={handleChange}
-              ></input>
-            </div> */}
-
-
-
             <div className="flex flex-col gap-2 ">
               <div className="flex gap-2 text-lg">
                 <p>Image</p><p className="text-red-800" >*</p>
               </div>
               <div className="flex justify-between gap-2 text-xl tracking-widest">
                 <button className="bg-gray-800 w-full h-24 rounded-xl" onClick={handleUpload}>
-                  Upload image
+                  Upload File
                 </button>
                 <button className="bg-gray-800 w-full h-24 rounded-xl" onClick={handleAI}>
                   Generate AI image
@@ -271,15 +271,97 @@ export const Create = () => {
                         onChange={handleChange}
                       ></input>
                     </div>
-                    <div className="pt-8">
-                      <input
-                        type="file"
-                        name="photo"
-                        className="border border-white w-full rounded-xl"
-                        onChange={OnChangeFile}
-                        value={form.photo}
-                      />
+                    <div className="flex justify-between items-center px-24 pt-12 text-xl">
+                      <div>
+                        <label >
+                          <input
+                            type="radio"
+                            name="fileFormat"
+                            value="1"
+                            checked={form.fileFormat === "1"}
+                            onChange={(e) => setForm({ ...form, [e.target.name]: e.target.value })} />
+                          <span className="pl-2">Image</span>
+                        </label>
+                      </div>
+                      <div>
+                        <label >
+                          <input
+                            type="radio"
+                            name="fileFormat"
+                            value="2"
+                            checked={form.fileFormat === "2"}
+                            onChange={(e) => setForm({ ...form, [e.target.name]: e.target.value })} />
+                          <span className="pl-2">Audio</span>
+                        </label>
+                      </div>
+                      <div>
+                        <label >
+                          <input
+                            type="radio"
+                            name="fileFormat"
+                            value="3"
+                            checked={form.fileFormat === "3"}
+                            onChange={(e) => setForm({ ...form, [e.target.name]: e.target.value })} />
+                          <span className="pl-2">Video</span>
+                        </label>
+                      </div>
                     </div>
+
+                    {
+                      form.fileFormat == "1" ?
+                        <>
+                          <div className="pt-8">
+                            <input
+                              type="file"
+                              name="file"
+                              className="border border-white w-full rounded-xl"
+                              onChange={OnChangeFile}
+                              value={form.file}
+                              accept=".jpg, .jpeg, .png"
+                            />
+                            <div className="p-2"><span className="tracking-widest text-red-400">.jpg, .jpeg, .png only</span></div>
+                          </div>
+                        </>
+                        :
+                        <></>
+                    }
+                    {
+                      form.fileFormat == "2" ?
+                        <>
+                          <div className="pt-8">
+                            <input
+                              type="file"
+                              name="file"
+                              className="border border-white w-full rounded-xl"
+                              onChange={OnChangeFile}
+                              value={form.file}
+                              accept=".mp3"
+                            />
+                            <div className="p-2"><span className="tracking-widest text-red-400">.mp3 only</span></div>
+                          </div>
+                        </>
+                        :
+                        <></>
+                    }
+                    {
+                      form.fileFormat == "3" ?
+                        <>
+                          <div className="pt-8">
+                            <input
+                              type="file"
+                              name="file"
+                              className="border border-white w-full rounded-xl"
+                              onChange={OnChangeFile}
+                              value={form.file}
+                              accept=".mp4"
+                            />
+                            <div className="p-2"><span className="tracking-widest text-red-400">.mp4 only</span></div>
+                          </div>
+                        </>
+                        :
+                        <></>
+                    }
+
                   </div>
                   : <></>
               }
@@ -306,13 +388,13 @@ export const Create = () => {
                       {
                         image != null ?
                           <>
-                          <div className="grid justify-center w-full ">
-                          <img src={image} alt="generated" className="pt-4 w-[400px] h-[300px] rounded-t-3xl" />
-                            <button className="bg-gray-700 text-white h-12 w-full font-bold text-xl rounded-b-3xl" onClick={download}>
-                              Download 
-                            </button>
-                          </div>
-                            
+                            <div className="grid justify-center w-full ">
+                              <img src={image} alt="generated" className="pt-4 w-[400px] h-[300px] rounded-t-3xl" />
+                              <button className="bg-gray-700 text-white h-12 w-full font-bold text-xl rounded-b-3xl" onClick={download}>
+                                Download
+                              </button>
+                            </div>
+
                           </>
 
                           :
