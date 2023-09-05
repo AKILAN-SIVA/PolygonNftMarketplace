@@ -9,6 +9,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { faL } from '@fortawesome/free-solid-svg-icons';
 import { PiShoppingCartSimpleFill } from "react-icons/pi"
+import Music from "../assets/music.png"
 
 export const Viewnft = () => {
   const [walletAddress, setWalletAddress] = useState('');
@@ -22,6 +23,20 @@ export const Viewnft = () => {
   const [loadingProgress, setLoadingProgress] = useState(true);
   const [totalSec, setTotalSec] = useState("");
 
+  const videoRef = useRef(null);
+  const [isVideoReady, setIsVideoReady] = useState(false);
+  const handleLoadedMetadata = () => {
+    setIsVideoReady(true);
+  };
+
+  // Use useEffect to automatically play the video when it's ready
+  useEffect(() => {
+    if (isVideoReady && videoRef.current) {
+      videoRef.current.play();
+    }
+  }, [isVideoReady]);
+
+  
   let interval = useRef();
 
   const startTimer = () => {
@@ -158,8 +173,10 @@ export const Viewnft = () => {
                 {
                   state.data.format == "2" ?
                     <>
-                      <div className='border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md overflow-hidden'>
-                        <audio src={state.data.photo} className='w-full h-full' />
+                      <div className='border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md '>
+                      
+                        <img src={Music} className='w-full h-[655px]'/>
+                        <audio src={state.data.photo} className='w-full h-10' controls/>
                       </div>
                     </>
                     :
@@ -169,7 +186,7 @@ export const Viewnft = () => {
                   state.data.format == "3" ?
                     <>
                       <div className='border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md overflow-hidden'>
-                        <video src={state.data.photo} className='w-full h-full' controls  controlsList='nodownload'/>
+                        <video src={state.data.photo} className='w-full h-full' controls loop autoPlay onLoadedMetadata={handleLoadedMetadata}   controlsList='nodownload'/>
                       </div>
                     </>
                     :

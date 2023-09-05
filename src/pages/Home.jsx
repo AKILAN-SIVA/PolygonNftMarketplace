@@ -61,6 +61,7 @@ export const Home = () => {
         title: meta.title,
         description: meta.description,
         collection: meta.collection,
+        format: meta.fileFormat,
       }
 
       return item;
@@ -135,22 +136,26 @@ export const Home = () => {
               <div className="loadbar" style={{ width: `${loadingProgress}%` }}></div>
               <div id="slide" ref={slideRef}>
                 {allNfts.map((value, index) => (
-                  <div
-                    key={index}
-                    className="item"
-                    style={{ backgroundImage: `url(${value.photo})`, borderRadius: '30px', }}
-                    onClick={() => navigate("/searchNft", { state: value })}
-                  >
-                    <div className="content">
-                      <div className="bg-[#3c3d3c] grid gap-6 justify-center items-center rounded-xl p-4">
-                        <div className="text-7xl font-bold text-gray-100 tracking-wider">{value.title}</div>
-                        <div className="flex gap-1 text-3xl font-semibold text-gray-100"><img src={AddressIcon} className='h-8 w-8' /> {value.price}</div>
-                      </div>
+                  value.format == "1" ?
+                    <div
+                      key={index}
+                      className="item"
+                      style={{ backgroundImage: `url(${value.photo})`, borderRadius: '30px', }}
+                      onClick={() => navigate("/searchNft", { state: value })}
+                    >
+                      <div className="content">
+                        <div className="bg-[#3c3d3c] grid gap-6 justify-center items-center rounded-xl p-4">
+                          <div className="text-7xl font-bold text-gray-100 tracking-wider">{value.title}</div>
+                          <div className="flex gap-1 text-3xl font-semibold text-gray-100"><img src={AddressIcon} className='h-8 w-8' /> {value.price}</div>
+                        </div>
 
+                      </div>
                     </div>
-                  </div>
+                    :
+                    <></>
                 ))}
               </div>
+
               <div className="buttons">
                 <div className="flex justify-center gap-6">
                   <button id="prev" onClick={handleClickPrev}>
