@@ -113,9 +113,9 @@ export const Viewnft = () => {
       const signer = provider.getSigner();
       let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
       let price = ethers.utils.parseUnits(bidPrice, 'ether');
-      // let deadline = daysLeft(durationInSeconds);
-      // console.log(deadline);
-      let transaction = await contract.createAuctionListing(price, state.data.tokenId, totalSec, timeInStr);
+      let deadline = Number(totalSec);
+      console.log(deadline);
+      let transaction = await contract.createAuctionListing(price, state.data.tokenId, deadline, timeInStr);
       await transaction.wait();
       setShowBidModal(false)
     } catch (e) {

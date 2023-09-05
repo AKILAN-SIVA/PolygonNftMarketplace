@@ -47,10 +47,12 @@ export const Profile = () => {
             let meta = await axios.get(tokenURI);
             meta = meta.data;
             const price = ethers.utils.formatUnits(i.price.toString(), 'ether');
+            const bidPrice = ethers.utils.formatUnits(i.bidPrice.toString(), 'ether');
 
             // let price = i.price;
             let item = {
                 price,
+                bidPrice,
                 tokenId: i.tokenId.toNumber(),
                 owner: i.owner,
                 buyNFT: i.NFTbought,
