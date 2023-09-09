@@ -179,6 +179,7 @@ export const ViewnftBidding = () => {
       );
       let transaction = await contract.completeAuction(state.data.biddingId);
       await transaction.wait();
+      window.location.replace("/bidNft")
     } catch (e) {
       console.log("Cannot complete bid " + e);
     }
@@ -214,8 +215,12 @@ export const ViewnftBidding = () => {
     }
   });
 
-  const copyAddress = (e) => {
+  const copyTokenId = (e) => {
     copy(state.data.tokenId);
+    toast("Token id copying...");
+  };
+  const copyBiddingId = (e) => {
+    copy(state.data.biddingId);
     toast("Token id copying...");
   };
   const copyBidderAddress = (addr) => {
@@ -246,45 +251,45 @@ export const ViewnftBidding = () => {
         <>
           <div className="grid justify-start mt-12 ml-24 gap-8">
             <div className="flex justify-start gap-16">
-            {
-                  state.data.format == "1" ?
-                    <>
+              {
+                state.data.format == "1" ?
+                  <>
 
-                      <div className='border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md overflow-hidden'>
-                        <img src={state.data.photo} className='w-full h-full' />
-                      </div>
-                    </>
-                    :
-                    <></>
-                }
-                {
-                  state.data.format == "2" ?
-                    <>
-                      <div className='relative border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md '>
-                        <img src={Music} className='w-full h-[655px]' />
-                        {
-                          play ?
-                            <button className="absolute bottom-6 right-5 rounded-full  flex justify-center items-center p-2" onClick={pauseAudio}><FaCirclePause size={36} /></button>
-                            :
-                            <button className="absolute bottom-6 right-5 rounded-full  flex justify-center items-center p-2" onClick={startAudio}><FaCirclePlay size={36} /></button>
-                        }
+                    <div className='border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md overflow-hidden'>
+                      <img src={state.data.photo} className='w-full h-full' />
+                    </div>
+                  </>
+                  :
+                  <></>
+              }
+              {
+                state.data.format == "2" ?
+                  <>
+                    <div className='relative border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md '>
+                      <img src={Music} className='w-full h-[655px]' />
+                      {
+                        play ?
+                          <button className="absolute bottom-6 right-5 rounded-full  flex justify-center items-center p-2" onClick={pauseAudio}><FaCirclePause size={36} /></button>
+                          :
+                          <button className="absolute bottom-6 right-5 rounded-full  flex justify-center items-center p-2" onClick={startAudio}><FaCirclePlay size={36} /></button>
+                      }
 
-                        {/* <audio src={state.data.photo} className='w-full h-10' controls /> */}
-                      </div>
-                    </>
-                    :
-                    <></>
-                }
-                {
-                  state.data.format == "3" ?
-                    <>
-                      <div className='border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md overflow-hidden'>
-                        <video src={state.data.photo} className='w-full h-full' controls loop autoPlay onLoadedMetadata={handleLoadedMetadata} controlsList='nodownload' />
-                      </div>
-                    </>
-                    :
-                    <></>
-                }
+                      {/* <audio src={state.data.photo} className='w-full h-10' controls /> */}
+                    </div>
+                  </>
+                  :
+                  <></>
+              }
+              {
+                state.data.format == "3" ?
+                  <>
+                    <div className='border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md overflow-hidden'>
+                      <video src={state.data.photo} className='w-full h-full' controls loop autoPlay onLoadedMetadata={handleLoadedMetadata} controlsList='nodownload' />
+                    </div>
+                  </>
+                  :
+                  <></>
+              }
               <div className="grid justify-start items-start h-fit gap-8 mt-8">
                 <div className="flex justify-between items-center">
                   <div className='flex justify-start items-center gap-4'>
@@ -403,32 +408,32 @@ export const ViewnftBidding = () => {
                     </>
                   ) : (
                     <>
-                    {
-                      address == state.data.owner ?
-                      <></>
-                      :
-<div>
-                        <p className="pb-4 text-xl">
-                          Bid Price <span className="text-red-800">*</span>
-                        </p>
+                      {
+                        address == state.data.owner ?
+                          <></>
+                          :
+                          <div>
+                            <p className="pb-4 text-xl">
+                              Bid Price <span className="text-red-800">*</span>
+                            </p>
 
-                        <input
-                          className="flex flex-col rounded-xl bg-transparent border-gray-400 border-2 h-12 w-[650px] p-4"
-                          type="number"
-                          name="collection"
-                          onChange={(e) => setBidPrice(e.target.value)}
-                          placeholder="Make Bid . . ."
-                          value={BidPrice}
-                        ></input>
-                        <button
-                          className="pt-2 bg-gray-600 inline-block p-2 w-full mt-4 rounded-xl"
-                          onClick={PlaceBid}
-                        >
-                          Place Bid
-                        </button>
-                      </div>
-                    }
-                      
+                            <input
+                              className="flex flex-col rounded-xl bg-transparent border-gray-400 border-2 h-12 w-[650px] p-4"
+                              type="number"
+                              name="collection"
+                              onChange={(e) => setBidPrice(e.target.value)}
+                              placeholder="Make Bid . . ."
+                              value={BidPrice}
+                            ></input>
+                            <button
+                              className="pt-2 bg-gray-600 inline-block p-2 w-full mt-4 rounded-xl"
+                              onClick={PlaceBid}
+                            >
+                              Place Bid
+                            </button>
+                          </div>
+                      }
+
                     </>
                   )}
                   <div className="pt-12">
@@ -485,7 +490,7 @@ export const ViewnftBidding = () => {
                   <div className="flex justify-between">
                     <a className="text-xl">Token Id</a>
                     <button
-                      onClick={copyAddress}
+                      onClick={copyTokenId}
                       className="bg-gray-800 rounded-xl px-4"
                     >
                       <a className="text-xl">{state.data.tokenId}</a>
@@ -494,7 +499,7 @@ export const ViewnftBidding = () => {
                   <div className="flex justify-between">
                     <a className="text-xl">Listing Id</a>
                     <button
-                      onClick={copyAddress}
+                      onClick={copyBiddingId}
                       className="bg-gray-800 rounded-xl px-4"
                     >
                       <a className="text-xl">{state.data.biddingId}</a>
