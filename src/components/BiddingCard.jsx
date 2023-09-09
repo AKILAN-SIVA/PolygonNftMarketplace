@@ -5,11 +5,18 @@ import { useNavigate } from 'react-router-dom';
 import Identicon from "react-identicons";
 import AddressIcon from "../assets/addressIcon.png";
 import Music from "../assets/music.png"
+import { FaCirclePlay } from "react-icons/fa6";
+import { FaCirclePause } from "react-icons/fa6";
+
+
 export const BiddingCard = (data) => {
 
   const videoRef = useRef(null);
   const navigate = useNavigate();
   const [isVideoReady, setIsVideoReady] = useState(false);
+  const [play, setPlay] = useState(false);
+
+
   const handleLoadedMetadata = () => {
     setIsVideoReady(true);
   };
@@ -25,6 +32,21 @@ export const BiddingCard = (data) => {
   function viewNft() {
     navigate(`/viewNftBidding/`, { state: data });
   }
+
+  let audio = new Audio(data.data.photo)
+  const myRef = useRef(audio);
+  const startAudio = () => {
+    myRef.current.play();
+    console.log("playing...");
+    setPlay(true);
+  };
+
+  const pauseAudio = () => {
+    console.log("paused...");
+    myRef.current.pause();
+    setPlay(false);
+  };
+
 
   return (
     <div className='bg-[#171717] border-2 border-gray-600 rounded-lg h-100 w-64 hover:cursor-pointer scale-100 hover:scale-110' onClick={viewNft}>
@@ -47,9 +69,15 @@ export const BiddingCard = (data) => {
           {
             data.data.format == "2" ?
               <>
-                <div className="grid justify-center">
-                  <img src={Music} className='h-56 w-full rounded-xl' />
-                  <audio src={data.data.photo} className='w-56 h-10' controls controlsList='nodownload' />
+                <div className="relative justify-center">
+                  <img src={Music} className='h-60 w-full rounded-t-xl' />
+                  {
+                    play ?
+                      <button className="absolute bottom-5 right-5 rounded-full  flex justify-center items-center p-2" onClick={pauseAudio}><FaCirclePause size={30} /></button>
+                      :
+                      <button className="absolute bottom-5 right-5 rounded-full  flex justify-center items-center p-2" onClick={startAudio}><FaCirclePlay size={30} /></button>
+                  }
+                  {/* <audio src={data.data.photo} className='w-56 h-10' controls controlsList='nodownload'  /> */}
                 </div>
               </>
               :

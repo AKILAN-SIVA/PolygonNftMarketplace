@@ -214,11 +214,8 @@ export const Home = () => {
             </div>
             <div className="flex justify-center pt-24"><RiSeparator size={80} /></div>
             <div className="pt-24">
-              <div className="bg-white w-fit h-[500px]">
-                <div className="relative">
-                  <img src={music} />
-                  <button className="absolute bottom-14 right-14 bg-gray-700 rounded-full h-12 w-12">play</button>
-                </div>
+              <div className="bg-gray-900 w-full h-[500px]">
+                
               </div>
             </div>
           </>
