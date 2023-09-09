@@ -79,7 +79,8 @@ export const Home = () => {
         biddingId: i.biddingId.toNumber(),
         owner: i.seller,
         netPrice: price,
-        status: i.status,
+        timeInStr: i.date,
+        status: i.status.toNumber(),
         endAt: i.deadline.toNumber(),
         price,
         tokenId: i.tokenId.toNumber(),
@@ -87,6 +88,7 @@ export const Home = () => {
         title: meta.title,
         description: meta.description,
         collection: meta.collection,
+        format: meta.fileFormat,
       }
 
       return item;
@@ -215,7 +217,7 @@ export const Home = () => {
             <div className="flex justify-center pt-24"><RiSeparator size={80} /></div>
             <div className="pt-24">
               <div className="bg-gray-900 w-full h-[500px]">
-                
+
               </div>
             </div>
           </>

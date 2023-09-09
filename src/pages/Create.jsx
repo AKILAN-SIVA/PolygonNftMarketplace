@@ -180,7 +180,7 @@ export const Create = () => {
         return
       }
 
-      alert("Successfully listed your NFT!");
+      alert("Successfully created your NFT!");
       setMsg("");
       setForm({ title: '', collection: '', description: '', file: '', fileFormat: '' });
       window.location.replace("/profile")

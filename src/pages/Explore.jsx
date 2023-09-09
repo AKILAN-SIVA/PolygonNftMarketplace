@@ -65,7 +65,7 @@ export const Explore = () => {
     if (!dataFetched)
         getNFTData();
 
-    let circleCommonClasses = 'h-6 w-6 bg-current  rounded-full';
+    let circleCommonClasses = 'h-6 w-6 bg-current rounded-full';
     return (
         <div className='bg-black min-h-screen h-fit w-full text-white'>
             <div className='pt-12'>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Navbar from './Navbar'
 import { useLocation } from 'react-router-dom'
 import { ethers } from "ethers";
@@ -7,6 +7,9 @@ import AddressIcon from "../assets/addressIcon.png";
 import copy from 'copy-to-clipboard';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Music from "../assets/music.png"
+import { FaCirclePlay } from "react-icons/fa6";
+import { FaCirclePause } from "react-icons/fa6";
 
 export const Searchnft = () => {
   const [walletAddress, setWalletAddress] = useState('');
@@ -14,6 +17,36 @@ export const Searchnft = () => {
   const [listPrice, setListPrice] = useState("");
   const [showModal, setShowModal] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(true);
+  const [play, setPlay] = useState(false);
+
+  let audio = new Audio(state.photo)
+  const myRef = useRef(audio);
+  const startAudio = () => {
+    myRef.current.play();
+    console.log("playing...");
+    setPlay(true);
+  };
+
+  const pauseAudio = () => {
+    console.log("paused...");
+    myRef.current.pause();
+    setPlay(false);
+  };
+
+  const videoRef = useRef(null);
+  const [isVideoReady, setIsVideoReady] = useState(false);
+  const handleLoadedMetadata = () => {
+    setIsVideoReady(true);
+  };
+
+  // Use useEffect to automatically play the video when it's ready
+  useEffect(() => {
+    if (isVideoReady && videoRef.current) {
+      videoRef.current.play();
+    }
+  }, [isVideoReady]);
+
+
 
   useEffect(() => {
     if (window.ethereum) {
@@ -96,11 +129,47 @@ export const Searchnft = () => {
           <>
             <div className='grid justify-start mt-12 ml-24 gap-8'>
               <div className='flex justify-start gap-16'>
-                <div className='border-2 border-gray-600 rounded-3xl shadow-md w-[700px] h-[700px]'>
-                  <img src={state.photo} className='w-full h-full rounded-3xl' />
-                </div>
+                {
+                  state.format == "1" ?
+                    <>
+
+                      <div className='border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md overflow-hidden'>
+                        <img src={state.photo} className='w-full h-full' />
+                      </div>
+                    </>
+                    :
+                    <></>
+                }
+                {
+                  state.format == "2" ?
+                    <>
+                      <div className='relative border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md '>
+                        <img src={Music} className='w-full h-[655px]' />
+                        {
+                          play ?
+                            <button className="absolute bottom-6 right-5 rounded-full  flex justify-center items-center p-2" onClick={pauseAudio}><FaCirclePause size={36} /></button>
+                            :
+                            <button className="absolute bottom-6 right-5 rounded-full  flex justify-center items-center p-2" onClick={startAudio}><FaCirclePlay size={36} /></button>
+                        }
+
+                        {/* <audio src={state.data.photo} className='w-full h-10' controls /> */}
+                      </div>
+                    </>
+                    :
+                    <></>
+                }
+                {
+                  state.format == "3" ?
+                    <>
+                      <div className='border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md overflow-hidden'>
+                        <video src={state.photo} className='w-full h-full' controls loop autoPlay onLoadedMetadata={handleLoadedMetadata} controlsList='nodownload' />
+                      </div>
+                    </>
+                    :
+                    <></>
+                }
                 <div className='grid justify-start items-start h-fit gap-8 mt-8'>
-                <div className='flex justify-start items-center gap-4'>
+                  <div className='flex justify-start items-center gap-4'>
                     <span className='text-2xl font-bold'>Created by</span>
                     <div className='bg-purple-500  w-fit flex justify-between h-12 items-center rounded-2xl px-2'>
                       <div className='flex items-center gap-1'>
@@ -183,7 +252,7 @@ export const Searchnft = () => {
                   </div>
                 </div>
               </div>
-              
+
               <div className='pb-16'>
                 <div className='bg-gray-900 border-2 border-gray-500 w-[700px] h-48 rounded-lg'>
                   <div className='grid px-4 py-6 gap-2'>

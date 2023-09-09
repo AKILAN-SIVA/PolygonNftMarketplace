@@ -10,6 +10,8 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Identicon from "react-identicons";
 import Music from "../assets/music.png"
+import { FaCirclePlay } from "react-icons/fa6";
+import { FaCirclePause } from "react-icons/fa6";
 
 export const ViewnftBidding = () => {
   let count;
@@ -26,7 +28,21 @@ export const ViewnftBidding = () => {
   const [timerSeconds, setTimerSeconds] = useState("00");
   const [highestBidderAddress, updateHighestBidderAddress] = useState("0x");
   const [timesec, setTime] = useState();
+  const [play, setPlay] = useState(false);
 
+  let audio = new Audio(state.data.photo)
+  const myRef = useRef(audio);
+  const startAudio = () => {
+    myRef.current.play();
+    console.log("playing...");
+    setPlay(true);
+  };
+
+  const pauseAudio = () => {
+    console.log("paused...");
+    myRef.current.pause();
+    setPlay(false);
+  };
 
   const videoRef = useRef(null);
   const [isVideoReady, setIsVideoReady] = useState(false);
@@ -230,12 +246,45 @@ export const ViewnftBidding = () => {
         <>
           <div className="grid justify-start mt-12 ml-24 gap-8">
             <div className="flex justify-start gap-16">
-              <div className="border-2 border-gray-600 rounded-3xl shadow-md">
-                <img
-                  src={state.data.photo}
-                  className="w-[700px] h-[800px] rounded-3xl"
-                />
-              </div>
+            {
+                  state.data.format == "1" ?
+                    <>
+
+                      <div className='border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md overflow-hidden'>
+                        <img src={state.data.photo} className='w-full h-full' />
+                      </div>
+                    </>
+                    :
+                    <></>
+                }
+                {
+                  state.data.format == "2" ?
+                    <>
+                      <div className='relative border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md '>
+                        <img src={Music} className='w-full h-[655px]' />
+                        {
+                          play ?
+                            <button className="absolute bottom-6 right-5 rounded-full  flex justify-center items-center p-2" onClick={pauseAudio}><FaCirclePause size={36} /></button>
+                            :
+                            <button className="absolute bottom-6 right-5 rounded-full  flex justify-center items-center p-2" onClick={startAudio}><FaCirclePlay size={36} /></button>
+                        }
+
+                        {/* <audio src={state.data.photo} className='w-full h-10' controls /> */}
+                      </div>
+                    </>
+                    :
+                    <></>
+                }
+                {
+                  state.data.format == "3" ?
+                    <>
+                      <div className='border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md overflow-hidden'>
+                        <video src={state.data.photo} className='w-full h-full' controls loop autoPlay onLoadedMetadata={handleLoadedMetadata} controlsList='nodownload' />
+                      </div>
+                    </>
+                    :
+                    <></>
+                }
               <div className="grid justify-start items-start h-fit gap-8 mt-8">
                 <div className="flex justify-between items-center">
                   <div className='flex justify-start items-center gap-4'>
@@ -351,37 +400,14 @@ export const ViewnftBidding = () => {
                           )}
                         </div>
                       )}
-                      {/* {
-                            (data.map((value,index)=>{
-                              if(address == value.bidder){
-                                count = count+1;
-                              }
-                            }))
-                          } */}
-
-                      {/* {data.map((value,index)=>{
-                          if(count >=1){
-                            return <div >
-                            <button
-                            className="pt-2 bg-gray-600 inline-block p-2"
-                            onClick={WithdrawMyBid}
-                          >
-                            Withdraw my bid
-                          </button>
-                          </div>
-                          }
-                          
-                        })} */}
-                      {/* <button
-                            className="pt-2 bg-gray-600 inline-block p-2"
-                            onClick={WithdrawMyBid}
-                          >
-                            Withdraw my bid
-                          </button> */}
                     </>
                   ) : (
                     <>
-                      <div>
+                    {
+                      address == state.data.owner ?
+                      <></>
+                      :
+<div>
                         <p className="pb-4 text-xl">
                           Bid Price <span className="text-red-800">*</span>
                         </p>
@@ -401,6 +427,8 @@ export const ViewnftBidding = () => {
                           Place Bid
                         </button>
                       </div>
+                    }
+                      
                     </>
                   )}
                   <div className="pt-12">
