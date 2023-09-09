@@ -4,6 +4,7 @@ import Marketplace from '../Marketplace.json';
 import { useNavigate } from 'react-router-dom';
 import Identicon from "react-identicons";
 import Music from "../assets/music.png"
+import { FaPlay } from "react-icons/fa";
 
 function Card(data) {
 
@@ -42,9 +43,10 @@ function Card(data) {
       {
         data.data.format == "2" ?
           <>
-            <div  className="grid justify-center">
-              <img src={Music} className='h-52 w-full rounded-t-xl' />
-              <audio src={data.data.photo} className='w-56 h-10' controls controlsList='nodownload'  />
+            <div  className="relative justify-center">
+              <img src={Music} className='h-60 w-full rounded-t-xl' />
+              <button className="absolute bottom-6 right-5 rounded-full h-8 w-8 bg-gray-500 flex justify-center items-center p-2"><FaPlay size={15} /></button>
+              {/* <audio src={data.data.photo} className='w-56 h-10' controls controlsList='nodownload'  /> */}
             </div>
           </>
           :

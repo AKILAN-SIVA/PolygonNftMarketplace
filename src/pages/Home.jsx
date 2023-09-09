@@ -15,7 +15,7 @@ import CarouselCard from "../components/CarouselCard";
 import CountUp from "react-countup";
 import { FiArrowUpRight } from "react-icons/fi";
 import { RiSeparator } from "react-icons/ri";
-
+import music from "../assets/music.png"
 
 export const Home = () => {
 
@@ -214,7 +214,12 @@ export const Home = () => {
             </div>
             <div className="flex justify-center pt-24"><RiSeparator size={80} /></div>
             <div className="pt-24">
-              <div className="bg-[#080808] w-full h-[500px]"> </div>
+              <div className="bg-white w-fit h-[500px]">
+                <div className="relative">
+                  <img src={music} />
+                  <button className="absolute bottom-14 right-14 bg-gray-700 rounded-full h-12 w-12">play</button>
+                </div>
+              </div>
             </div>
           </>
       }

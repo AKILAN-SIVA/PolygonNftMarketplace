@@ -10,6 +10,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import { faL } from '@fortawesome/free-solid-svg-icons';
 import { PiShoppingCartSimpleFill } from "react-icons/pi"
 import Music from "../assets/music.png"
+import { FaCirclePlay } from "react-icons/fa6";
+import { FaCirclePause } from "react-icons/fa6";
+
 
 export const Viewnft = () => {
   const [walletAddress, setWalletAddress] = useState('');
@@ -22,6 +25,7 @@ export const Viewnft = () => {
   const [showBidModal, setShowBidModal] = useState(false);
   const [loadingProgress, setLoadingProgress] = useState(true);
   const [totalSec, setTotalSec] = useState("");
+  const [play, setPlay] = useState(false);
 
   const videoRef = useRef(null);
   const [isVideoReady, setIsVideoReady] = useState(false);
@@ -144,6 +148,21 @@ export const Viewnft = () => {
   }
 
   let circleCommonClasses = 'h-6 w-6 bg-current  rounded-full';
+
+  let audio = new Audio(state.data.photo)
+  const myRef = useRef(audio);
+  const startAudio = () => {
+    myRef.current.play();
+    console.log("playing...");
+    setPlay(true);
+  };
+
+  const pauseAudio = () => {
+    console.log("paused...");
+    myRef.current.pause();
+    setPlay(false);
+  };
+
   return (
     <div className='bg-black min-h-screen h-fit min-w-full w-fit text-white'>
       <div className='pt-12'>
@@ -178,10 +197,16 @@ export const Viewnft = () => {
                 {
                   state.data.format == "2" ?
                     <>
-                      <div className='border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md '>
-
+                      <div className='relative border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md '>
                         <img src={Music} className='w-full h-[655px]' />
-                        <audio src={state.data.photo} className='w-full h-10' controls />
+                        {
+                          play ?
+                            <button className="absolute bottom-6 right-5 rounded-full  flex justify-center items-center p-2" onClick={pauseAudio}><FaCirclePause size={36} /></button>
+                            :
+                            <button className="absolute bottom-6 right-5 rounded-full  flex justify-center items-center p-2" onClick={startAudio}><FaCirclePlay size={36} /></button>
+                        }
+
+                        {/* <audio src={state.data.photo} className='w-full h-10' controls /> */}
                       </div>
                     </>
                     :
