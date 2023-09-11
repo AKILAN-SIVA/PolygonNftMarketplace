@@ -163,6 +163,7 @@ export const ViewnftBidding = () => {
         value: price,
       });
       await transaction.wait();
+      window.location.reload();
     } catch (e) {
       console.log("Cannot place bid " + e);
     }
@@ -179,7 +180,7 @@ export const ViewnftBidding = () => {
       );
       let transaction = await contract.completeAuction(state.data.biddingId);
       await transaction.wait();
-      window.location.replace("/bidNft")
+      window.location.replace("/bidNft");
     } catch (e) {
       console.log("Cannot complete bid " + e);
     }
@@ -196,6 +197,7 @@ export const ViewnftBidding = () => {
       );
       let transaction = await contract.withdrawBid(state.data.biddingId);
       await transaction.wait();
+      window.location.replace("/bidNft");
     } catch (e) {
       console.log("Withdraw my bid " + e);
     }

@@ -194,22 +194,22 @@ export const Home = () => {
             <div className="pt-24">
               <div className="flex justify-center items-center gap-32">
                 <div className="grid justify-center gap-6">
-                  <h1 className="text-8xl font-bold"><CountUp start={0} end={totTokenId} /></h1>
+                  <h1 className="text-8xl font-bold"><CountUp start={0} end={totTokenId} />+</h1>
                   <h1 className="text-xl font-bold">Total Mined</h1>
                 </div>
-                <div className="border-2 border-gray-800 w-1 h-40" ></div>
+                <div className="bg-gray-800 border-2 border-gray-800 w-1 h-40" ></div>
                 <div className="grid justify-center gap-6">
-                  <h1 className="text-8xl font-bold"><CountUp start={0} end={totSoldNft} /></h1>
+                  <h1 className="text-8xl font-bold"><CountUp start={0} end={totSoldNft} />+</h1>
                   <h1 className="text-xl font-bold">Total Sold</h1>
                 </div>
-                <div className="border-2 border-gray-800 w-1 h-40" ></div>
+                <div className="bg-gray-800 border-2 border-gray-800 w-1 h-40" ></div>
                 <div className="grid justify-center gap-6">
-                  <h1 className="text-8xl font-bold"><CountUp start={0} end={totBidNft} /></h1>
+                  <h1 className="text-8xl font-bold"><CountUp start={0} end={totBidNft} />+</h1>
                   <h1 className="text-xl font-bold">Total Bids</h1>
                 </div>
-                <div className="border-2 border-gray-800 w-1 h-40" ></div>
+                <div className="bg-gray-800 border-2 border-gray-800 w-1 h-40" ></div>
                 <div className="grid justify-center gap-6">
-                  <h1 className="text-8xl font-bold"><CountUp start={0} end={totUser} /></h1>
+                  <h1 className="text-8xl font-bold"><CountUp start={0} end={totUser} />+</h1>
                   <h1 className="text-xl font-bold">Creators</h1>
                 </div>
               </div>

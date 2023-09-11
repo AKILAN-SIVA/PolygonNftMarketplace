@@ -86,7 +86,7 @@ export const Bid = () => {
         </div> */}
               <div className='flex flex-wrap gap-6 b w-full h-full py-8'>
                 {data.map((value, index) => {
-                  if (value.status != 0) {
+                   {
                     return <BiddingCard data={value} key={index} />
                   }
                 })}

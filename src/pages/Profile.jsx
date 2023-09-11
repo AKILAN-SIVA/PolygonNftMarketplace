@@ -102,7 +102,7 @@ export const Profile = () => {
                 title: meta.title,
                 description: meta.description,
                 collection: meta.collection,
-                
+                format: meta.fileFormat,
             }
             itemsSoldCount += 1;
             return item;
@@ -174,11 +174,11 @@ export const Profile = () => {
                             </div> */}
                             <div className='grid border-0 border-gray-800  rounded-xl p-4 '>
                                 {
-                                    data.length == 0 ?
-                                        <div className='flex flex-wrap justify-center text-2xl font-bold '>
-                                            <h1>Oops!, NFT not yet created or owned</h1>
-                                        </div>
-                                        :
+                                    // data.length == 0 ?
+                                    //     <div className='flex flex-wrap justify-center text-2xl font-bold '>
+                                    //         <h1>Oops!, NFT not yet created or owned</h1>
+                                    //     </div>
+                                    //     :
                                         <div>
                                             {
                                                 showSold ?
@@ -195,12 +195,19 @@ export const Profile = () => {
 
                                             <div className='flex pt-16'>
                                                 {
-                                                    showSold == false ?
+                                                    showSold == false ? 
+                                                        data.length != 0 ?
                                                         <div className='flex flex-wrap gap-12  w-full h-full py-8'>
                                                             {data.map((value, index) => {
                                                                 return <Card data={value} key={index} />;
                                                             })}
                                                         </div>
+                                                        :
+                                                        <>
+                                                        <div className='flex flex-wrap justify-center  text-2xl font-bold w-full h-full'>
+                                                                <h1>Oops!, NFT not yet owned</h1>
+                                                            </div>
+                                                        </>
                                                         :
                                                         SoldData.length == 0 ?
                                                             <div className='flex flex-wrap justify-center  text-2xl font-bold w-full h-full'>
