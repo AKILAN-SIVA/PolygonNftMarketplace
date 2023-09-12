@@ -59,7 +59,7 @@ export const BiddingCard = (data) => {
   };
 
   return (
-    <div className='bg-[#171717] border-2 border-gray-600 rounded-lg h-100 w-64 hover:cursor-pointer scale-100 hover:scale-110' onClick={viewNft}>
+    <div className='bg-[#171717] border-2 border-gray-600 rounded-lg h-100 w-64 hover:cursor-pointer scale-100 hover:scale-105' onClick={viewNft}>
       <div className='grid items-start gap-2 p-4'>
         <div className='flex gap-2'>
           <Identicon string={data.data.owner} size={30} className="border border-gray-500 rounded-2xl" />
@@ -68,11 +68,26 @@ export const BiddingCard = (data) => {
         <div className='mt-2'>
           {
             data.data.format == "1" ?
-              <>
-                <div>
-                  <img src={data.data.photo} className='h-56 w-full rounded-xl ' />
-                </div>
-              </>
+              <div className='relative'>
+                <img src={data.data.photo} className='h-56 w-full rounded-xl ' />
+                {
+                  data.data.status == 0 ?
+                    <div className='absolute top-2 right-1'>
+                      <span className='bg-red-900 text-sm p-1 px-2 rounded-full tracking-widest font-semibold'>
+                        Expired
+                      </span>
+                    </div>
+                    :
+                    <div className='absolute top-2 right-1'>
+                      <span className='flex items-center bg-gray-400 p-1 px-1 text-sm text-[#000000] rounded-full tracking-widest gap-1 font-semibold'>
+                        <Lottie options={defaultOptions}
+                          height={16}
+                          width={16} />
+                        Active
+                      </span>
+                    </div>
+                }
+              </div>
               :
               <></>
           }
@@ -80,12 +95,29 @@ export const BiddingCard = (data) => {
             data.data.format == "2" ?
               <>
                 <div className="relative justify-center">
-                  <img src={Music} className='h-56 w-full rounded-t-xl' />
+                  <img src={Music} className='h-56 w-full rounded-xl' />
+                  {
+                    data.data.status == 0 ?
+                      <div className='absolute top-2 right-1'>
+                        <span className='bg-red-900 text-sm p-1 px-2 rounded-full tracking-widest font-semibold'>
+                          Expired
+                        </span>
+                      </div>
+                      :
+                      <div className='absolute top-2 right-1'>
+                        <span className='flex items-center bg-gray-400 p-1 px-1 text-sm text-[#000000] rounded-full tracking-widest gap-1 font-semibold'>
+                          <Lottie options={defaultOptions}
+                            height={16}
+                            width={16} />
+                          Active
+                        </span>
+                      </div>
+                  }
                   {
                     play ?
-                      <button className="absolute bottom-5 right-5 rounded-full  flex justify-center items-center p-2" onClick={pauseAudio}><FaCirclePause size={30} /></button>
+                      <button className="absolute bottom-1 right-1 rounded-full  flex justify-center items-center p-2" onClick={pauseAudio}><FaCirclePause size={32} /></button>
                       :
-                      <button className="absolute bottom-5 right-5 rounded-full  flex justify-center items-center p-2" onClick={startAudio}><FaCirclePlay size={30} /></button>
+                      <button className="absolute bottom-1 right-1 rounded-full  flex justify-center items-center p-2" onClick={startAudio}><FaCirclePlay size={32} /></button>
                   }
                   {/* <audio src={data.data.photo} className='w-56 h-10' controls controlsList='nodownload'  /> */}
                 </div>
@@ -96,8 +128,25 @@ export const BiddingCard = (data) => {
           {
             data.data.format == "3" ?
               <>
-                <div>
+                <div className='relative'>
                   <video loop autoPlay src={data.data.photo} className='h-56 w-full rounded-xl' controlsList='nodownload' onLoadedMetadata={handleLoadedMetadata} controls />
+                  {
+                    data.data.status == 0 ?
+                      <div className='absolute top-2 right-1'>
+                        <span className='bg-red-900 text-sm p-1 px-2 rounded-full tracking-widest font-semibold'>
+                          Expired
+                        </span>
+                      </div>
+                      :
+                      <div className='absolute top-2 right-1'>
+                        <span className='flex items-center bg-gray-400 p-1 px-1 text-sm text-[#000000] rounded-full tracking-widest gap-1 font-semibold'>
+                          <Lottie options={defaultOptions}
+                            height={16}
+                            width={16} />
+                          Active
+                        </span>
+                      </div>
+                  }
                 </div>
               </>
               :
@@ -106,25 +155,7 @@ export const BiddingCard = (data) => {
         </div>
         <div className='grid text-white text-xl gap-2 mt-4'>
           <div className='flex justify-between items-end '>
-            <div className='flex justify-start items-center'>
-              {
-                data.data.status == 0 ?
-                  <div>
-                    <span className='bg-red-900 text-lg p-1 px-2 rounded-full'>
-                      Expired
-                    </span>
-                  </div>
-                  :
-                  <div className='flex'>
-                    <Lottie options={defaultOptions}
-                      height={28}
-                      width={28} />
-                      {/* <span className='text-lg'>
-                      Active
-                    </span> */}
-                  </div>
-              }
-            </div>
+            <div className='flex gap-1 items-center'><img src={AddressIcon} className='h-6 w-6' /><h1>{data.data.price}</h1></div>
             <h1 className='text-lg'>{data.data.collection}</h1>
           </div>
         </div>

@@ -121,6 +121,7 @@ export const Viewnft = () => {
       let transaction = await contract.executeSale(tokenId, { value: salePrice });
 
       await transaction.wait();
+      window.location.replace("/profile");
     } catch (e) {
       console.log("NFT buy error : " + e);
     }
@@ -128,7 +129,7 @@ export const Viewnft = () => {
 
   const CreateBidding = async () => {
     try {
-      startTimer();
+      await startTimer();
 
 
       if (totalSec == 0) {
@@ -142,6 +143,7 @@ export const Viewnft = () => {
       let transaction = await contract.createAuctionListing(price, state.data.tokenId, totalSec, timeInStr);
       await transaction.wait();
       setShowBidModal(false)
+      window.location.replace("/bidNft");
     } catch (e) {
       console.log("Error in creating Bid " + e);
     }
@@ -248,7 +250,7 @@ export const Viewnft = () => {
                   <div className='border-2 border-gray-800 w-fit h-fit rounded-xl'>
                     <div className='grid justify-start items-center gap-4 p-8'>
                       <a className='text-2xl  tracking-widest'>Price: {state.data.price} MATIC</a>
-                      <div className='border border-gray-500 w-[500px] h-0'></div>
+                      <div className='border border-gray-500 w-[635px] h-0'></div>
                       {
                         (state.data.owner).toLowerCase() == walletAddress.toLowerCase() ? state.data.bidNFT == false && state.data.listNFT == false ?
                           <>

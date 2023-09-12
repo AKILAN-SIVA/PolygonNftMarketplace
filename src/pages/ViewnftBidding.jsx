@@ -74,7 +74,7 @@ export const ViewnftBidding = () => {
       const seconds = Math.floor((distance % (1000 * 60)) / 1000);
       const totsec = (days * 24 * 60 * 60) + (hours * 60 * 60) + (minutes * 60) + seconds;
       setTime(totsec);
-      console.log(totsec);
+      // console.log(totsec);
       if (distance < 0) {
         clearInterval(interval.current);
       } else {
@@ -147,7 +147,7 @@ export const ViewnftBidding = () => {
   console.log(data);
   console.log("highestBidderAddress", highestBidderAddress)
   console.log(address);
-  console.log(timesec);
+  // console.log(timesec);
 
   const PlaceBid = async () => {
     try {
@@ -268,12 +268,12 @@ export const ViewnftBidding = () => {
                 state.data.format == "2" ?
                   <>
                     <div className='relative border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md '>
-                      <img src={Music} className='w-full h-[655px]' />
+                      <img src={Music} className='w-full h-full rounded-3xl' />
                       {
                         play ?
-                          <button className="absolute bottom-6 right-5 rounded-full  flex justify-center items-center p-2" onClick={pauseAudio}><FaCirclePause size={36} /></button>
+                          <button className="absolute bottom-4 right-4 rounded-full  flex justify-center items-center p-2" onClick={pauseAudio}><FaCirclePause size={40} /></button>
                           :
-                          <button className="absolute bottom-6 right-5 rounded-full  flex justify-center items-center p-2" onClick={startAudio}><FaCirclePlay size={36} /></button>
+                          <button className="absolute bottom-4 right-4 rounded-full  flex justify-center items-center p-2" onClick={startAudio}><FaCirclePlay size={40} /></button>
                       }
 
                       {/* <audio src={state.data.photo} className='w-full h-10' controls /> */}
@@ -420,7 +420,7 @@ export const ViewnftBidding = () => {
                             </p>
 
                             <input
-                              className="flex flex-col rounded-xl bg-transparent border-gray-400 border-2 h-12 w-[650px] p-4"
+                              className="flex flex-col rounded-xl bg-transparent border-gray-400 border-2 h-12 w-full p-4"
                               type="number"
                               name="collection"
                               onChange={(e) => setBidPrice(e.target.value)}
@@ -428,7 +428,7 @@ export const ViewnftBidding = () => {
                               value={BidPrice}
                             ></input>
                             <button
-                              className="pt-2 bg-gray-600 inline-block p-2 w-full mt-4 rounded-xl"
+                              className="text-black bg-white rounded-xl w-full h-12 font-bold cursor-pointer mt-4 tracking-widest"
                               onClick={PlaceBid}
                             >
                               Place Bid
@@ -462,8 +462,9 @@ export const ViewnftBidding = () => {
                                     </h1>
                                   </button>
                                 </div>
-                                <div>
-                                  <span className="text-2xl ">{value.price}</span>
+                                <div className='flex gap-1 items-center text-xl'>
+                                  <img src={AddressIcon} className='h-6 w-6' />
+                                  <h1>{value.price}</h1>
                                 </div>
                               </div>
                               {/* <p className="text-xl">

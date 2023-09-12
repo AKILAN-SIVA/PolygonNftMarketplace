@@ -69,7 +69,7 @@ export const Create = () => {
       };
       const link = document.createElement('a');
       link.href = image;
-      link.download = 'generated_image.png';
+      link.download = `${form.description}.png`;
       link.click()
 
     }
