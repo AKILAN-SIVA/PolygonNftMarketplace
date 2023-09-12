@@ -142,7 +142,7 @@ export const Profile = () => {
                     <>
                         <div className='grid ml-28 gap-6 h-full'>
                             <div className='flex justify-start items-center pt-12 gap-32'>
-                                <div className='border-2 border-gray-700 h-32 w-32 rounded-3xl'><Identicon string={address} className="h-32 w-36 rounded-2xl" size={125} /></div>
+                                <div className='border-2 border-gray-700 h-32 w-32 rounded-2xl'><Identicon string={address} className="h-32 w-36 rounded-2xl" size={125} /></div>
                                 <div className='flex justify-start items-start gap-20'>
                                     <div className='grid justify-center items-center gap-4'>
                                         <h1 className='text-5xl font-bold'><CountUp start={0} end={CountNFt} /></h1>
@@ -169,34 +169,26 @@ export const Profile = () => {
                                 </div> */}
                             </div>
                             <div className='border border-[#171717] h-0 w-11/12 mr-2'> </div>
-                            {/* <div className='text-4xl font-bold p-2'>
-                                <h1>Collections</h1>
-                            </div> */}
                             <div className='grid border-0 border-gray-800  rounded-xl p-4 '>
                                 {
-                                    // data.length == 0 ?
-                                    //     <div className='flex flex-wrap justify-center text-2xl font-bold '>
-                                    //         <h1>Oops!, NFT not yet created or owned</h1>
-                                    //     </div>
-                                    //     :
-                                        <div>
-                                            {
-                                                showSold ?
-                                                    <div className='flex justify-center '>
-                                                        <button className='w-56 p-2' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Owned</a></button>
-                                                        <button className='bg-violet-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
-                                                    </div>
-                                                    :
-                                                    <div className='flex justify-center '>
-                                                        <button className='bg-violet-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Owned</a></button>
-                                                        <button className='w-56 p-2' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
-                                                    </div>
-                                            }
+                                    <div>
+                                        {
+                                            showSold ?
+                                                <div className='flex justify-center '>
+                                                    <button className='w-56 p-2' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Owned</a></button>
+                                                    <button className='bg-violet-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
+                                                </div>
+                                                :
+                                                <div className='flex justify-center '>
+                                                    <button className='bg-violet-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Owned</a></button>
+                                                    <button className='w-56 p-2' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
+                                                </div>
+                                        }
 
-                                            <div className='flex pt-16'>
-                                                {
-                                                    showSold == false ? 
-                                                        data.length != 0 ?
+                                        <div className='flex pt-16'>
+                                            {
+                                                showSold == false ?
+                                                    data.length != 0 ?
                                                         <div className='flex flex-wrap gap-12  w-full h-full py-8'>
                                                             {data.map((value, index) => {
                                                                 return <Card data={value} key={index} />;
@@ -204,24 +196,24 @@ export const Profile = () => {
                                                         </div>
                                                         :
                                                         <>
-                                                        <div className='flex flex-wrap justify-center  text-2xl font-bold w-full h-full'>
+                                                            <div className='flex flex-wrap justify-center  text-2xl font-bold w-full h-full'>
                                                                 <h1>Oops!, NFT not yet owned</h1>
                                                             </div>
                                                         </>
+                                                    :
+                                                    SoldData.length == 0 ?
+                                                        <div className='flex flex-wrap justify-center  text-2xl font-bold w-full h-full'>
+                                                            <h1>Oops!, NFT not yet sold</h1>
+                                                        </div>
                                                         :
-                                                        SoldData.length == 0 ?
-                                                            <div className='flex flex-wrap justify-center  text-2xl font-bold w-full h-full'>
-                                                                <h1>Oops!, NFT not yet sold</h1>
-                                                            </div>
-                                                            :
-                                                            <div className='flex flex-wrap gap-12 w-full h-full p-8'>
-                                                                {SoldData.map((value, index) => {
-                                                                    return <Card data={value} key={index} />;
-                                                                })}
-                                                            </div>
-                                                }
-                                            </div>
+                                                        <div className='flex flex-wrap gap-12 w-full h-full p-8'>
+                                                            {SoldData.map((value, index) => {
+                                                                return <Card data={value} key={index} />;
+                                                            })}
+                                                        </div>
+                                            }
                                         </div>
+                                    </div>
 
                                 }
                             </div>

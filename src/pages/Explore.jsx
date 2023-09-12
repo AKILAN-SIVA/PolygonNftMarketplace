@@ -115,7 +115,7 @@ export const Explore = () => {
                                                             else if (value.price == filData) {
                                                                 return <Card data={value} key={index} />
                                                             }
-                                                            else if (value.tokenId == filData) {
+                                                            else if (value.owner == filData) {
                                                                 return <Card data={value} key={index} />
                                                             }
                                                         })}

@@ -68,9 +68,9 @@ const CarouselCard = (data) => {
                   <img src={Music} className='h-56 w-full rounded-t-xl' />
                   {
                     play ?
-                      <button className="absolute bottom-5 right-5 rounded-full  flex justify-center items-center p-2" onClick={pauseAudio}><FaCirclePause size={30} /></button>
+                      <button className="absolute bottom-1 right-1 rounded-full  flex justify-center items-center p-2" onClick={pauseAudio}><FaCirclePause size={30} /></button>
                       :
-                      <button className="absolute bottom-5 right-5 rounded-full  flex justify-center items-center p-2" onClick={startAudio}><FaCirclePlay size={30} /></button>
+                      <button className="absolute bottom-1 right-1 rounded-full  flex justify-center items-center p-2" onClick={startAudio}><FaCirclePlay size={30} /></button>
                   }
                   {/* <audio src={data.data.photo} className='w-56 h-10' controls controlsList='nodownload'  /> */}
                 </div>

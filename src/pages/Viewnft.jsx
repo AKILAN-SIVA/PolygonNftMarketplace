@@ -200,7 +200,7 @@ export const Viewnft = () => {
                   state.data.format == "2" ?
                     <>
                       <div className='relative border-2 border-gray-600 w-[700px] h-[700px] rounded-3xl shadow-md '>
-                        <img src={Music} className='w-full h-[655px]' />
+                        <img src={Music} className='w-full h-fit rounded-3xl' />
                         {
                           play ?
                             <button className="absolute bottom-6 right-5 rounded-full  flex justify-center items-center p-2" onClick={pauseAudio}><FaCirclePause size={36} /></button>

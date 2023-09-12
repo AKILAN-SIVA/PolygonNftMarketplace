@@ -6,7 +6,7 @@ import Identicon from "react-identicons";
 import AddressIcon from "../assets/addressIcon.png";
 import Music from "../assets/music.png"
 import { FaCirclePlay } from "react-icons/fa6";
-import { FaCirclePause } from "react-icons/fa6";
+// import { FaCirclePause } from "react-icons/fa6";
 import Active from "../assets/active.json"
 import Lottie from 'react-lottie';
 
@@ -16,7 +16,7 @@ export const BiddingCard = (data) => {
   const videoRef = useRef(null);
   const navigate = useNavigate();
   const [isVideoReady, setIsVideoReady] = useState(false);
-  const [play, setPlay] = useState(false);
+  // const [play, setPlay] = useState(false);
 
 
   const handleLoadedMetadata = () => {
@@ -35,19 +35,19 @@ export const BiddingCard = (data) => {
     navigate(`/viewNftBidding/`, { state: data });
   }
 
-  let audio = new Audio(data.data.photo)
-  const myRef = useRef(audio);
-  const startAudio = () => {
-    myRef.current.play();
-    console.log("playing...");
-    setPlay(true);
-  };
+  // let audio = new Audio(data.data.photo)
+  // const myRef = useRef(audio);
+  // const startAudio = () => {
+  //   myRef.current.play();
+  //   console.log("playing...");
+  //   setPlay(true);
+  // };
 
-  const pauseAudio = () => {
-    console.log("paused...");
-    myRef.current.pause();
-    setPlay(false);
-  };
+  // const pauseAudio = () => {
+  //   console.log("paused...");
+  //   myRef.current.pause();
+  //   setPlay(false);
+  // };
 
   const defaultOptions = {
     loop: true,
@@ -113,12 +113,13 @@ export const BiddingCard = (data) => {
                         </span>
                       </div>
                   }
-                  {
+                  <button className="absolute bottom-1 right-1 rounded-full  flex justify-center items-center p-2"><FaCirclePlay size={32} /></button>
+                  {/* {
                     play ?
                       <button className="absolute bottom-1 right-1 rounded-full  flex justify-center items-center p-2" onClick={pauseAudio}><FaCirclePause size={32} /></button>
                       :
                       <button className="absolute bottom-1 right-1 rounded-full  flex justify-center items-center p-2" onClick={startAudio}><FaCirclePlay size={32} /></button>
-                  }
+                  } */}
                   {/* <audio src={data.data.photo} className='w-56 h-10' controls controlsList='nodownload'  /> */}
                 </div>
               </>

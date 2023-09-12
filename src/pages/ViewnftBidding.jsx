@@ -295,7 +295,7 @@ export const ViewnftBidding = () => {
               <div className="grid justify-start items-start h-fit gap-8 mt-8">
                 <div className="flex justify-between items-center">
                   <div className='flex justify-start items-center gap-4'>
-                    <span className='text-2xl font-bold'>Created by</span>
+                    <span className='text-2xl font-bold'>Owned by</span>
                     <div className='bg-purple-500  w-fit flex justify-between h-12 items-center rounded-2xl px-2'>
                       <div className='flex items-center gap-1'>
                         <img src={AddressIcon} className='h-6 w-6' />

@@ -176,7 +176,7 @@ export const Home = () => {
             </div>
             <div className="grid justify-center items-center gap-12 pt-20 px-28">
 
-              <Carousel cols={5} rows={1} loop={true} autoplay={10000}>
+              <Carousel cols={5} rows={1} loop={true} gap={45} autoplay={10000}>
                 {
                   allBidNfts.map((value, index) => (
                     <Carousel.Item>

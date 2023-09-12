@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import Identicon from "react-identicons";
 import Music from "../assets/music.png"
 import { FaCirclePlay } from "react-icons/fa6";
-import { FaCirclePause } from "react-icons/fa6";
+// import { FaCirclePause } from "react-icons/fa6";
 
 
 function Card(data) {
@@ -13,7 +13,7 @@ function Card(data) {
   const videoRef = useRef(null);
   const navigate = useNavigate();
   const [isVideoReady, setIsVideoReady] = useState(false);
-  const [play, setPlay] = useState(false);
+  // const [play, setPlay] = useState(false);
 
 
   const handleLoadedMetadata = () => {
@@ -33,19 +33,19 @@ function Card(data) {
     navigate(`/viewNft/`, { state: data });
   }
 
-  let audio = new Audio(data.data.photo)
-  const myRef = useRef(audio);
-  const startAudio = () => {
-    myRef.current.play();
-    console.log("playing...");
-    setPlay(true);
-  };
+  // let audio = new Audio(data.data.photo)
+  // const myRef = useRef(audio);
+  // const startAudio = () => {
+  //   myRef.current.play();
+  //   console.log("playing...");
+  //   setPlay(true);
+  // };
 
-  const pauseAudio = () => {
-    console.log("paused...");
-    myRef.current.pause();
-    setPlay(false);
-  };
+  // const pauseAudio = () => {
+  //   console.log("paused...");
+  //   myRef.current.pause();
+  //   setPlay(false);
+  // };
 
   return (
     <div className='bg-gray-800  border-gray-700 rounded-xl h-[370px] w-60 hover:cursor-pointer font-mono hover:scale-105' onClick={viewNft}>
@@ -62,15 +62,15 @@ function Card(data) {
       {
         data.data.format == "2" ?
           <>
-            <div  className="relative justify-center">
+            <div className="relative justify-center">
               <img src={Music} className='h-60 w-full rounded-t-xl' />
-              {
-                          play ?
-                            <button className="absolute bottom-5 right-5 rounded-full  flex justify-center items-center p-2" onClick={pauseAudio}><FaCirclePause size={30} /></button>
-                            :
-                            <button className="absolute bottom-5 right-5 rounded-full  flex justify-center items-center p-2" onClick={startAudio}><FaCirclePlay size={30} /></button>
-                        }
-              {/* <audio src={data.data.photo} className='w-56 h-10' controls controlsList='nodownload'  /> */}
+              <button className="absolute bottom-2 right-2 rounded-full  flex justify-center items-center p-2"><FaCirclePlay size={30} /></button>
+              {/* {
+                play ?
+                  <button className="absolute bottom-2 right-2 rounded-full  flex justify-center items-center p-2" onClick={pauseAudio}><FaCirclePause size={30} /></button>
+                  :
+                  <button className="absolute bottom-2 right-2 rounded-full  flex justify-center items-center p-2" onClick={startAudio}><FaCirclePlay size={30} /></button>
+              } */}
             </div>
           </>
           :
