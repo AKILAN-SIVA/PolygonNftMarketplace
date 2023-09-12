@@ -16,6 +16,7 @@ import CountUp from "react-countup";
 import { FiArrowUpRight } from "react-icons/fi";
 import { RiSeparator } from "react-icons/ri";
 import music from "../assets/music.png"
+import { LearningHub } from "./LearningHub";
 
 export const Home = () => {
 
@@ -175,7 +176,6 @@ export const Home = () => {
               <h1 className="text-5xl text-white font-semibold">Top <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">Bids</span></h1>
             </div>
             <div className="grid justify-center items-center gap-12 pt-20 px-28">
-
               <Carousel cols={5} rows={1} loop={true} gap={45} autoplay={10000}>
                 {
                   allBidNfts.map((value, index) => (
@@ -213,6 +213,13 @@ export const Home = () => {
                   <h1 className="text-xl font-bold">Creators</h1>
                 </div>
               </div>
+            </div>
+            <div className="flex justify-center pt-24"><RiSeparator size={80} /></div>
+            <div className="grid justify-center pt-24 gap-12 w-full">
+              <h1 className="text-5xl text-white font-semibold w-full">Learning <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">Hub</span></h1>
+            </div>
+            <div className="w-full h-full">
+              <LearningHub />
             </div>
             <div className="flex justify-center pt-24"><RiSeparator size={80} /></div>
             <div className="pt-24">
