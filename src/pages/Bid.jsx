@@ -81,12 +81,12 @@ export const Bid = () => {
           :
           <>
             <div className='grid justify-start mx-24'>
-              {/* <div className='from-purple-600 via-pink-600 to-blue-600 bg-gradient-to-r bg-clip-text text-transparent text-8xl font-bold tracking-wide pt-48 font-serif leading-tight '>
-          <h1>Bidding page</h1>
-        </div> */}
+              <div className='text-4xl font-bold tracking-widest pt-12'>
+                <h1>Top Bids</h1>
+              </div>
               <div className='flex flex-wrap gap-6 b w-full h-full py-8'>
                 {data.map((value, index) => {
-                   {
+                  {
                     return <BiddingCard data={value} key={index} />
                   }
                 })}

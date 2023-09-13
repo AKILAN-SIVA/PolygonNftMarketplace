@@ -73,8 +73,8 @@ export const uploadFileToIPFS = async(file) => {
             }
         })
         .then(function (response) {
-            console.log("image uploaded", response.data.IpfsHash)
-            alert("image uploaded")
+            console.log("File uploaded", response.data.IpfsHash)
+            alert("File uploaded")
             return {
                success: true,
                pinataURL: "https://gateway.pinata.cloud/ipfs/" + response.data.IpfsHash
