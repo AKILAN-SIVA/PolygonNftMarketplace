@@ -9,6 +9,11 @@ import { Editprofile } from "./pages/Editprofile"
 import { Searchnft } from "./pages/Searchnft"
 import { Bid } from "./pages/Bid"
 import { ViewnftBidding } from "./pages/ViewnftBidding"
+import { NftInfo } from "./pages/LearningHub/HubPages/NftInfo"
+import { MetaMaskInfo } from "./pages/LearningHub/HubPages/MetaMaskInfo"
+import { MintInfo } from "./pages/LearningHub/HubPages/MintInfo"
+import { ListingInfo } from "./pages/LearningHub/HubPages/ListingInfo"
+import { BiddingInfo } from "./pages/LearningHub/HubPages/BiddingInfo"
 
 function App() {
 
@@ -26,6 +31,11 @@ function App() {
           <Route path="/editProfile" element={<Editprofile />} />
           <Route path="/bidNft" element={<Bid />} />
           <Route path="/viewNftBidding" element={<ViewnftBidding />} />
+          <Route path="/learningHub/NftInfo" element={<NftInfo />} />
+          <Route path="/learningHub/MetaMaskInfo" element={<MetaMaskInfo />} />
+          <Route path="/learningHub/MintInfo" element={<MintInfo />} />
+          <Route path="/learningHub/ListingInfo" element={<ListingInfo />} />
+          <Route path="/learningHub/BiddingInfo" element={<BiddingInfo />} />
         </Routes>
       </div>
     </>

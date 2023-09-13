@@ -16,7 +16,7 @@ import CountUp from "react-countup";
 import { FiArrowUpRight } from "react-icons/fi";
 import { RiSeparator } from "react-icons/ri";
 import music from "../assets/music.png"
-import { LearningHub } from "./LearningHub";
+import { LearningHub } from "./LearningHub/HubPages/LearningHub";
 
 export const Home = () => {
 
@@ -221,7 +221,7 @@ export const Home = () => {
             <div className="w-full h-full">
               <LearningHub />
             </div>
-            <div className="flex justify-center pt-24"><RiSeparator size={80} /></div>
+            {/* <div className="flex justify-center pt-24"><RiSeparator size={80} /></div> */}
             <div className="pt-24">
               <div className="bg-gray-900 w-full h-[500px]">
 
