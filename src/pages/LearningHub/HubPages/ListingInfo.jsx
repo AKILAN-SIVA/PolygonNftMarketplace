@@ -6,15 +6,19 @@ export const ListingInfo = () => {
       <div className='pt-12'>
         <Navbar />
       </div>
-      <div className='grid justify-start px-24 pt-20 gap-24'>
-        <div className=''>
-          <h1 className='text-5xl font-bold tracking-wider'>1. What is Listing an NFT?</h1>
+      <div className='flex jusytify-between items-start relative  w-full min-h-screen h-fit px-24 py-12 gap-20'>
+        <div className='bg-gray-800 fixed w-3/12 h-[300px] p-8 rounded-3xl'>
+          <div className='grid justify-start items-center gap-12'>
+            <h1 className='text-3xl font-bold tracking-wider'>Questions</h1>
+            <div className='grid justify-start items-start gap-4 text-xl tracking-wider'>
+              <a href=''>1. What is listing an NFT?</a>
+              <a href=''>2. How to list an NFT?</a>
+              <a href=''>3. How to buy an NFT?</a>
+            </div>
+          </div>
         </div>
-        <div className=''>
-          <h1 className='text-5xl font-bold tracking-wider'>2. How to List an NFT?</h1>
-        </div>
-        <div className=''>
-          <h1 className='text-5xl font-bold tracking-wider'>3. How to Buy an NFT?</h1>
+        <div className='grid absolute top-12 right-24 w-8/12  px-12 pt-10'>
+
         </div>
       </div>
     </div>

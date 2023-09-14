@@ -1,7 +1,6 @@
 //import React, { useEffect, useState } from 'react'
 import Navbar from "../pages/Navbar"
 import Marketplace from '../Marketplace.json'
-import { async } from '@firebase/util';
 import { ethers } from 'ethers';
 import Carousel from 'react-grid-carousel'
 import React, { useRef, useEffect, useState } from "react";
@@ -15,8 +14,8 @@ import CarouselCard from "../components/CarouselCard";
 import CountUp from "react-countup";
 import { FiArrowUpRight } from "react-icons/fi";
 import { RiSeparator } from "react-icons/ri";
-import music from "../assets/music.png"
 import { LearningHub } from "./LearningHub/HubPages/LearningHub";
+import Logo from "../assets/Logo.png"
 
 export const Home = () => {
 
@@ -176,7 +175,7 @@ export const Home = () => {
               <h1 className="text-5xl text-white font-semibold">Top <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">Bids</span></h1>
             </div>
             <div className="grid justify-center items-center gap-12 pt-20 px-28">
-              <Carousel cols={5} rows={1} loop={true} gap={45} autoplay={10000}>
+              <Carousel cols={5} rows={1} loop={true} gap={18} autoplay={10000}>
                 {
                   allBidNfts.map((value, index) => (
                     <Carousel.Item>
@@ -221,12 +220,63 @@ export const Home = () => {
             <div className="w-full h-full">
               <LearningHub />
             </div>
-            {/* <div className="flex justify-center pt-24"><RiSeparator size={80} /></div> */}
+            {/* Footer */}
             <div className="pt-24">
-              <div className="bg-gray-900 w-full h-[500px]">
-
+              <div className="flex justify-center items-center bg-[#13082b] w-full h-[450px]">
+                <div className="flex justify-between items-start w-3/4 h-3/4 p-12">
+                  <div className="grid justify-center items-center gap-8">
+                    <div className="flex justify-center gap-2 items-center">
+                      <img src={Logo} alt="logo" className="w-12 h-12 rounded-full" />
+                      <h1 className="text-3xl font-bold">NFT Marketplace</h1>
+                    </div>
+                    <div className="flex justify-start items-center pl-16">
+                      <p className="text-sm leading-loose">
+                        Worlds largest user-friendly marketplace<br />
+                        &#169; 2023 Chosen Ones - All rights reserved
+                      </p>
+                    </div>
+                  </div>
+                  <div className="grid justify-center items-center gap-4">
+                    <h1 className="text-3xl font-bold">Pages</h1>
+                    <div className="grid justify-start items-center text-lg gap-2">
+                      <span className="hover:cursor-pointer hover:underline underline-offset-2" onClick={() => window.location.replace("/")}>Home</span>
+                      <span className="hover:cursor-pointer hover:underline underline-offset-2" onClick={() => window.location.replace("/createNft")}>Create</span>
+                      <span className="hover:cursor-pointer hover:underline underline-offset-2" onClick={() => window.location.replace("/profile")}>Profile</span>
+                      <span className="hover:cursor-pointer hover:underline underline-offset-2" onClick={() => window.location.replace("/bidNft")}>Bid</span>
+                      <span className="hover:cursor-pointer hover:underline underline-offset-2" onClick={() => window.location.replace("/exploreNft")}>Explore</span>
+                    </div>
+                  </div>
+                  <div className="grid justify-center items-center gap-4">
+                    <h1 className="text-3xl font-bold">Standards</h1>
+                    <div className="grid justify-start items-center text-lg gap-2">
+                      <a className="hover:cursor-pointer hover:underline underline-offset-2" href="https://ethereum.org/en/" target="_blank">Ethereum</a>
+                      <a className="hover:cursor-pointer hover:underline underline-offset-2" href="https://polygon.technology/" target="_blank">Polygon</a>
+                      <a className="hover:cursor-pointer hover:underline underline-offset-2" href="https://docs.openzeppelin.com/contracts/3.x/erc721" target="_blank">ERC721</a>
+                      <a className="hover:cursor-pointer hover:underline underline-offset-2" href="https://metamask.io/" target="_blank">Metamask</a>
+                      <a className="hover:cursor-pointer hover:underline underline-offset-2" href="https://ipfs.tech/" target="_blank">IPFS</a>
+                    </div>
+                  </div>
+                  <div className="grid justify-center items-center gap-4">
+                    <h1 className="text-3xl font-bold">Learn</h1>
+                    <div className="grid justify-start items-center text-lg gap-2">
+                      <a className="hover:cursor-pointer hover:underline underline-offset-2" href="/learningHub/NftInfo" target="_blank">What is NFT</a>
+                      <a className="hover:cursor-pointer hover:underline underline-offset-2" href="/learningHub/MetaMaskInfo" target="_blank">Metamask</a>
+                      <a className="hover:cursor-pointer hover:underline underline-offset-2" href="/learningHub/MintInfo" target="_blank">Mint an NFT</a>
+                      <a className="hover:cursor-pointer hover:underline underline-offset-2" href="/learningHub/ListingInfo" target="_blank">List an NFT</a>
+                      <a className="hover:cursor-pointer hover:underline underline-offset-2" href="/learningHub/BiddingInfo" target="_blank">Bid an NFT</a>
+                    </div>
+                  </div>
+                  <div className="grid justify-center items-center gap-4">
+                    <h1 className="text-3xl font-bold">Legal</h1>
+                    <div className="grid justify-start items-center text-lg gap-2">
+                      <a className="hover:cursor-pointer hover:underline underline-offset-2" >Privacy Policy</a>
+                      <a className="hover:cursor-pointer hover:underline underline-offset-2" >Terms & Conditions</a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
+            {/* Footer */}
           </>
       }
     </div>
