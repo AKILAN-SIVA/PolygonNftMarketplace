@@ -1,14 +1,18 @@
 import React from 'react'
 import Navbar from '../../Navbar'
+import { NFTqs1 } from './NFTpage/NFTqs1'
+import { NFTqs2 } from './NFTpage/NFTqs2'
+import { NFTqs3 } from './NFTpage/NFTqs3'
+import { NFTqs4 } from './NFTpage/NFTqs4'
 
 
 export const NftInfo = () => {
   return (
-    <div className='bg-[#070017] min-h-screen h-fit w-full text-white'>
+    <div className='bg-black min-h-screen h-fit w-full text-white'>
       <div className='pt-12'>
         <Navbar />
       </div>
-      <div className='flex jusytify-between items-start relative  w-full min-h-screen h-fit px-24 py-12 gap-20'>
+      <div className='flex justify-between relative w-full min-h-screen h-fit px-24 py-12 gap-20'>
         <div className='bg-gray-800 fixed w-3/12 h-[300px] p-8 rounded-3xl'>
           <div className='grid justify-start items-center gap-12'>
             <h1 className='text-3xl font-bold tracking-wider'>Questions</h1>
@@ -20,8 +24,11 @@ export const NftInfo = () => {
             </div>
           </div>
         </div>
-        <div className='grid absolute top-12 right-24 w-8/12  px-12 pt-10'>
-
+        <div className='grid justify-center items-end w-8/12 px-12 pt-10 gap-12 ml-[28%] right-24 '>
+          <NFTqs1 />
+          <NFTqs2 />
+          <NFTqs3 />
+          <NFTqs4 />
         </div>
       </div>
     </div>
