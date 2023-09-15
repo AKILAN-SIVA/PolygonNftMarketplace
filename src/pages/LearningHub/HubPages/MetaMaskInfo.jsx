@@ -1,5 +1,8 @@
 import React from 'react'
 import Navbar from '../../Navbar'
+import { Metamaskqs1 } from './Metamaskpage/Metamaskqs1'
+import { Metamaskqs2 } from './Metamaskpage/Metamaskqs2'
+import { Metamaskqs3 } from './Metamaskpage/Metamaskqs3'
 export const MetaMaskInfo = () => {
   return (
     <div className='bg-[#070017] min-h-screen h-fit w-full text-white'>
@@ -17,8 +20,10 @@ export const MetaMaskInfo = () => {
             </div>
           </div>
         </div>
-        <div className='grid absolute top-12 right-24 w-8/12  px-12 pt-10'>
-          
+        <div className='grid justify-center items-end w-8/12 px-12 pt-10 gap-12 ml-[28%] right-24'>
+          <Metamaskqs1 />
+          <Metamaskqs2 />
+          <Metamaskqs3 />
         </div>
       </div>
     </div>
