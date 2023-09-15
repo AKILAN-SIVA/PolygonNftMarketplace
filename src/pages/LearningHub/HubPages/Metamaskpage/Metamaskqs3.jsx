@@ -1,16 +1,19 @@
 import React from 'react'
-
+import Metamaskqs3a from "../../HubAssets/Metamaskqs3a.png"
 export const Metamaskqs3 = () => {
     return (
         <div className='w-full h-fit'>
             <div className='grid justify-start items-center gap-6'>
                 <h1 className='text-4xl font-semibold tracking-wider'>3. How to create a account?</h1>
                 <p className='text-lg tracking-wider text-justify px-12'>
-                    <span className='text-2xl font-semibold'>Install MetaMask:</span> Visit the official MetaMask website (metamask.io) and click on
+                    <span className='text-2xl font-semibold'>Install MetaMask:</span> Visit the official MetaMask website <a href='https://metamask.io/' className='text-blue-500 underline underline-offset-2' target='_blank'>(metamask.io)</a> and click on
                     the &quot;Download&quot; or &quot;Install MetaMask&quot; button. It&#39;s available as a browser
                     extension for Chrome, Firefox, and other popular browsers. Follow the
                     installation instructions for your chosen browser.
                 </p>
+                <div className='flex justify-center items-center w-full h-full py-12'>
+                    <img src={Metamaskqs3a} alt='metamaskqs3a' className='w-[800px] h-[500px]' />
+                </div>
                 <p className='text-lg tracking-wider text-justify px-12'>
                     <span className='text-2xl font-semibold'>Set Up Your Wallet:</span> After installation, click on the MetaMask extension icon in your browser&#39;s
                     toolbar. Click &quot;Get Started&quot; to create a new wallet. Create a strong password for your wallet. Make sure to remember it as it&#39;s

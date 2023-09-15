@@ -1,5 +1,9 @@
 import React from 'react'
 import Navbar from '../../Navbar'
+import { Mintqs1 } from './Mintpage/Mintqs1'
+import { Mintqs2 } from './Mintpage/Mintqs2'
+import { Mintqs3 } from './Mintpage/Mintqs3'
+import { Mintqs4 } from './Mintpage/Mintqs4'
 export const MintInfo = () => {
   return (
     <div className='bg-[#070017] min-h-screen h-fit w-full text-white'>
@@ -18,8 +22,11 @@ export const MintInfo = () => {
             </div>
           </div>
         </div>
-        <div className='grid absolute top-12 right-24 w-8/12  px-12 pt-10'>
-
+        <div className='grid justify-center items-end w-8/12 px-12 pt-10 gap-12 ml-[28%] right-24'>
+          <Mintqs1 />
+          <Mintqs2 />
+          <Mintqs3 />
+          <Mintqs4 />
         </div>
       </div>
     </div>

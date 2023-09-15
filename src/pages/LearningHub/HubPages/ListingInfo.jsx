@@ -1,5 +1,8 @@
 import React from 'react'
 import Navbar from '../../Navbar'
+import { Listqs1 } from './Listpage/Listqs1'
+import { Listqs2 } from './Listpage/Listqs2'
+import { Listqs3 } from './Listpage/Listqs3'
 export const ListingInfo = () => {
   return (
     <div className='bg-[#070017] min-h-screen h-fit w-full text-white'>
@@ -17,8 +20,10 @@ export const ListingInfo = () => {
             </div>
           </div>
         </div>
-        <div className='grid absolute top-12 right-24 w-8/12  px-12 pt-10'>
-
+        <div className='grid justify-center items-end w-8/12 px-12 pt-10 gap-12 ml-[28%] right-24'>
+          <Listqs1 />
+          <Listqs2 />
+          <Listqs3 />
         </div>
       </div>
     </div>
