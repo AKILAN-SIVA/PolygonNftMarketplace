@@ -1,4 +1,3 @@
-//import React, { useEffect, useState } from 'react'
 import Navbar from "../pages/Navbar"
 import Marketplace from '../Marketplace.json'
 import { ethers } from 'ethers';
