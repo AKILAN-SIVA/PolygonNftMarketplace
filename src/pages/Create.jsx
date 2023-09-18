@@ -170,15 +170,18 @@ export const Create = () => {
       // const price = ethers.utils.parseUnits(form.price,'ether');
 
       //actually create the NFT
+      // let creating = await contract.CreateToken(metadataURL, hashValue, form.fileFormat);
+      //   await creating.wait();
       let transaction = await contract.checkImageExist(hashValue);
-      if (transaction == 0) {
-        let creating = await contract.CreateToken(metadataURL, hashValue, form.fileFormat);
-        await creating.wait();
-      }
-      else {
-        alert("NFT already exist");
-        return
-      }
+      await transaction.wait();
+      // if (transaction == 0) {
+      //   let creating = await contract.CreateToken(metadataURL, hashValue, form.fileFormat);
+      //   await creating.wait();
+      // }
+      // else {
+      //   alert("NFT already exist");
+      //   return
+      // }
 
       alert("Successfully created your NFT!");
       setMsg("");
@@ -187,6 +190,8 @@ export const Create = () => {
     }
     catch (e) {
       console.log("Upload error" + e)
+      alert("Error in crreating NFT"+e);
+      window.location.reload();
     }
   }
 
