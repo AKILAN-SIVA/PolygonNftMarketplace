@@ -166,14 +166,23 @@ export const Create = () => {
       //Pull the deployed contract instance
       let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
 
+      let transaction = await contract.checkImageExist(hashValue);
+      if(transaction == true){
+        let creating = await contract.CreateToken(metadataURL,hashValue,form.fileFormat);
+        await creating.wait();
+      }
+      else{
+        alert("NFT already exist");
+      }
+
       //massage the params to be sent to the create NFT request
       // const price = ethers.utils.parseUnits(form.price,'ether');
 
       //actually create the NFT
       // let creating = await contract.CreateToken(metadataURL, hashValue, form.fileFormat);
       //   await creating.wait();
-      let transaction = await contract.checkImageExist(hashValue);
-      await transaction.wait();
+      // let transaction = await contract.checkImageExist(metadataURL,hashValue,form.fileFormat);
+      // await transaction.wait();
       // if (transaction == 0) {
       //   let creating = await contract.CreateToken(metadataURL, hashValue, form.fileFormat);
       //   await creating.wait();
@@ -191,7 +200,7 @@ export const Create = () => {
     catch (e) {
       console.log("Upload error" + e)
       alert("Error in crreating NFT"+e);
-      window.location.reload();
+      // window.location.reload();
     }
   }
 

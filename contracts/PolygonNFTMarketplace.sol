@@ -73,24 +73,22 @@ contract PolygonNFTMarketplace is ERC721URIStorage , ReentrancyGuard {
 
     }
 
-    function checkImageExist(string memory imageHash) public view {
+    function checkImageExist(string memory imageHash) public view returns(bool) {
         uint256 tokenCount = TokenCount.current();
         string memory imghash = imageHash;
         string memory idHash;
-        uint256 count = 0;
         for(uint256 i=0;i<tokenCount;i++){
             idHash = idToImageHash[i+1];
             if(keccak256(abi.encodePacked(idHash)) == keccak256(abi.encodePacked(imghash))){
-                count = count + 1;
+                return false;
             }
         }
-        require(count == 0,"NFT Already exist");
-        
+        return true;
     } 
 
     function CreateToken(string memory tokenURI, string memory imageHash, uint256 fileType) public payable returns(uint256){
 
-        checkImageExist(imageHash);
+        // checkImageExist(imageHash);
         TokenCount.increment();
         uint256 newTokenId = TokenCount.current();
         
