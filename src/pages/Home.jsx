@@ -174,7 +174,7 @@ export const Home = () => {
               <h1 className="text-5xl text-white font-semibold">Top <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">Bids</span></h1>
             </div>
             <div className="grid justify-center items-center gap-12 pt-20 px-28">
-              <Carousel cols={5} rows={1} loop={true} gap={18} autoplay={10000}>
+              <Carousel cols={5} rows={1} loop={true} gap={1} autoplay={10000}>
                 {
                   allBidNfts.map((value, index) => (
                     <Carousel.Item>
