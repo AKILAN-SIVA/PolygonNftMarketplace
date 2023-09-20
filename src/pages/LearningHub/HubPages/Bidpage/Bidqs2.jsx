@@ -1,18 +1,19 @@
 import React from "react";
 import Listqs2AssetsS2 from "../../HubAssets/Listqs2AssetsS2.png";
-import Listqs2AssetsS3 from "../../HubAssets/Listqs2AssetsS3.png";
-import Listqs2AssetsS4 from "../../HubAssets/Listqs2AssetsS4.png";
+import Bidqs2AssetsS3 from "../../HubAssets/Bidqs2AssetsS3.png";
+import Bidqs2AssetsS4 from "../../HubAssets/Bidqs2AssetsS4.png";
+import Bidqs2AssetsS5 from "../../HubAssets/Bidqs2AssetsS5.png";
 
-export const Listqs2 = () => {
+const Bidqs2 = () => {
   return (
     <div className="w-full h-fit">
       <div className="grid justify-start items-center gap-6">
         <h1 className="text-4xl font-semibold tracking-wider">
-          2. How to list an NFT?
+          2. How to create an NFT bidding?
         </h1>
         <h1 className="text-xl font-semibold tracking-wider px-12">
-          Note: A step by step guide to list your first Non-Fungible Token in
-          NFT Marketplace
+          Note: A step by step guide to create your first NFT bidding in NFT
+          Marketplace
         </h1>
         <p className="text-lg tracking-wider text-justify px-12">
           <span className="text-2xl font-semibold">Step 1:</span> Mint an NFT.
@@ -33,30 +34,42 @@ export const Listqs2 = () => {
         <div className="flex justify-center items-center w-full h-full py-12">
           <img
             src={Listqs2AssetsS2}
-            alt="listqs2"
+            alt="Bidqs2"
             className="w-[800px] h-[500px] border-2 border-gray-700"
           />
         </div>
         <p className="text-lg tracking-wider text-justify px-12">
-          <span className="text-2xl font-semibold">Step 3:</span> To list nft
-          you have to choose - List your nft, then set listing price. Then,
-          click “List” to list the nft.
+          <span className="text-2xl font-semibold">Step 3:</span> To bid nft you
+          have to choose - bid your nft , then set starting price and time
+          limit.
         </p>
         <div className="flex justify-center items-center w-full h-full py-12">
           <img
-            src={Listqs2AssetsS3}
-            alt="listqs3"
+            src={Bidqs2AssetsS3}
+            alt="Bidqs2AssetsS3"
             className="w-[800px] h-[500px] border-2 border-gray-700"
           />
         </div>
         <p className="text-lg tracking-wider text-justify px-12">
-          <span className="text-2xl font-semibold">Step 4:</span> After
-          successful listing, listed nft is listed for sale in explore page.
+          <span className="text-2xl font-semibold">Step 4:</span> Then click
+          “Make bid” and confirm transaction to place a bid.
         </p>
         <div className="flex justify-center items-center w-full h-full py-12">
           <img
-            src={Listqs2AssetsS4}
-            alt="listqs4"
+            src={Bidqs2AssetsS4}
+            alt="Bidqs2AssetsS4"
+            className="w-[800px] h-[500px] border-2 border-gray-700"
+          />
+        </div>
+        <p className="text-lg tracking-wider text-justify px-12">
+          <span className="text-2xl font-semibold">Step 5:</span> Then bid is
+          placed in bidding page. If the time limit exceeds it will display as
+          “Expired” else it display as “Active”
+        </p>
+        <div className="flex justify-center items-center w-full h-full py-12">
+          <img
+            src={Bidqs2AssetsS5}
+            alt="Bidqs2AssetsS5"
             className="w-[800px] h-[500px] border-2 border-gray-700"
           />
         </div>
@@ -64,3 +77,5 @@ export const Listqs2 = () => {
     </div>
   );
 };
+
+export default Bidqs2;
