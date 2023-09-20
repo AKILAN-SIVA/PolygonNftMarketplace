@@ -133,7 +133,7 @@ export const Home = () => {
           </>
           :
           <>
-            <div className="container">
+            {/* <div className="container">
               <div className="loadbar" style={{ width: `${loadingProgress}%` }}></div>
               <div id="slide" ref={slideRef}>
                 {allNfts.map((value, index) => (
@@ -167,14 +167,14 @@ export const Home = () => {
                   </button>
                 </div>
               </div>
-            </div>
+            </div> */}
             <div className="w-full min-h-screen"></div>
             <div className="flex justify-center "><RiSeparator size={80} /></div>
             <div className="flex justify-center pt-24">
               <h1 className="text-5xl text-white font-semibold">Top <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">Bids</span></h1>
             </div>
-            <div className="grid justify-center items-center gap-12 pt-20 px-28">
-              <Carousel cols={5} rows={1} loop={true} gap={1} autoplay={10000}>
+            {/* <div className="grid justify-center items-center gap-12 pt-20 px-28">
+              <Carousel cols={3} rows={1} loop={true} gap={0} autoplay={10000}>
                 {
                   allBidNfts.map((value, index) => (
                     <Carousel.Item>
@@ -183,8 +183,7 @@ export const Home = () => {
                   ))
                 }
               </Carousel>
-
-            </div>
+            </div> */}
             <div className="flex justify-center items-center pt-16 gap-4">
               <button className="flex justify-center items-center bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 tracking-widest text-xl text-black font-semibold  w-56 h-14 rounded-3xl" onClick={() => window.location.replace("/bidNft")}>View More <FiArrowUpRight size={28} /></button>
             </div>

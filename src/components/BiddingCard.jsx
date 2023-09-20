@@ -59,7 +59,7 @@ export const BiddingCard = (data) => {
   };
 
   return (
-    <div className='bg-[#171717] border-2 border-gray-600 rounded-lg h-100 w-64 hover:cursor-pointer scale-100 hover:scale-105' onClick={viewNft}>
+    <div className='bg-[#171717] border-2 border-gray-600 rounded-lg h-100 w-72 hover:cursor-pointer scale-100 hover:scale-105' onClick={viewNft}>
       <div className='grid items-start gap-2 p-4'>
         <div className='flex gap-2'>
           <Identicon string={data.data.owner} size={30} className="border border-gray-500 rounded-2xl" />

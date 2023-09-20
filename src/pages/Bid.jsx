@@ -84,7 +84,7 @@ export const Bid = () => {
               <div className='text-4xl font-bold tracking-widest pt-12'>
                 <h1>Top Bids</h1>
               </div>
-              <div className='flex flex-wrap gap-6 b w-full h-full py-8'>
+              <div className='flex flex-wrap gap-12 b w-full h-full py-8'>
                 {data.map((value, index) => {
                   {
                     return <BiddingCard data={value} key={index} />
