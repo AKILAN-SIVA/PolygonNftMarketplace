@@ -15,8 +15,8 @@ const Bidqs3 = () => {
           Note: A step by step guide to bid your first Non-Fungible Token in NFT
           Marketplace
         </h1>
-        <p className="text-lg tracking-wider text-justify px-12">
-          <span className="text-2xl font-semibold">Step 1:</span> In bidding
+        <p className="text-xl tracking-wider text-justify px-12 font-serif">
+          <span className="text-3xl font-semibold">Step 1:</span> In bidding
           page it shows the details of price, status, owned by, time limit,
           “Placed Bid” and Bid history. Here, you can't bid your own nft. So,
           “place bid” button will be disabled for sellers/owner.
@@ -28,8 +28,8 @@ const Bidqs3 = () => {
             className="w-[800px] h-[500px] border-2 border-gray-700"
           />
         </div>
-        <p className="text-lg tracking-wider text-justify px-12">
-          <span className="text-2xl font-semibold">Step 2:</span> Others can
+        <p className="text-xl tracking-wider text-justify px-12 font-serif">
+          <span className="text-3xl font-semibold">Step 2:</span> Others can
           place the bid and the bid should be greater than starting bid. Then,
           in bid history it shows all the bids placed for that nft. Finally, the
           highest bidder will be the new owner of that nft.
@@ -41,8 +41,8 @@ const Bidqs3 = () => {
             className="w-[800px] h-[500px] border-2 border-gray-700"
           />
         </div>
-        <p className="text-lg tracking-wider text-justify px-12">
-          <span className="text-2xl font-semibold">Step 3:</span> When the time
+        <p className="text-xl tracking-wider text-justify px-12 font-serif">
+          <span className="text-3xl font-semibold">Step 3:</span> When the time
           limit exceeds, the highest bidder or the seller should make “Complete
           Auction” to end bidding. Then, the other bidders can withdraw their
           bids.
@@ -54,8 +54,8 @@ const Bidqs3 = () => {
             className="w-[800px] h-[500px] border-2 border-gray-700"
           />
         </div>
-        <p className="text-lg tracking-wider text-justify px-12">
-          <span className="text-2xl font-semibold">Step 4:</span> By “Complete
+        <p className="text-xl tracking-wider text-justify px-12 font-serif">
+          <span className="text-3xl font-semibold">Step 4:</span> By “Complete
           Action” the ownership gets transferred to highest bidder.
         </p>
         <div className="flex justify-center items-center w-full h-full py-12">

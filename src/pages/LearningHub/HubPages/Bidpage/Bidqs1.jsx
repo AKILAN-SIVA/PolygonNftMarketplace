@@ -19,7 +19,7 @@ const Bidqs1 = () => {
         <h1 className="text-4xl font-semibold tracking-wider">
           1. What is bidding an NFT?
         </h1>
-        <p className="text-lg tracking-wider text-justify px-12">
+        <p className="text-2xl tracking-wider text-justify px-12 font-serif">
           Bidding on an NFT involves participating in an auction-style sale of a
           non-fungible token. Interested buyers submit bids for the NFT, often
           specifying the amount they are willing to pay. The highest bidder at

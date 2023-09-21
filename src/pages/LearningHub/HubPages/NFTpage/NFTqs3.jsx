@@ -5,7 +5,7 @@ export const NFTqs3 = () => {
         <div className='w-full h-fit'>
             <div className='grid justify-start items-center gap-6'>
                 <h1 className='text-4xl font-semibold tracking-wider'>3. How NFT works?</h1>
-                <p className='text-lg tracking-wider text-justify px-12'>
+                <p className='text-2xl tracking-wider text-justify px-12 font-serif'>
                     NFTs work by leveraging blockchain technology to create unique, verifiable digital ownership.
                     Each NFT contains a distinct code that distinguishes it from others, making it non-fungible.
                     When a creator mints an NFT, the blockchain records the creation and establishes its ownership.

@@ -8,7 +8,7 @@ export const Listqs1 = () => {
         <h1 className="text-4xl font-semibold tracking-wider">
           1. What is listing an NFT?
         </h1>
-        <p className="text-lg tracking-wider text-justify px-12">
+        <p className="text-2xl tracking-wider text-justify px-12 font-serif">
           Listing an NFT refers to the process of making a non-fungible token
           available for sale on an online marketplace or platform. Sellers
           specify details such as pricing, duration, and terms for potential

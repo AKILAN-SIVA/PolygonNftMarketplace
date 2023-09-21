@@ -8,15 +8,15 @@ export default {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'blackImg': "url('https://static.vecteezy.com/system/resources/thumbnails/019/591/373/original/the-effect-of-a-film-with-scratches-on-a-black-background-free-video.jpg')",
-      },
       animation: {
         bounce200: 'bounce 1s infinite 200ms',
         bounce400: 'bounce 1s infinite 400ms',
       },
       colors: {
         'black': "#070017"
+      },
+      fontFamily: {
+        'Open-sans': ["Open Sans"]
       }
     },
   },

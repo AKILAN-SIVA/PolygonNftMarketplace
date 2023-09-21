@@ -8,7 +8,7 @@ import { FiArrowUpRight } from "react-icons/fi";
 
 export const LearningHub = () => {
     return (
-        <div className='grid items-center gap-28 pt-12'>
+        <div className='grid items-center gap-28 pt-12 font-serif'>
             <div className='flex justify-center items-start w-full'>
                 <img src={AboutNft} alt='3Dnft' className='w-[500px] h-[500px]' />
                 <div className='grid justify-center items-center w-1/2 mt-20 gap-12'>

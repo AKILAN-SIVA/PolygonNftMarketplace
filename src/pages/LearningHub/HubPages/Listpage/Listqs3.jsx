@@ -12,8 +12,8 @@ export const Listqs3 = () => {
           Note: A step by step guide to buy your first Non-Fungible Token in NFT
           Marketplace
         </h1>
-        <p className="text-lg tracking-wider text-justify px-12">
-          <span className="text-2xl font-semibold">Step 1:</span> In explore
+        <p className="text-xl tracking-wider text-justify px-12 font-serif">
+          <span className="text-3xl font-semibold">Step 1:</span> In explore
           page , choose which nft do you want to buy and click “Buy NFT”.
         </p>
         <div className="flex justify-center items-center w-full h-full py-12">
@@ -23,8 +23,8 @@ export const Listqs3 = () => {
             className="w-[800px] h-[500px] border-2 border-gray-700"
           />
         </div>
-        <p className="text-lg tracking-wider text-justify px-12">
-          <span className="text-2xl font-semibold">Step 2:</span> After
+        <p className="text-xl tracking-wider text-justify px-12 font-serif">
+          <span className="text-3xl font-semibold">Step 2:</span> After
           successful transaction, the ownership gets transferred to buyer.
         </p>
         <div className="flex justify-center items-center w-full h-full">

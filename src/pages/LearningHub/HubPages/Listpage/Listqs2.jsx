@@ -14,8 +14,8 @@ export const Listqs2 = () => {
           Note: A step by step guide to list your first Non-Fungible Token in
           NFT Marketplace
         </h1>
-        <p className="text-lg tracking-wider text-justify px-12">
-          <span className="text-2xl font-semibold">Step 1:</span> Mint an NFT.
+        <p className="text-xl tracking-wider text-justify px-12 font-serif">
+          <span className="text-3xl font-semibold">Step 1:</span> Mint an NFT.
           To know how to mint an NFT,{" "}
           <a
             href="/learningHub/MintInfo"
@@ -25,8 +25,8 @@ export const Listqs2 = () => {
             Click here
           </a>
         </p>
-        <p className="text-lg tracking-wider text-justify px-12">
-          <span className="text-2xl font-semibold">Step 2:</span> Click the NFT
+        <p className="text-xl tracking-wider text-justify px-12 font-serif">
+          <span className="text-3xl font-semibold">Step 2:</span> Click the NFT
           in your profile. In nft page, you have two options - list your nft and
           bid your nft.
         </p>
@@ -37,8 +37,8 @@ export const Listqs2 = () => {
             className="w-[800px] h-[500px] border-2 border-gray-700"
           />
         </div>
-        <p className="text-lg tracking-wider text-justify px-12">
-          <span className="text-2xl font-semibold">Step 3:</span> To list nft
+        <p className="text-xl tracking-wider text-justify px-12 font-serif">
+          <span className="text-3xl font-semibold">Step 3:</span> To list nft
           you have to choose - List your nft, then set listing price. Then,
           click “List” to list the nft.
         </p>
@@ -49,8 +49,8 @@ export const Listqs2 = () => {
             className="w-[800px] h-[500px] border-2 border-gray-700"
           />
         </div>
-        <p className="text-lg tracking-wider text-justify px-12">
-          <span className="text-2xl font-semibold">Step 4:</span> After
+        <p className="text-xl tracking-wider text-justify px-12 font-serif">
+          <span className="text-3xl font-semibold">Step 4:</span> After
           successful listing, listed nft is listed for sale in explore page.
         </p>
         <div className="flex justify-center items-center w-full h-full py-12">

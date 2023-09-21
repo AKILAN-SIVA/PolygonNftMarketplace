@@ -15,8 +15,8 @@ const Bidqs2 = () => {
           Note: A step by step guide to create your first NFT bidding in NFT
           Marketplace
         </h1>
-        <p className="text-lg tracking-wider text-justify px-12">
-          <span className="text-2xl font-semibold">Step 1:</span> Mint an NFT.
+        <p className="text-xl tracking-wider text-justify px-12 font-serif">
+          <span className="text-3xl font-semibold">Step 1:</span> Mint an NFT.
           To know how to mint an NFT,{" "}
           <a
             href="/learningHub/MintInfo"
@@ -26,8 +26,8 @@ const Bidqs2 = () => {
             Click here
           </a>
         </p>
-        <p className="text-lg tracking-wider text-justify px-12">
-          <span className="text-2xl font-semibold">Step 2:</span> Click the NFT
+        <p className="text-xl tracking-wider text-justify px-12 font-serif">
+          <span className="text-3xl font-semibold">Step 2:</span> Click the NFT
           in your profile. In nft page, you have two options - list your nft and
           bid your nft.
         </p>
@@ -38,8 +38,8 @@ const Bidqs2 = () => {
             className="w-[800px] h-[500px] border-2 border-gray-700"
           />
         </div>
-        <p className="text-lg tracking-wider text-justify px-12">
-          <span className="text-2xl font-semibold">Step 3:</span> To bid nft you
+        <p className="text-xl tracking-wider text-justify px-12 font-serif">
+          <span className="text-3xl font-semibold">Step 3:</span> To bid nft you
           have to choose - bid your nft , then set starting price and time
           limit.
         </p>
@@ -50,8 +50,8 @@ const Bidqs2 = () => {
             className="w-[800px] h-[500px] border-2 border-gray-700"
           />
         </div>
-        <p className="text-lg tracking-wider text-justify px-12">
-          <span className="text-2xl font-semibold">Step 4:</span> Then click
+        <p className="text-xl tracking-wider text-justify px-12 font-serif">
+          <span className="text-3xl font-semibold">Step 4:</span> Then click
           “Make bid” and confirm transaction to place a bid.
         </p>
         <div className="flex justify-center items-center w-full h-full py-12">
@@ -61,8 +61,8 @@ const Bidqs2 = () => {
             className="w-[800px] h-[500px] border-2 border-gray-700"
           />
         </div>
-        <p className="text-lg tracking-wider text-justify px-12">
-          <span className="text-2xl font-semibold">Step 5:</span> Then bid is
+        <p className="text-xl tracking-wider text-justify px-12 font-serif">
+          <span className="text-3xl font-semibold">Step 5:</span> Then bid is
           placed in bidding page. If the time limit exceeds it will display as
           “Expired” else it display as “Active”
         </p>

@@ -5,7 +5,7 @@ export const Metamaskqs1 = () => {
         <div className='w-full h-fit'>
             <div className='grid justify-start items-center gap-6'>
                 <h1 className='text-4xl font-semibold tracking-wider'>1. What is Metamask?</h1>
-                <p className='text-lg tracking-wider text-justify px-12'>
+                <p className='text-2xl tracking-wider text-justify px-12 font-serif'>
                     MetaMask is a popular cryptocurrency wallet and browser extension that allows
                     users to manage their Ethereum-based assets and interact with decentralized
                     applications (DApps) on the Ethereum blockchain. It provides a secure and user-
@@ -18,7 +18,7 @@ export const Metamaskqs1 = () => {
                     decentralized web.
                 </p>
                 <div className='flex justify-center items-center w-full h-full'>
-                <img src={Wallet} alt='3DWallet' className='w-[500px] h-[500px]' />
+                    <img src={Wallet} alt='3DWallet' className='w-[500px] h-[500px]' />
                 </div>
             </div>
         </div>

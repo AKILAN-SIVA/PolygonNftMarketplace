@@ -241,7 +241,12 @@ export const Home = () => {
               onClick={() =>
                 navigate("/searchNft", { state: allNfts[currentIndex] })
               }
-            ></div>
+            >
+              <div className="p-6 absolute top-[65%] left-[7%] w-72 h-40 bg-gray-700 rounded-3xl">
+                <div className="flex gap-1 text-6xl font-semibold text-gray-100">{allNfts[currentIndex].title}</div>
+                <div className="flex gap-1 text-3xl font-semibold text-gray-100 pt-2"><img src={AddressIcon} className='h-8 w-8' /> {allNfts[currentIndex].price}</div>
+              </div>
+            </div>
             {/* Left Arrow */}
             <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-white text-black cursor-pointer">
               <BsChevronCompactLeft onClick={prevSlide} size={30} />
@@ -257,7 +262,7 @@ export const Home = () => {
           </div>
           <div className="flex justify-center pt-24">
             <h1 className="text-5xl text-white font-semibold">
-              Top{" "}
+              All{" "}
               <span className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 bg-clip-text text-transparent">
                 Bids
               </span>
