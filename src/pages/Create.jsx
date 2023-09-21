@@ -171,7 +171,7 @@ export const Create = () => {
 
       //Pull the deployed contract instance
       let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer);
-      let transaction = await contract.CreateToken(metadataURL, hashedValue, form.fileFormat);
+      let transaction = await contract.CreateToken(metadataURL, hashedValue, Number(form.fileFormat));
       await transaction.wait()
       alert("Successfully created your NFT!");
       setMsg("");

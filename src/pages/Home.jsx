@@ -26,6 +26,7 @@ export const Home = () => {
   const [loadingProgress, setLoadingProgress] = useState(true);
   const [allNfts, setAllNfts] = useState([]);
   const [allBidNfts, setAllBidNfts] = useState([]);
+  const [allImgNfts,setAllImgNfts] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -45,8 +46,29 @@ export const Home = () => {
     let totalCreators = await contract.getTotalUser();
     let nfts = await contract.getAllNfts();
     let bidNfts = await contract.getAllBiddedNfts();
+    let Imagenfts = await contract.getAllImageNfts();
 
     const items = await Promise.all(nfts.map(async i => {
+      const tokenURI = await contract.tokenURI(i.tokenId);
+      let meta = await axios.get(tokenURI);
+      meta = meta.data;
+
+      const price = ethers.utils.formatUnits(i.price.toString(), 'ether');
+      let item = {
+        price,
+        tokenId: i.tokenId.toNumber(),
+        owner: i.owner,
+        photo: meta.image,
+        title: meta.title,
+        description: meta.description,
+        collection: meta.collection,
+        format: meta.fileFormat,
+      }
+
+      return item;
+    }))
+
+    const ImageFormat = await Promise.all(Imagenfts.map(async i => {
       const tokenURI = await contract.tokenURI(i.tokenId);
       let meta = await axios.get(tokenURI);
       meta = meta.data;
@@ -99,8 +121,10 @@ export const Home = () => {
     setTotUser(totalCreators.toNumber());
     setAllNfts(items);
     setAllBidNfts(bids);
+    setAllImgNfts(ImageFormat);
     console.log(bids);
     console.log(totalBidNft.toNumber());
+    console.log(allImgNfts);
     setLoadingProgress(false)
   }
 

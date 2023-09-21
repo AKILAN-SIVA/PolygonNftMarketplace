@@ -55,6 +55,7 @@ export const Profile = () => {
                 bidPrice,
                 tokenId: i.tokenId.toNumber(),
                 owner: i.owner,
+                fileType: i.format.toNumber(),
                 buyNFT: i.NFTbought,
                 listNFT: i.NFTListed,
                 bidNFT: i.NFTBidded,
