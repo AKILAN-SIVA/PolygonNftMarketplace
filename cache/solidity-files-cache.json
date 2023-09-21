@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "D:\\Bhoopesh\\nftMarketplace\\contracts\\PolygonNFTMarketplace.sol": {
-      "lastModificationDate": 1693888468093,
-      "contentHash": "f2591bdaaeca7f8ed7c089110dd8a5d4",
+      "lastModificationDate": 1695317700351,
+      "contentHash": "812a52a30b261ee124f31b7ba4a78423",
       "sourceName": "contracts/PolygonNFTMarketplace.sol",
       "solcConfig": {
         "version": "0.8.4",
@@ -33,7 +33,6 @@
         "@openzeppelin/contracts/utils/Counters.sol",
         "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
         "@openzeppelin/contracts/token/ERC721/ERC721.sol",
-        "@openzeppelin/contracts/token/ERC1155/ERC1155.sol",
         "@openzeppelin/contracts/security/ReentrancyGuard.sol"
       ],
       "versionPragmas": [

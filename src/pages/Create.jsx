@@ -53,7 +53,7 @@ export const Create = () => {
           "content-type": "application/json",
           "Authorization": `Bearer ${key}`
         },
-        body: JSON.stringify({ inputs: form.description }), // Replace with user input or desired text
+        body: JSON.stringify({ inputs: form.description }), 
       }
     );
 
@@ -78,17 +78,16 @@ export const Create = () => {
     }
   }
 
-  const handleHashImage = async () => {
-    if (!image) {
-      return;
-    }
-
-    const base64String = await convertToBase64(image);
-    console.log(base64String);
-    const hashedValue = hashWithSHA256(base64String);
-    setHashValue(hashedValue);
-    console.log(hashedValue)
-  };
+  // const handleHashImage = async () => {
+  //   if (!image) {
+  //     return;
+  //   }
+  //   const base64String = await convertToBase64(image);
+  //   console.log(base64String);
+  //   const hashedValue = hashWithSHA256(base64String);
+  //   setHashValue(hashedValue);
+  //   console.log(hashedValue)
+  // };
 
   const convertToBase64 = (file) => {
     return new Promise((resolve) => {
@@ -113,6 +112,7 @@ export const Create = () => {
     //check for file extension
     try {
       //upload the file to IPFS
+      console.log("Hashvalue: ",hashValue);
       const response = await uploadFileToIPFS(file);
       if (response.success === true) {
         console.log("Uploaded file to Pinata: ", response.pinataURL)
@@ -154,9 +154,15 @@ export const Create = () => {
       alert("download and upload your ai image and create it to nft");
       download();
     }
-    await handleHashImage();
+
     //Upload data to IPFS
     try {
+      if (!image) {
+        return;
+      }
+      const base64String = await convertToBase64(image);
+      console.log(base64String);
+      const hashedValue = hashWithSHA256(base64String);
       const metadataURL = await uploadMetadataToIPFS();
       //After adding your Hardhat network to your metamask, this code will get providers and signers
       const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -164,22 +170,9 @@ export const Create = () => {
 
 
       //Pull the deployed contract instance
-      let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
-
-      //massage the params to be sent to the create NFT request
-      // const price = ethers.utils.parseUnits(form.price,'ether');
-
-      //actually create the NFT
-      let transaction = await contract.checkImageExist(hashValue);
-      if (transaction == 0) {
-        let creating = await contract.CreateToken(metadataURL, hashValue, form.fileFormat);
-        await creating.wait();
-      }
-      else {
-        alert("NFT already exist");
-        return
-      }
-
+      let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer);
+      let transaction = await contract.CreateToken(metadataURL, hashedValue, form.fileFormat);
+      await transaction.wait()
       alert("Successfully created your NFT!");
       setMsg("");
       setForm({ title: '', collection: '', description: '', file: '', fileFormat: '' });
@@ -187,10 +180,9 @@ export const Create = () => {
     }
     catch (e) {
       console.log("Upload error" + e)
+      alert("Error in crreating NFT" + e);
     }
   }
-
-  // console.log("Working", process.env);
 
   return (
     <div className="bg-black text-white min-h-screen justify-center">
