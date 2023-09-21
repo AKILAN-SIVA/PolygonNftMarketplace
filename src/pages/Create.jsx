@@ -53,7 +53,7 @@ export const Create = () => {
           "content-type": "application/json",
           "Authorization": `Bearer ${key}`
         },
-        body: JSON.stringify({ inputs: form.description }), // Replace with user input or desired text
+        body: JSON.stringify({ inputs: form.description }), 
       }
     );
 
@@ -78,17 +78,16 @@ export const Create = () => {
     }
   }
 
-  const handleHashImage = async () => {
-    if (!image) {
-      return;
-    }
-
-    const base64String = await convertToBase64(image);
-    console.log(base64String);
-    const hashedValue = hashWithSHA256(base64String);
-    setHashValue(hashedValue);
-    console.log(hashedValue)
-  };
+  // const handleHashImage = async () => {
+  //   if (!image) {
+  //     return;
+  //   }
+  //   const base64String = await convertToBase64(image);
+  //   console.log(base64String);
+  //   const hashedValue = hashWithSHA256(base64String);
+  //   setHashValue(hashedValue);
+  //   console.log(hashedValue)
+  // };
 
   const convertToBase64 = (file) => {
     return new Promise((resolve) => {
@@ -113,6 +112,7 @@ export const Create = () => {
     //check for file extension
     try {
       //upload the file to IPFS
+      console.log("Hashvalue: ",hashValue);
       const response = await uploadFileToIPFS(file);
       if (response.success === true) {
         console.log("Uploaded file to Pinata: ", response.pinataURL)
@@ -157,7 +157,12 @@ export const Create = () => {
 
     //Upload data to IPFS
     try {
-      await handleHashImage();
+      if (!image) {
+        return;
+      }
+      const base64String = await convertToBase64(image);
+      console.log(base64String);
+      const hashedValue = hashWithSHA256(base64String);
       const metadataURL = await uploadMetadataToIPFS();
       //After adding your Hardhat network to your metamask, this code will get providers and signers
       const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -166,7 +171,7 @@ export const Create = () => {
 
       //Pull the deployed contract instance
       let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer);
-      let transaction = await contract.CreateToken(metadataURL, hashValue, form.fileFormat);
+      let transaction = await contract.CreateToken(metadataURL, hashedValue, form.fileFormat);
       await transaction.wait()
       alert("Successfully created your NFT!");
       setMsg("");
@@ -178,8 +183,6 @@ export const Create = () => {
       alert("Error in crreating NFT" + e);
     }
   }
-
-  // console.log("Working", process.env);
 
   return (
     <div className="bg-black text-white min-h-screen justify-center">

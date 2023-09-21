@@ -5,7 +5,7 @@ import "hardhat/console.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
+// import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
 contract PolygonNFTMarketplace is ERC721URIStorage, ReentrancyGuard {
@@ -97,7 +97,10 @@ contract PolygonNFTMarketplace is ERC721URIStorage, ReentrancyGuard {
         // checkImageExist(imageHash);
         uint256 nftCount = TokenCount.current();
         // string memory imghash = imageHash;
-        string memory idHash;
+        if(nftCount == 0){
+            
+        }else{
+            string memory idHash;
         for (uint256 i = 0; i < nftCount; i++) {
             idHash = idToImageHash[i + 1];
             if (
@@ -107,6 +110,8 @@ contract PolygonNFTMarketplace is ERC721URIStorage, ReentrancyGuard {
                 revert("NFT already exist");
             }
         }
+        }
+        
         TokenCount.increment();
         uint256 newTokenId = TokenCount.current();
 
