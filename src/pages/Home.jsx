@@ -52,6 +52,7 @@ export const Home = () => {
     let totalCreators = await contract.getTotalUser();
     let nfts = await contract.getAllNfts();
     let bidNfts = await contract.getAllBiddedNfts();
+    let imgNfts = await contract.getAllImageNfts();
 
     const items = await Promise.all(
       nfts.map(async (i) => {
@@ -104,13 +105,37 @@ export const Home = () => {
       })
     );
 
+    const imgNFTs = await Promise.all(
+      imgNfts.map(async (i) => {
+        const tokenURI = await contract.tokenURI(i.tokenId);
+        let meta = await axios.get(tokenURI);
+        meta = meta.data;
+
+        const price = ethers.utils.formatUnits(i.price.toString(), "ether");
+        let item = {
+          price,
+          tokenId: i.tokenId.toNumber(),
+          owner: i.owner,
+          photo: meta.image,
+          title: meta.title,
+          description: meta.description,
+          collection: meta.collection,
+          format: meta.fileFormat,
+        };
+
+        return item;
+      })
+    );
+
     setTokenId(totalTokenId.toNumber());
     setTotSoldNft(totalSoldNft.toNumber());
     setTotBidNft(bids.length);
     setTotUser(totalCreators.toNumber());
     setAllNfts(items);
+    setOnlyImgNfts(imgNFTs);
     setAllBidNfts(bids);
     console.log(bids);
+    console.log("Img nfts are: ", onlyImgNfts)
     console.log(totalBidNft.toNumber());
 
     setLoadingProgress(false);
@@ -132,12 +157,12 @@ export const Home = () => {
 
   const prevSlide = () => {
     const isFirstSlide = currentIndex === 0;
-    const newIndex = isFirstSlide ? allNfts.length - 1 : currentIndex - 1;
+    const newIndex = isFirstSlide ? onlyImgNfts.length - 1 : currentIndex - 1;
     setCurrentIndex(newIndex);
   };
 
   const nextSlide = () => {
-    const isLastSlide = currentIndex === allNfts.length - 1;
+    const isLastSlide = currentIndex === onlyImgNfts.length - 1;
     const newIndex = isLastSlide ? 0 : currentIndex + 1;
     setCurrentIndex(newIndex);
   };
@@ -234,28 +259,26 @@ export const Home = () => {
             </div> */}
           {/* <div className="w-full min-h-screen"></div> */}
 
-          {/* <div className="max-w-100% h-[700px] w-full m-auto py-16 px-24 relative group">
+          <div className="max-w-100% h-[700px] w-full m-auto py-16 px-24 relative group">
             <div
-              style={{ backgroundImage: `url(${allNfts[currentIndex].photo})` }}
+              style={{ backgroundImage: `url(${onlyImgNfts[currentIndex].photo})` }}
               className="w-full h-full rounded-2xl bg-center bg-cover duration-500 hover:cursor-pointer"
               onClick={() =>
-                navigate("/searchNft", { state: allNfts[currentIndex] })
+                navigate("/searchNft", { state: onlyImgNfts[currentIndex] })
               }
             >
               <div className="p-6 absolute top-[65%] left-[7%] w-72 h-40 bg-gray-700 rounded-3xl">
-                <div className="flex gap-1 text-6xl font-semibold text-gray-100">{allNfts[currentIndex].title}</div>
-                <div className="flex gap-1 text-3xl font-semibold text-gray-100 pt-2"><img src={AddressIcon} className='h-8 w-8' /> {allNfts[currentIndex].price}</div>
+                <div className="flex gap-1 text-6xl font-semibold text-gray-100">{onlyImgNfts[currentIndex].title}</div>
+                <div className="flex gap-1 text-3xl font-semibold text-gray-100 pt-2"><img src={AddressIcon} className='h-8 w-8' /> {onlyImgNfts[currentIndex].price}</div>
               </div>
-            </div> */}
-            {/* Left Arrow */}
-            {/* <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-white text-black cursor-pointer">
+            </div>
+            <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-white text-black cursor-pointer">
               <BsChevronCompactLeft onClick={prevSlide} size={30} />
-            </div> */}
-            {/* Right Arrow */}
-            {/* <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-white text-black cursor-pointer">
+            </div>
+            <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-white text-black cursor-pointer">
               <BsChevronCompactRight onClick={nextSlide} size={30} />
             </div>
-          </div> */}
+          </div>
 
           <div className="flex justify-center ">
             <RiSeparator size={80} />
