@@ -154,9 +154,10 @@ export const Create = () => {
       alert("download and upload your ai image and create it to nft");
       download();
     }
-    await handleHashImage();
+
     //Upload data to IPFS
     try {
+      await handleHashImage();
       const metadataURL = await uploadMetadataToIPFS();
       //After adding your Hardhat network to your metamask, this code will get providers and signers
       const provider = new ethers.providers.Web3Provider(window.ethereum);
@@ -164,34 +165,9 @@ export const Create = () => {
 
 
       //Pull the deployed contract instance
-      let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer)
-
-      let transaction = await contract.checkImageExist(hashValue);
-      if(transaction == true){
-        let creating = await contract.CreateToken(metadataURL,hashValue,form.fileFormat);
-        await creating.wait();
-      }
-      else{
-        alert("NFT already exist");
-      }
-
-      //massage the params to be sent to the create NFT request
-      // const price = ethers.utils.parseUnits(form.price,'ether');
-
-      //actually create the NFT
-      // let creating = await contract.CreateToken(metadataURL, hashValue, form.fileFormat);
-      //   await creating.wait();
-      // let transaction = await contract.checkImageExist(metadataURL,hashValue,form.fileFormat);
-      // await transaction.wait();
-      // if (transaction == 0) {
-      //   let creating = await contract.CreateToken(metadataURL, hashValue, form.fileFormat);
-      //   await creating.wait();
-      // }
-      // else {
-      //   alert("NFT already exist");
-      //   return
-      // }
-
+      let contract = new ethers.Contract(Marketplace.address, Marketplace.abi, signer);
+      let transaction = await contract.CreateToken(metadataURL, hashValue, form.fileFormat);
+      await transaction.wait()
       alert("Successfully created your NFT!");
       setMsg("");
       setForm({ title: '', collection: '', description: '', file: '', fileFormat: '' });
@@ -199,8 +175,7 @@ export const Create = () => {
     }
     catch (e) {
       console.log("Upload error" + e)
-      alert("Error in crreating NFT"+e);
-      // window.location.reload();
+      alert("Error in crreating NFT" + e);
     }
   }
 
