@@ -243,11 +243,11 @@ export const Home = () => {
               }
             ></div>
             {/* Left Arrow */}
-            <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
+            <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-white text-black cursor-pointer">
               <BsChevronCompactLeft onClick={prevSlide} size={30} />
             </div>
             {/* Right Arrow */}
-            <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
+            <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-white text-black cursor-pointer">
               <BsChevronCompactRight onClick={nextSlide} size={30} />
             </div>
           </div>
@@ -263,34 +263,10 @@ export const Home = () => {
               </span>
             </h1>
           </div>
-          {/* <div className="grid justify-center items-center gap-12 pt-20 px-28">
-              <Carousel cols={3} rows={1} loop={true} gap={0} autoplay={10000}>
-                {
-                  allBidNfts.map((value, index) => (
-                    <Carousel.Item>
-                      <CarouselCard data={value} key={index} />
-                    </Carousel.Item>
-                  ))
-                }
-              </Carousel>
-            </div> */}
           <div className="w-[55%] m-auto mt-[50px]">
             <Slider {...settings}>
               {allBidNfts.map((item, index) => (
                 <CarouselCard data={item} key={index} />
-                // <div className="card">
-                //   <div className="card-top">
-                //     <img
-                //       src={item.photo}
-                //       alt={item.title}
-                //     />
-                //     <h1>{item.title}</h1>
-                //   </div>
-                //   <div className="card-bottom">
-                //     <h3>{item.price}</h3>
-                //     <span className="category">{item.category}</span>
-                //   </div>
-                // </div>
               ))}
             </Slider>
           </div>

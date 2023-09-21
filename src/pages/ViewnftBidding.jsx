@@ -275,8 +275,6 @@ export const ViewnftBidding = () => {
                           :
                           <button className="absolute bottom-4 right-4 rounded-full  flex justify-center items-center p-2" onClick={startAudio}><FaCirclePlay size={40} /></button>
                       }
-
-                      {/* <audio src={state.data.photo} className='w-full h-10' controls /> */}
                     </div>
                   </>
                   :
@@ -375,7 +373,7 @@ export const ViewnftBidding = () => {
                       {(address == highestBidderAddress ||
                         address == state.data.owner) && state.data.status != 0 ? (
                         <button
-                          className="pt-2 bg-gray-600 inline-block p-2"
+                          className="text-black bg-white rounded-xl w-full h-12 font-bold cursor-pointer mt-4 tracking-widest"
                           onClick={CompleteBidding}
                         >
                           Complete Action
@@ -392,7 +390,7 @@ export const ViewnftBidding = () => {
                                   return (
                                     <div>
                                       <button
-                                        className="pt-2 bg-gray-600 inline-block p-2 w-full"
+                                        className="text-black bg-white rounded-xl w-full h-12 font-bold cursor-pointer mt-4 tracking-widest"
                                         onClick={WithdrawMyBid}
                                       >
                                         Withdraw my bid
