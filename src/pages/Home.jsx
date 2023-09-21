@@ -234,7 +234,7 @@ export const Home = () => {
             </div> */}
           {/* <div className="w-full min-h-screen"></div> */}
 
-          <div className="max-w-[1500px] h-[700px] w-full m-auto py-16 px-4 relative group">
+          <div className="max-w-100% h-[700px] w-full m-auto py-16 px-24 relative group">
             <div
               style={{ backgroundImage: `url(${allNfts[currentIndex].photo})` }}
               className="w-full h-full rounded-2xl bg-center bg-cover duration-500 hover:cursor-pointer"
