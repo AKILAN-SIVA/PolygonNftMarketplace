@@ -262,7 +262,7 @@ export const Home = () => {
           <div className="max-w-100% h-[700px] w-full m-auto py-16 px-24 relative group">
             <div
               style={{ backgroundImage: `url(${onlyImgNfts[currentIndex].photo})` }}
-              className="w-full h-full rounded-2xl bg-center bg-cover duration-500 hover:cursor-pointer"
+              className="w-full h-full rounded-2xl bg-center bg-fill duration-500 hover:cursor-pointer"
               onClick={() =>
                 navigate("/searchNft", { state: onlyImgNfts[currentIndex] })
               }
