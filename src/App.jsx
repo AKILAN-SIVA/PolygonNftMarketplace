@@ -14,6 +14,7 @@ import { MetaMaskInfo } from "./pages/LearningHub/HubPages/MetaMaskInfo"
 import { MintInfo } from "./pages/LearningHub/HubPages/MintInfo"
 import { ListingInfo } from "./pages/LearningHub/HubPages/ListingInfo"
 import { BiddingInfo } from "./pages/LearningHub/HubPages/BiddingInfo"
+import Admin from "./pages/Admin"
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
         {/* <Navbar /> */}
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/Admin" element={<Admin />} />
           <Route path="/createNft" element={<Create />} />
           <Route path="/exploreNft" element={<Explore />} />
           <Route path="/profile" element={<Profile />} />

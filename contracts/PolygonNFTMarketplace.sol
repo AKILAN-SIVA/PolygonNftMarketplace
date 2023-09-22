@@ -29,6 +29,7 @@ contract PolygonNFTMarketplace is ERC721URIStorage, ReentrancyGuard {
         bool NFTListed;
         bool NFTBidded;
         bool ReportNft;
+        string ReportMsg;
     }
 
     struct ItemsSold {
@@ -293,8 +294,9 @@ contract PolygonNFTMarketplace is ERC721URIStorage, ReentrancyGuard {
         return myItems;
     }
 
-    function ReportNFT(uint256 tokenId) public {
+    function ReportNFT(uint256 tokenId, string memory reason) public {
         idToListedToken[tokenId].ReportNft = true;
+        idToListedToken[tokenId].ReportMsg = reason;
     }
 
     struct Bidding {
