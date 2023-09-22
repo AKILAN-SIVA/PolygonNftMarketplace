@@ -151,6 +151,7 @@ export const Viewnft = () => {
         Marketplace.abi,
         signer
       );
+      await startTimer();
       let price = ethers.utils.parseUnits(bidPrice, "ether");
       let transaction = await contract.createAuctionListing(
         price,

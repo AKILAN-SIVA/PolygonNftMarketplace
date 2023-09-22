@@ -24,6 +24,8 @@ export const Profile = () => {
     const [NftSold, updateNftSoldCount] = useState("0");
     const [profileInfo, setProfileInfo] = useState([]);
     const [showSold, setShowSold] = useState(false);
+    const [showMyBids, setShowMyBids] = useState(false);
+    const [showOwned, setShowOwned] = useState(true);
     const [loadingProgress, setLoadingProgress] = useState(true);
 
     const copyAddress = (e) => {
@@ -122,6 +124,22 @@ export const Profile = () => {
     if (!FetchedSoldData) { getNFTSoldData(); }
 
     let circleCommonClasses = 'h-6 w-6 bg-current  rounded-full';
+
+    function ShowOwnedNFTs(){
+        setShowSold(false);
+        setShowMyBids(false);
+        setShowOwned(true);
+    }
+    function ShowSoldNFTs(){
+        setShowMyBids(false);
+        setShowOwned(false);
+        setShowSold(true);
+    } 
+    function ShowMyBidNFTs(){
+        setShowSold(false);
+        setShowOwned(false);
+        setShowMyBids(true);
+    }
     return (
         <div className='bg-black min-h-screen h-fit  text-white'>
             <div className='pt-12'>
@@ -173,21 +191,35 @@ export const Profile = () => {
                                 {
                                     <div>
                                         {
-                                            showSold ?
+                                            showOwned ?
                                                 <div className='flex justify-center '>
-                                                    <button className='w-56 p-2' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Owned</a></button>
-                                                    <button className='bg-violet-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
+                                                    <button className='bg-violet-600 w-56 p-2 border-none rounded-xl'><a className='text-3xl font-bold '>Owned</a></button>
+                                                    <button className='w-56 p-2' onClick={ShowSoldNFTs}><a className='text-3xl font-bold'>Sold</a></button>
+                                                    <button className='w-56 p-2' onClick={ShowMyBidNFTs}><a className='text-3xl font-bold'>My Bids</a></button>
+
+                                                </div>
+                                                :
+                                                showSold?
+                            
+                                                <div className='flex justify-center '>
+                                                    <button className='w-56 p-2' onClick={ShowOwnedNFTs}><a className='text-3xl font-bold '>Owned</a></button>
+                                                    <button className='bg-violet-600 w-56 p-2 border-none rounded-xl'><a className='text-3xl font-bold'>Sold</a></button>
+                                                    <button className='w-56 p-2' onClick={ShowMyBidNFTs}><a className='text-3xl font-bold'>My Bids</a></button>
+
                                                 </div>
                                                 :
                                                 <div className='flex justify-center '>
-                                                    <button className='bg-violet-600 w-56 p-2 border-none rounded-xl' onClick={() => setShowSold(false)}><a className='text-3xl font-bold '>Owned</a></button>
-                                                    <button className='w-56 p-2' onClick={() => setShowSold(true)}><a className='text-3xl font-bold'>Sold</a></button>
+                                                    <button className='w-56 p-2' onClick={ShowOwnedNFTs}><a className='text-3xl font-bold '>Owned</a></button>
+                                                    <button className='w-56 p-2' onClick={ShowSoldNFTs}><a className='text-3xl font-bold'>Sold</a></button>
+                                                    <button className='bg-violet-600 w-56 p-2 border-none rounded-xl'><a className='text-3xl font-bold'>My Bids</a></button>
+
                                                 </div>
+
                                         }
 
                                         <div className='flex pt-16'>
                                             {
-                                                showSold == false ?
+                                                showOwned ?
                                                     data.length != 0 ?
                                                         <div className='flex flex-wrap gap-12  w-full h-full py-8'>
                                                             {data.map((value, index) => {
@@ -201,6 +233,8 @@ export const Profile = () => {
                                                             </div>
                                                         </>
                                                     :
+                                                    showSold ?
+        
                                                     SoldData.length == 0 ?
                                                         <div className='flex flex-wrap justify-center  text-2xl font-bold w-full h-full'>
                                                             <h1>Oops!, NFT not yet sold</h1>
@@ -211,6 +245,11 @@ export const Profile = () => {
                                                                 return <Card data={value} key={index} />;
                                                             })}
                                                         </div>
+                                                        :
+                                                        <div className='flex flex-wrap justify-center  text-2xl font-bold w-full h-full'>
+                                                            <h1>No NFT Bidded</h1>
+                                                        </div>
+                                                        
                                             }
                                         </div>
                                     </div>

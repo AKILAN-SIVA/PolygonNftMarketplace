@@ -537,7 +537,7 @@ export const ViewnftBidding = () => {
                     </>
                   )}
                   <div className="pt-12">
-                    <p className="text-3xl">Bid History</p>
+                    <p className="text-3xl">Auction History</p>
                     <div>
                       {data.map((value, index) => {
                         if (value.biddingId == state.data.biddingId) {
