@@ -239,6 +239,7 @@ export const Home = () => {
                           <div className="flex gap-1 text-3xl font-semibold text-gray-100"><img src={AddressIcon} className='h-8 w-8' /> {value.price}</div>
                         </div>
 
+<<<<<<< Updated upstream
                       </div>
                     </div>
                     :
@@ -259,6 +260,8 @@ export const Home = () => {
             </div> */}
           {/* <div className="w-full min-h-screen"></div> */}
 
+=======
+>>>>>>> Stashed changes
           <div className="max-w-100% h-[700px] w-full m-auto py-16 px-24 relative group">
             <div
               style={{ backgroundImage: `url(${onlyImgNfts[currentIndex].photo})` }}
