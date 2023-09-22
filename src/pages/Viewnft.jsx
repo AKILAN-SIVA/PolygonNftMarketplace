@@ -197,7 +197,7 @@ export const Viewnft = () => {
       Marketplace.abi,
       signer
     );
-    let transaction = await contract.ReportNFT(state.data.tokenId, reportMsg);
+    let transaction = await contract.UserReportNFT(state.data.tokenId, reportMsg);
     await transaction.wait();
     alert("reported");
     window.location.replace("/")

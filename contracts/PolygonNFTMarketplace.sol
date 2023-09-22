@@ -28,7 +28,8 @@ contract PolygonNFTMarketplace is ERC721URIStorage, ReentrancyGuard {
         bool NFTbought;
         bool NFTListed;
         bool NFTBidded;
-        bool ReportNft;
+        bool UserReportNft;
+        bool AdminReportNft;
         string ReportMsg;
     }
 
@@ -142,7 +143,9 @@ contract PolygonNFTMarketplace is ERC721URIStorage, ReentrancyGuard {
             false,
             false,
             false,
-            false
+            false,
+            false,
+            ""
         );
         newUser(msg.sender);
     }
@@ -294,9 +297,18 @@ contract PolygonNFTMarketplace is ERC721URIStorage, ReentrancyGuard {
         return myItems;
     }
 
-    function ReportNFT(uint256 tokenId, string memory reason) public {
-        idToListedToken[tokenId].ReportNft = true;
+    function UserReportNFT(uint256 tokenId, string memory reason) public {
+        idToListedToken[tokenId].UserReportNft = true;
         idToListedToken[tokenId].ReportMsg = reason;
+    }
+
+    function AdminReportNFT(uint256 tokenId) public {
+        idToListedToken[tokenId].AdminReportNft = true;
+    }
+
+    function RevokeUserReport(uint256 tokenId) public {
+        idToListedToken[tokenId].UserReportNft = false;
+        idToListedToken[tokenId].ReportMsg = "";
     }
 
     struct Bidding {
