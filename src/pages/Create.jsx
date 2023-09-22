@@ -180,7 +180,7 @@ export const Create = () => {
     }
     catch (e) {
       console.log("Upload error" + e)
-      alert("Error in crreating NFT" + e);
+      alert("Error in creating NFT. This NFT already exist");
     }
   }
 

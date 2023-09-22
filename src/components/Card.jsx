@@ -48,7 +48,7 @@ function Card(data) {
   // };
 
   return (
-    <div className='bg-gray-800  border-gray-700 rounded-xl h-[370px] w-60 hover:cursor-pointer font-mono hover:scale-105' onClick={viewNft}>
+    <div className='bg-gray-800  border-gray-700 rounded-xl h-[370px] w-60  hover:cursor-pointer hover:scale-105' onClick={viewNft}>
       {
         data.data.format == "1" ?
           <>
