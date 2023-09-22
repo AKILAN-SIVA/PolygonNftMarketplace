@@ -3,8 +3,8 @@ import Marketplace from "../Marketplace.json";
 import { ethers } from "ethers";
 import Carousel from "react-grid-carousel";
 import React, { useRef, useEffect, useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+// import { faAngleLeft, faAngleRight } from "@fortawesome/free-solid-svg-icons";
 import "./pages.css";
 import axios from "axios";
 import AddressIcon from "../assets/addressIcon.png";
@@ -135,7 +135,7 @@ export const Home = () => {
     setOnlyImgNfts(imgNFTs);
     setAllBidNfts(bids);
     console.log(bids);
-    console.log("Img nfts are: ", onlyImgNfts)
+    console.log("Img nfts are: ", onlyImgNfts);
     console.log(totalBidNft.toNumber());
 
     setLoadingProgress(false);
@@ -239,7 +239,6 @@ export const Home = () => {
                           <div className="flex gap-1 text-3xl font-semibold text-gray-100"><img src={AddressIcon} className='h-8 w-8' /> {value.price}</div>
                         </div>
 
-<<<<<<< Updated upstream
                       </div>
                     </div>
                     :
@@ -260,19 +259,24 @@ export const Home = () => {
             </div> */}
           {/* <div className="w-full min-h-screen"></div> */}
 
-=======
->>>>>>> Stashed changes
           <div className="max-w-100% h-[700px] w-full m-auto py-16 px-24 relative group">
             <div
-              style={{ backgroundImage: `url(${onlyImgNfts[currentIndex].photo})` }}
+              style={{
+                backgroundImage: `url(${onlyImgNfts[currentIndex].photo})`,
+              }}
               className="w-full h-full rounded-2xl bg-center bg-fill duration-500 hover:cursor-pointer"
               onClick={() =>
                 navigate("/searchNft", { state: onlyImgNfts[currentIndex] })
               }
             >
               <div className="p-6 absolute top-[65%] left-[7%] w-72 h-40 bg-gray-700 rounded-3xl">
-                <div className="flex gap-1 text-6xl font-semibold text-gray-100">{onlyImgNfts[currentIndex].title}</div>
-                <div className="flex gap-1 text-3xl font-semibold text-gray-100 pt-2"><img src={AddressIcon} className='h-8 w-8' /> {onlyImgNfts[currentIndex].price}</div>
+                <div className="flex gap-1 text-6xl font-semibold text-gray-100">
+                  {onlyImgNfts[currentIndex].title}
+                </div>
+                <div className="flex gap-1 text-3xl font-semibold text-gray-100 pt-2">
+                  <img src={AddressIcon} className="h-8 w-8" />{" "}
+                  {onlyImgNfts[currentIndex].price}
+                </div>
               </div>
             </div>
             <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-white text-black cursor-pointer">
