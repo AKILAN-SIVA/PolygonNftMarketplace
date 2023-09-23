@@ -73,6 +73,7 @@ export const Searchnft = () => {
   }
 
   const ListMyNFT = async () => {
+    alert("This process may take few minutes... Please wait... Don't refresh !!");
     if (listPrice == "") {
       alert("enter the price")
       console.log("enter the price")
@@ -93,6 +94,7 @@ export const Searchnft = () => {
   }
   const BuyNFT = async () => {
     try {
+      alert("This process may take few minutes... Please wait... Don't refresh !!");
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
 

@@ -105,7 +105,7 @@ export const Create = () => {
   };
 
   async function OnChangeFile(e) {
-
+    alert("This process may take few minutes... Please wait... Don't refresh !!");
     setForm({ ...form, [e.target.name]: e.target.value });
     var file = e.target.files[0];
     setImage(file)
@@ -163,6 +163,7 @@ export const Create = () => {
       const base64String = await convertToBase64(image);
       console.log(base64String);
       const hashedValue = hashWithSHA256(base64String);
+      alert("This process may take few minutes... Please wait... Don't refresh !!");
       const metadataURL = await uploadMetadataToIPFS();
       //After adding your Hardhat network to your metamask, this code will get providers and signers
       const provider = new ethers.providers.Web3Provider(window.ethereum);

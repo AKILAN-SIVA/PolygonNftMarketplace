@@ -164,6 +164,7 @@ export const ViewnftBidding = () => {
       let transaction = await contract.bid(state.data.biddingId, {
         value: price,
       });
+      alert("This process may take few minutes... Please wait... Don't refresh !!");
       await transaction.wait();
       window.location.reload();
     } catch (e) {
@@ -181,6 +182,7 @@ export const ViewnftBidding = () => {
         signer
       );
       let transaction = await contract.completeAuction(state.data.biddingId);
+      alert("This process may take few minutes... Please wait... Don't refresh !!");
       await transaction.wait();
       window.location.replace("/bidNft");
     } catch (e) {
@@ -199,6 +201,7 @@ export const ViewnftBidding = () => {
       );
       let transaction = await contract.withdrawBid(state.data.biddingId);
       await transaction.wait();
+      alert("This process may take few minutes... Please wait... Don't refresh !!");
       window.location.replace("/bidNft");
     } catch (e) {
       console.log("Withdraw my bid " + e);
@@ -253,6 +256,7 @@ export const ViewnftBidding = () => {
       state.data.tokenId,
       reportMsg
     );
+    alert("This process may take few minutes... Please wait... Don't refresh !!");
     await transaction.wait();
     alert("reported");
     window.location.replace("/");

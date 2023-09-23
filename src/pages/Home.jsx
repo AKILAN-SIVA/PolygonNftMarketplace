@@ -222,34 +222,36 @@ export const Home = () => {
         </>
       ) : (
         <>
-
-          {/* <div className="max-w-100% h-[700px] w-full m-auto py-16 px-24 relative group">
-            <div
-              style={{
-                backgroundImage: `url(${onlyImgNfts[currentIndex].photo})`,
-              }}
-              className="w-full h-full rounded-2xl bg-center bg-fill duration-500 hover:cursor-pointer"
-              onClick={() =>
-                navigate("/searchNft", { state: onlyImgNfts[currentIndex] })
-              }
-            >
-              <div className="p-6 absolute top-[65%] left-[7%] w-72 h-40 bg-gray-700 rounded-3xl">
-                <div className="flex gap-1 text-6xl font-semibold text-gray-100">
-                  {onlyImgNfts[currentIndex].title}
+          {onlyImgNfts.length != 0 ? (
+            <>
+              <div className="max-w-100% h-[700px] w-full m-auto py-16 px-24 relative group">
+                <div
+                  style={{
+                    backgroundImage: `url(${onlyImgNfts[currentIndex].photo})`,
+                  }}
+                  className="w-full h-full rounded-2xl bg-center bg-fill duration-500"
+                >
+                  <div className="p-6 absolute top-[65%] left-[7%] w-72 h-40 bg-gray-700 rounded-3xl">
+                    <div className="flex gap-1 text-6xl font-semibold text-gray-100">
+                      {onlyImgNfts[currentIndex].title}
+                    </div>
+                    <div className="flex gap-1 text-3xl font-semibold text-gray-100 pt-2">
+                      <img src={AddressIcon} className="h-8 w-8" />{" "}
+                      {onlyImgNfts[currentIndex].price}
+                    </div>
+                  </div>
                 </div>
-                <div className="flex gap-1 text-3xl font-semibold text-gray-100 pt-2">
-                  <img src={AddressIcon} className="h-8 w-8" />{" "}
-                  {onlyImgNfts[currentIndex].price}
+                <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-white text-black cursor-pointer">
+                  <BsChevronCompactLeft onClick={prevSlide} size={30} />
+                </div>
+                <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-white text-black cursor-pointer">
+                  <BsChevronCompactRight onClick={nextSlide} size={30} />
                 </div>
               </div>
-            </div>
-            <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-white text-black cursor-pointer">
-              <BsChevronCompactLeft onClick={prevSlide} size={30} />
-            </div>
-            <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-white text-black cursor-pointer">
-              <BsChevronCompactRight onClick={nextSlide} size={30} />
-            </div>
-          </div> */}
+            </>
+          ) : (
+            <></>
+          )}
 
           <div className="flex justify-center ">
             <RiSeparator size={80} />

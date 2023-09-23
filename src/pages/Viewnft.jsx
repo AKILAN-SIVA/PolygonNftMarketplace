@@ -95,6 +95,7 @@ export const Viewnft = () => {
       return;
     }
     try {
+      alert("This process may take few minutes... Please wait... Don't refresh !!");
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
       let contract = new ethers.Contract(
@@ -113,6 +114,7 @@ export const Viewnft = () => {
   };
   const BuyNFT = async () => {
     try {
+      alert("This process may take few minutes... Please wait... Don't refresh !!");
       const provider = new ethers.providers.Web3Provider(window.ethereum);
       const signer = provider.getSigner();
 
@@ -138,6 +140,7 @@ export const Viewnft = () => {
 
   const CreateBidding = async () => {
     try {
+      alert("This process may take few minutes... Please wait... Don't refresh !!");
       await startTimer();
 
       if (totalSec == 0) {
@@ -189,6 +192,7 @@ export const Viewnft = () => {
       alert("Enter reason");
       return;
     }
+    alert("This process may take few minutes... Please wait... Don't refresh !!");
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
 
