@@ -98,21 +98,19 @@ contract PolygonNFTMarketplace is ERC721URIStorage, ReentrancyGuard {
         uint256 fileType
     ) public payable returns (uint256) {
         uint256 nftCount = TokenCount.current();
-        if(nftCount == 0){
-            
-        }else{
+        if (nftCount == 0) {} else {
             string memory idHash;
-        for (uint256 i = 0; i < nftCount; i++) {
-            idHash = idToImageHash[i + 1];
-            if (
-                keccak256(abi.encodePacked(idHash)) ==
-                keccak256(abi.encodePacked(imageHash))
-            ) {
-                revert("NFT already exist");
+            for (uint256 i = 0; i < nftCount; i++) {
+                idHash = idToImageHash[i + 1];
+                if (
+                    keccak256(abi.encodePacked(idHash)) ==
+                    keccak256(abi.encodePacked(imageHash))
+                ) {
+                    revert("NFT already exist");
+                }
             }
         }
-        }
-        
+
         TokenCount.increment();
         uint256 newTokenId = TokenCount.current();
 
@@ -480,12 +478,75 @@ contract PolygonNFTMarketplace is ERC721URIStorage, ReentrancyGuard {
                 (idToBiddedToken[i + 1].bidder == msg.sender) &&
                 (listingId == idToBiddedToken[i + 1].biddingId)
             ) {
+                require(idToBiddedToken[i + 1].price != 0,"You have already withdrawed");
                 price += idToBiddedToken[i + 1].price;
                 idToBiddedToken[i + 1].price = 0;
             }
         }
 
         payable(msg.sender).transfer(price);
+    }
+
+    function getMyBids() public view returns (ListedToken[] memory) {
+        uint256 totalItemCount = biddingCounter.current();
+        uint256 listCount = 0;
+        uint256 count = 0;
+        for (uint256 i = 0; i < totalItemCount; i += 1) {
+            if (idToBiddedToken[i + 1].bidder == msg.sender) {
+                listCount += 1;
+            }
+        }
+        ListedToken[] memory items = new ListedToken[](listCount);
+        for (uint256 i = 0; i < totalItemCount; i += 1) {
+            if (idToBiddedToken[i + 1].bidder == msg.sender) {
+                ListedToken storage currentItem = idToListedToken[
+                    idToBiddedToken[i + 1].tokenId
+                ];
+                items[count] = currentItem;
+                count += 1;
+            }
+        }
+        return items;
+    }
+
+    // function withdrawALL() public returns(bool){
+    //     uint256 sum;
+    //     for (uint256 i = 0; i < listingCounter.current(); i += 1) {
+    //         if (listings[i+1].status == 0) {
+    //             for(uint256 j=0; i<biddingCounter.current(); j+=1){
+    //                 if(idToBiddedToken[j+1].biddingId == i+1 && idToBiddedToken[j+1].bidder == msg.sender){
+    //                     if(highestBidder[i+1] == msg.sender) {
+    //                         continue;
+    //                     }else{
+    //                         withdrawBid(i+1);   
+    //                     }
+    //                 }
+    //             }
+    //         }
+    //     }
+    // }
+
+    function withdrawALL() public{
+        uint256 sum;
+        for(uint256 i=0;i<biddingCounter.current();i+=1){
+            if(msg.sender == idToBiddedToken[i+1].bidder && listings[idToBiddedToken[i+1].biddingId].status==0 && highestBidder[idToBiddedToken[i+1].biddingId] != msg.sender ){
+                require(idToBiddedToken[i+1].price != 0,"Withdrawed already");
+                payable(msg.sender).transfer(idToBiddedToken[i+1].price);
+                idToBiddedToken[i+1].price = 0;
+            }
+        }
+    }
+
+    function withdrawALL2() public{
+        uint256 sum;
+        for(uint256 i=0;i<biddingCounter.current();i+=1){
+            if(msg.sender == idToBiddedToken[i+1].bidder && listings[idToBiddedToken[i+1].biddingId].status==0 && highestBidder[idToBiddedToken[i+1].biddingId] != msg.sender ){
+                require(idToBiddedToken[i+1].price != 0,"Withdrawed already");
+                sum += idToBiddedToken[i+1].price;
+                idToBiddedToken[i+1].price = 0;
+            }
+        }
+        payable(msg.sender).transfer(sum);
     }
 
     function isAuctionOpen(uint256 id) public view returns (bool) {

@@ -25,7 +25,7 @@ module.exports = {
     },
     matic: {
       url: "https://rpc-mumbai.maticvigil.com",
-      accounts: ["69aa43b735fb5718095e12a5ceff419880368533a0d38f7ac15f37457a3abcef"]
+      accounts: ["0e8783f205bb9845a1711a209a532688ad6ad0faf12c7f7e483f3729956fa0be"]
     },
     goerli: {
       url: "https://goerli.infura.io/v3/30f2472011e445d29bc3689063eec747",
