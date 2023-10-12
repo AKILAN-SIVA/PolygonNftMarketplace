@@ -17,7 +17,7 @@ export const NFTqs2 = () => {
     <div className='w-full h-fit'>
       <div className='grid justify-start items-center gap-6'>
         <h1 className='text-4xl font-semibold tracking-wider'>2. Why NFT?</h1>
-        <p className='text-2xl tracking-wider text-justify px-12 font-serif'>
+        <p className='text-2xl tracking-wider text-justify px-12 font-raleway font-thin'>
           NFTs offer a groundbreaking way to establish ownership and authenticity in the digital realm.
           They empower creators by enabling direct sales to fans and collectors, reducing dependence on traditional intermediaries.
           NFTs create unique digital scarcity, enhancing the value of digital content. They have found applications in art, music,

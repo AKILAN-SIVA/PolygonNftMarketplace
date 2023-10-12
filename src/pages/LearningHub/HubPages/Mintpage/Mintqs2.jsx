@@ -13,7 +13,7 @@ export const Mintqs2 = () => {
         <div className='w-full h-fit'>
             <div className='grid justify-start items-center gap-6'>
                 <h1 className='text-4xl font-semibold tracking-wider'>2. How to mint an NFT?</h1>
-                <h1 className='text-xl font-semibold tracking-wider px-12'>Note: A step by step guide to mint your first Non-Fungible Token in NFT Marketplace</h1>
+                <h1 className='text-xl font-raleway font-thin tracking-wider px-12'>Note: A step by step guide to mint your first Non-Fungible Token in NFT Marketplace</h1>
                 <p className='text-xl tracking-wider text-justify px-12 font-serif'>
                     <span className='text-3xl font-semibold'>Step 1:</span> To Mint an NFT, navigate to create page.
                 </p>

@@ -17,7 +17,7 @@ export const Mintqs1 = () => {
         <div className='w-full h-fit'>
             <div className='grid justify-start items-center gap-6'>
                 <h1 className='text-4xl font-semibold tracking-wider'>1. What is minting NFT?</h1>
-                <p className='text-2xl tracking-wider text-justify px-12 font-serif'>
+                <p className='text-2xl tracking-wider text-justify px-12 font-raleway font-thin'>
                     Minting an NFT (Non-Fungible Token) refers to the process of creating a
                     unique digital asset on a blockchain. This asset can represent various
                     digital or physical content forms, such as art, music, videos, collectibles,

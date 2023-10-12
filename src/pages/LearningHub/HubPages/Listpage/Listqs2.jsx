@@ -10,7 +10,7 @@ export const Listqs2 = () => {
         <h1 className="text-4xl font-semibold tracking-wider">
           2. How to list an NFT?
         </h1>
-        <h1 className="text-xl font-semibold tracking-wider px-12">
+        <h1 className="text-xl font-thin tracking-wider px-12 font-raleway">
           Note: A step by step guide to list your first Non-Fungible Token in
           NFT Marketplace
         </h1>
