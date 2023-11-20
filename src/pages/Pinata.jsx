@@ -4,6 +4,7 @@ import { FromData } from 'form-data'
 const key = process.env.REACT_APP_PINATA_KEY;
 const secret = process.env.REACT_APP_PINATA_SECRET;
 
+
 export const uploadJSONToIPFS = async (JSONBody) => {
     const url = `https://api.pinata.cloud/pinning/pinJSONToIPFS`;
     //making axios POST request to Pinata ⬇️
