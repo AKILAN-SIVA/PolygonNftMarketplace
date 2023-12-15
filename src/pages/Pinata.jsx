@@ -1,8 +1,8 @@
 //require('dotenv').config();
 import axios from 'axios';
 import { FromData } from 'form-data'
-const key = process.env.REACT_APP_PINATA_KEY;
-const secret = process.env.REACT_APP_PINATA_SECRET;
+const key = '44e5ce4a21c24521e44a';
+const secret = '2b14f5bc6c2a314d6f9d3b06ea37c78d46a81e9bcce6f0cfc88a45bfddcd80fc';
 
 
 export const uploadJSONToIPFS = async (JSONBody) => {
