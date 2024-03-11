@@ -527,7 +527,6 @@ contract PolygonNFTMarketplace is ERC721URIStorage, ReentrancyGuard {
     // }
 
     function withdrawALL() public{
-        uint256 sum;
         for(uint256 i=0;i<biddingCounter.current();i+=1){
             if(msg.sender == idToBiddedToken[i+1].bidder && listings[idToBiddedToken[i+1].biddingId].status==0 && highestBidder[idToBiddedToken[i+1].biddingId] != msg.sender ){
                 require(idToBiddedToken[i+1].price != 0,"Withdrawed already");

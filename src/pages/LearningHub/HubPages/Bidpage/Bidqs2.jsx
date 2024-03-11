@@ -11,7 +11,7 @@ const Bidqs2 = () => {
         <h1 className="text-4xl font-semibold tracking-wider">
           2. How to create an NFT bidding?
         </h1>
-        <h1 className="text-xl font-semibold tracking-wider px-12">
+        <h1 className="text-xl font-thin tracking-wider px-12 font-raleway">
           Note: A step by step guide to create your first NFT bidding in NFT
           Marketplace
         </h1>
