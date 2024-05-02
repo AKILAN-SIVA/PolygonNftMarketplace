@@ -33,7 +33,7 @@ module.exports = {
     },
     sepolia: {
       url: "https://sepolia.infura.io/v3/5e04f552f57346ff970db9991b9320cc",
-      accounts: ["69aa43b735fb5718095e12a5ceff419880368533a0d38f7ac15f37457a3abcef"]
+      accounts: ["f43a437b1d35270f6354f37b55e3346ca8fceb4eeeab8ceab3afe7eb892b5ae9"]
     }
   },
   solidity: {

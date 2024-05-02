@@ -17,6 +17,7 @@
     "@nomiclabs/hardhat-waffle": "^2.0.5",
     "@openzeppelin/contracts": "^4.9.3",
     "axios": "^1.4.0",
+    "caniuse-lite": "^1.0.30001596",
     "copy-to-clipboard": "^3.3.3",
     "crypto-js": "^4.1.1",
     "ethers": "^5.0.0",
