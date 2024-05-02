@@ -344,7 +344,7 @@ export const Home = () => {
                     <p className="text-sm leading-loose">
                       Worlds largest user-friendly marketplace
                       <br />
-                      &#169; 2023 Chosen Ones - All rights reserved
+                      &#169; 2024 Chosen Ones - All rights reserved
                     </p>
                   </div>
                 </div>
